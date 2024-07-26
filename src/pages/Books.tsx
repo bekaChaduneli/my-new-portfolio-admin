@@ -1,7 +1,10 @@
+import { FileUpload } from "@components/FileUpload";
+
 export const Books = () => {
   return (
     <div style={{ color: "red" }}>
-      ffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafsffasfafafs
+      <h1>fsafa</h1>
+      <FileUpload />
     </div>
   );
 };
