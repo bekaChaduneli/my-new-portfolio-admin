@@ -88,3 +88,19 @@ export const DELETE_MAINPROJECT = gql`
     }
   }
 `;
+
+export const CREATE_ABOUTME = gql`
+  mutation CreateAboutMe($input: AboutMeInput!) {
+    createAboutMe(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_ABOUTME = gql`
+  mutation DeleteOneAboutMe($id: IdInput!) {
+    deleteOneAboutMe(where: { id: $id }) {
+      id
+    }
+  }
+`;
