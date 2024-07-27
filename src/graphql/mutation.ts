@@ -104,3 +104,51 @@ export const DELETE_ABOUTME = gql`
     }
   }
 `;
+
+export const CREATE_GITHUBREPO = gql`
+  mutation CreateGithubRepo($input: GithubRepoInput!) {
+    createGithubRepo(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_GITHUBREPO = gql`
+  mutation DeleteOneGithubRepo($id: IdInput!) {
+    deleteOneGithubRepo(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const CREATE_LINKEDIN = gql`
+  mutation CreateLinkedin($input: LinkedinInput!) {
+    createLinkedin(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_LINKEDIN = gql`
+  mutation DeleteOneLinkedin($id: IdInput!) {
+    deleteOneLinkedin(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const CREATE_PROFILE = gql`
+  mutation CreateProfile($input: ProfileInput!) {
+    createProfile(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_PROFILE = gql`
+  mutation DeleteOneProfile($id: IdInput!) {
+    deleteOneProfile(where: { id: $id }) {
+      id
+    }
+  }
+`;
