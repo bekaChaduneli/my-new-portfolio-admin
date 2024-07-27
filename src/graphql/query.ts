@@ -385,3 +385,148 @@ export const GET_GITHUBREPOS = gql`
     }
   }
 `;
+
+export const GET_LINKEDIN = gql`
+  query MyQuery {
+    linkedins {
+      updatedAt
+      translations {
+        updatedAt
+        university
+        name
+        linkedinId
+        languageCode
+        id
+        createdAt
+        company
+        bio
+      }
+      topSkills {
+        updatedAt
+        linkedinId
+        id
+        createdAt
+        translations {
+          updatedAt
+          topSkillsId
+          name
+          linkedinName
+          languageCode
+          id
+          createdAt
+        }
+      }
+      link
+      image
+      id
+      createdAt
+      banner
+      posts {
+        updatedAt
+        translations {
+          reatedAt
+          updatedAt
+          postsId
+          linkedinName
+          languageCode
+          id
+          description
+        }
+        linkedinId
+        link
+        likes
+        image
+        id
+        createdAt
+        commentsSum
+      }
+    }
+  }
+`;
+
+export const GET_PROFILE = gql`
+  query Profiles {
+    profiles {
+      Image
+      age
+      createdAt
+      id
+      mail
+      resume
+      updatedAt
+      socials {
+        updatedAt
+        profileId
+        name
+        link
+        id
+        createdAt
+      }
+      translations {
+        works {
+          workLogo
+          updatedAt
+          toDate
+          profileTranslationsId
+          id
+          fromDate
+          createdAt
+          translations {
+            workAbout
+            work
+            updatedAt
+            profileWorksId
+            position
+            languageCode
+            id
+            createdAt
+          }
+        }
+        updatedAt
+        universityAbout
+        university
+        surname
+        questions {
+          updatedAt
+          profileTranslationsId
+          id
+          createdAt
+          translations {
+            updatedAt
+            questionsId
+            question
+            languageCode
+            id
+            answer
+            createdAt
+          }
+        }
+        profileId
+        profession
+        name
+        location
+        languageCode
+        id
+        hobbys {
+          updatedAt
+          translations {
+            updatedAt
+            languageCode
+            id
+            hobbysId
+            hobby
+            aboutHobby
+            createdAt
+          }
+          profileTranslationsId
+          image
+          id
+          createdAt
+        }
+        experience
+        createdAt
+        aboutMe
+      }
+    }
+  }
+`;
