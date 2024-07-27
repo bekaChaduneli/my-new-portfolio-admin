@@ -339,3 +339,24 @@ export const GET_MAINPROJECTS = gql`
     }
   }
 `;
+
+export const GET_BLOGS = gql`
+  query findManyBlogs($orderBy: [BlogInput!], $where: BlogInput) {
+    findManyBlogs(orderBy: $orderBy, where: $where) {
+      updatedAt
+      link
+      id
+      createdAt
+      background
+      translations {
+        updatedAt
+        languageCode
+        id
+        headline
+        createdAt
+        blogsId
+        about
+      }
+    }
+  }
+`;
