@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const CREATE_BOOK = gql`
   mutation CreateBook($input: BookInput!) {
-    createBook(input: $input) {
+    createBook(data: $input) {
       id
       title
       author
@@ -11,7 +11,7 @@ export const CREATE_BOOK = gql`
 `;
 
 export const DELETE_BOOK = gql`
-  mutation DeleteOneBooks($id: BookInput!) {
+  mutation DeleteOneBooks($id: IdInput!) {
     deleteOneBooks(where: { id: $id }) {
       id
     }
@@ -50,8 +50,40 @@ export const CREATE_BLOG = gql`
 `;
 
 export const DELETE_BLOG = gql`
-  mutation DeleteOneBlogs($id: BookInput!) {
+  mutation DeleteOneBlogs($id: IdInput!) {
     deleteOneBlogs(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const CREATE_ARCHIVE = gql`
+  mutation CreateArchive($input: ArchiveInput!) {
+    createArchive(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_ARCHIVE = gql`
+  mutation DeleteOneArchives($id: IdInput!) {
+    deleteOneArchive(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const CREATE_MAINPROJECT = gql`
+  mutation CreateMainProject($input: MainProjectInput!) {
+    createMainProject(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_MAINPROJECT = gql`
+  mutation DeleteOneMainProjects($id: IdInput!) {
+    deleteOneMainProjects(where: { id: $id }) {
       id
     }
   }
