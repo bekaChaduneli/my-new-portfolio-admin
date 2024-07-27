@@ -360,3 +360,28 @@ export const GET_BLOGS = gql`
     }
   }
 `;
+
+export const GET_GITHUBREPOS = gql`
+  query FindManyGithubRepos(
+    $orderBy: [GithubRepoInput!]
+    $where: GithubRepoInput
+  ) {
+    findManyGithubRepos(orderBy: $orderBy, where: $where) {
+      updatedAt
+      translations {
+        updatedAt
+        title
+        languageCode
+        id
+        githubReposId
+        description
+        createdAt
+      }
+      stars
+      link
+      language
+      id
+      createdAt
+    }
+  }
+`;
