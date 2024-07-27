@@ -530,3 +530,89 @@ export const GET_PROFILE = gql`
     }
   }
 `;
+
+export const GET_RECOMMENDATIONS = gql`
+  query FindManyRecommendations {
+    findManyRecommendations {
+      updatedAt
+      image
+      id
+      date
+      createdAt
+      translations {
+        updatedAt
+        role
+        recommendationsId
+        name
+        languageCode
+        id
+        description
+        createdAt
+        bio
+      }
+    }
+  }
+`;
+
+export const GET_SERVICES = gql`
+  query FindManyServices {
+    findManyServices {
+      updatedAt
+      order
+      id
+      createdAt
+      background
+      translations {
+        servicesId
+        updatedAt
+        name
+        languageCode
+        id
+        description
+        createdAt
+      }
+    }
+  }
+`;
+
+export const GET_SKILLS = gql`
+  query FindManySkills($orderBy: [SkillsInput!], $where: SkillsInput) {
+    findManySkills(orderBy: $orderBy, where: $where) {
+      updatedAt
+      translations {
+        updatedAt
+        name
+        languageCode
+        skillsId
+        id
+        createdAt
+        about
+      }
+      link
+      image
+      id
+      createdAt
+      color
+    }
+  }
+`;
+
+export const GET_TOPSKILLS = gql`
+  query FindManyTopSkills {
+  findManyTopSkills {
+    updatedAt
+    id
+    createdAt
+    linkedinId
+    translations {
+      updatedAt
+      topSkillsId
+      name
+      linkedinName
+      languageCode
+      id
+      createdAt
+    }
+  }
+}
+`
