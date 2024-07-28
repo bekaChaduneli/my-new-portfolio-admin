@@ -18,6 +18,14 @@ export const DELETE_BOOKS = gql`
   }
 `;
 
+export const UPDATE_BOOK = gql`
+  mutation UpdateOneBooks($data: BookInput!, $where: BookInput!) {
+    updateOneBooks(data: $data, where: $where) {
+      id
+    }
+  }
+`;
+
 export const LOGIN = gql`
   mutation loginAdmin($email: String!, $password: String!) {
     loginAdmin(email: $email, password: $password) {
@@ -57,6 +65,14 @@ export const DELETE_BLOGS = gql`
   }
 `;
 
+export const UPDATE_BLOGS = gql`
+  mutation UpdateOneBlogs($data: BlogsInput!, $where: BlogsInput!) {
+    updateOneBlogs(data: $data, where: $where) {
+      id
+    }
+  }
+`;
+
 export const CREATE_ARCHIVE = gql`
   mutation CreateArchive($input: ArchiveInput!) {
     createArchive(data: $input) {
@@ -68,6 +84,14 @@ export const CREATE_ARCHIVE = gql`
 export const DELETE_ARCHIVE = gql`
   mutation DeleteOneArchive($id: IdInput!) {
     deleteOneArchive(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_ARCHIVE = gql`
+  mutation UpdateOneArchive($data: ArchiveInput!, $where: ArchiveInput!) {
+    updateOneArchive(data: $data, where: $where) {
       id
     }
   }
@@ -89,6 +113,17 @@ export const DELETE_MAINPROJECTS = gql`
   }
 `;
 
+export const UPDATE_MAINPROJECT = gql`
+  mutation UpdateOneMainProjects(
+    $data: MainProjectsInput!
+    $where: MainProjectsInput!
+  ) {
+    updateOneMainProjects(data: $data, where: $where) {
+      id
+    }
+  }
+`;
+
 export const CREATE_ABOUTME = gql`
   mutation CreateAboutMe($input: AboutMeInput!) {
     createAboutMe(data: $input) {
@@ -100,6 +135,14 @@ export const CREATE_ABOUTME = gql`
 export const DELETE_ABOUTME = gql`
   mutation DeleteOneAboutMe($id: IdInput!) {
     deleteOneAboutMe(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_ABOUTME = gql`
+  mutation UpdateOneAboutMe($data: AboutMeInput!, $where: AboutMeInput!) {
+    updateOneAboutMe(data: $data, where: $where) {
       id
     }
   }
@@ -121,6 +164,17 @@ export const DELETE_GITHUBREPOS = gql`
   }
 `;
 
+export const UPDATE_GITHUBREPO = gql`
+  mutation UpdateOneGithubRepos(
+    $data: GithubRepoInput!
+    $where: GithubRepoInput!
+  ) {
+    updateOneGithubRepos(data: $data, where: $where) {
+      id
+    }
+  }
+`;
+
 export const CREATE_LINKEDIN = gql`
   mutation CreateLinkedin($input: LinkedinInput!) {
     createLinkedin(data: $input) {
@@ -132,6 +186,14 @@ export const CREATE_LINKEDIN = gql`
 export const DELETE_LINKEDIN = gql`
   mutation DeleteOneLinkedin($id: IdInput!) {
     deleteOneLinkedin(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_LINKEDIN = gql`
+  mutation UpdateOneLinkedin($data: LinkedinInput!, $where: LinkedinInput!) {
+    updateOneLinkedin(data: $data, where: $where) {
       id
     }
   }
@@ -153,6 +215,14 @@ export const DELETE_PROFILE = gql`
   }
 `;
 
+export const UPDATE_PROFILE = gql`
+  mutation UpdateOneProfile($data: ProfileInput!, $where: ProfileInput!) {
+    updateOneProfile(data: $data, where: $where) {
+      id
+    }
+  }
+`;
+
 export const CREATE_POST = gql`
   mutation CreatePost($input: PostInput!) {
     createPost(data: $input) {
@@ -164,6 +234,14 @@ export const CREATE_POST = gql`
 export const DELETE_POSTS = gql`
   mutation DeleteOnePosts($id: IdInput!) {
     deleteOnePosts(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_POSTS = gql`
+  mutation UpdateOnePosts($data: PostsInput!, $where: PostsInput!) {
+    updateOnePosts(data: $data, where: $where) {
       id
     }
   }
@@ -185,6 +263,17 @@ export const DELETE_RECOMMENDATIONS = gql`
   }
 `;
 
+export const UPDATE_RECOMMENDATIONS = gql`
+  mutation UpdateOneRecommendations(
+    $data: RecommendationsInput!
+    $where: RecommendationsInput!
+  ) {
+    updateOneRecommendations(data: $data, where: $where) {
+      id
+    }
+  }
+`;
+
 export const CREATE_SERVICES = gql`
   mutation CreateServices($input: ServicesInput!) {
     createServices(data: $input) {
@@ -196,6 +285,14 @@ export const CREATE_SERVICES = gql`
 export const DELETE_SERVICES = gql`
   mutation DeleteOneServices($id: IdInput!) {
     deleteOneServices(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_SERVICES = gql`
+  mutation UpdateOneServices($data: ServicesInput!, $where: ServicesInput!) {
+    updateOneServices(data: $data, where: $where) {
       id
     }
   }
@@ -217,6 +314,14 @@ export const DELETE_SKILLS = gql`
   }
 `;
 
+export const UPDATE_SKILLS = gql`
+  mutation UpdateOneSkills($data: SkillsInput!, $where: SkillsInput!) {
+    updateOneSkills(data: $data, where: $where) {
+      id
+    }
+  }
+`;
+
 export const CREATE_TOPSKILL = gql`
   mutation CreateTopSkill($input: TopSkillInput!) {
     createTopSkill(data: $input) {
@@ -228,6 +333,14 @@ export const CREATE_TOPSKILL = gql`
 export const DELETE_TOPSKILLS = gql`
   mutation DeleteOneTopSkills($id: IdInput!) {
     deleteOneTopSkills(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_TOPSKILLS = gql`
+  mutation UpdateOneTopSkills($data: TopSkillsInput!, $where: TopSkillsInput!) {
+    updateOneTopSkills(data: $data, where: $where) {
       id
     }
   }
