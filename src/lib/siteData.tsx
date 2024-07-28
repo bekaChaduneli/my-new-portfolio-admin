@@ -9,6 +9,7 @@ import {
   ReconciliationOutlined,
   CustomerServiceOutlined,
   ToolOutlined,
+  LinkedinOutlined,
 } from "@ant-design/icons";
 
 export const menuItems = [
@@ -38,7 +39,7 @@ export const menuItems = [
     href: "/github-repos",
   },
   {
-    icon: <BookOutlined />,
+    icon: <LinkedinOutlined />,
     label: "Linkedin",
     href: "/linkedin",
   },
