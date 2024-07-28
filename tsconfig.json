@@ -15,6 +15,7 @@
       "@hooks/*": ["hooks/*"],
       "@utils/*": ["utils/*"],
       "@types/*": ["types/*"],
+      "@lib/*": ["lib/*"],
       "@graphql/*": ["graphql/*"],
       "@store/*": ["store/*"]
     },
