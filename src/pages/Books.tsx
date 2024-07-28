@@ -1,20 +1,8 @@
 import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_BOOKS } from "@graphql/query";
-import {
-  Button,
-  Flex,
-  Space,
-  Table,
-  List,
-  Popconfirm,
-  Form,
-  message,
-  Modal,
-  Input,
-} from "antd";
+import { Button, List, Form, message, Modal, Input } from "antd";
 import { IBook, IBooksResponse, IBookTranslation } from "../types/Books";
-import { useNavigate } from "react-router-dom";
 import { CREATE_BOOK, DELETE_BOOKS, UPDATE_BOOK } from "@graphql/mutation";
 import { FileUpload } from "@components/FileUpload";
 import { uploadToCloudinary } from "../services/cloudinaryService";
@@ -31,10 +19,6 @@ export const Books = () => {
       message.error(error.message);
     },
   });
-  const navigate = useNavigate();
-
-  const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
-
   const [form] = Form.useForm();
   const [currentBook, setCurrentBook] = useState<IBook | null>(null);
   const [value, setValue] = useState<string>("");
@@ -42,6 +26,9 @@ export const Books = () => {
 
   const [loadingImage, setLoadingImage] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  if (loading) {
+    return <div>loading...</div>;
+  }
 
   if (error) {
     return <div>Error</div>;
