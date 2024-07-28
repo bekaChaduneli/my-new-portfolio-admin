@@ -1,33 +1,33 @@
 import { gql } from "@apollo/client";
 
 export const GET_BOOKS = gql`
-  query findManyBooks($orderBy: [BookInput!], $where: BookInput) {
-    findManyBooks(orderBy: $orderBy, where: $where) {
-      finished
+  query GetBooks {
+    findManyBooks {
       id
       image
-      index
       link
       pages
       readedPages
-      releaseDate
       type
+      finished
+      releaseDate
+      index
       translations {
-        updatedAt
+        id
         title
         description
-        createdAt
-        booksId
         author
-        id
         languageCode
+        booksId
+        createdAt
+        updatedAt
       }
     }
   }
 `;
 
 export const GET_BOOK = gql`
-  query findUniqueBooks($id: BookInput!) {
+  query findUniqueBooks($id: String!) {
     findUniqueBooks(where: { id: $id }) {
       finished
       id
@@ -599,20 +599,20 @@ export const GET_SKILLS = gql`
 
 export const GET_TOPSKILLS = gql`
   query FindManyTopSkills {
-  findManyTopSkills {
-    updatedAt
-    id
-    createdAt
-    linkedinId
-    translations {
+    findManyTopSkills {
       updatedAt
-      topSkillsId
-      name
-      linkedinName
-      languageCode
       id
       createdAt
+      linkedinId
+      translations {
+        updatedAt
+        topSkillsId
+        name
+        linkedinName
+        languageCode
+        id
+        createdAt
+      }
     }
   }
-}
-`
+`;

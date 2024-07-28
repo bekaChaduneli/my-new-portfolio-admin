@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const CREATE_BOOK = gql`
-  mutation CreateBook($input: BookInput!) {
+  mutation CreateBook($input: CreateBookInput!) {
     createBook(data: $input) {
       id
       title
@@ -11,7 +11,7 @@ export const CREATE_BOOK = gql`
 `;
 
 export const DELETE_BOOKS = gql`
-  mutation DeleteOneBooks($id: IdInput!) {
+  mutation DeleteOneBooks($id: String!) {
     deleteOneBooks(where: { id: $id }) {
       id
     }
@@ -19,8 +19,8 @@ export const DELETE_BOOKS = gql`
 `;
 
 export const UPDATE_BOOK = gql`
-  mutation UpdateOneBooks($data: BookInput!, $where: BookInput!) {
-    updateOneBooks(data: $data, where: $where) {
+  mutation updateBooks($id: String!, $data: BooksUpdateInput!) {
+    updateOneBooks(where: { id: $id }, data: $data) {
       id
     }
   }

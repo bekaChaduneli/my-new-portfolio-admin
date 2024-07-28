@@ -8,7 +8,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Layout from "@components/layout/Layout";
-import { Books } from "./pages";
 import AboutMe from "@pages/AboutMe";
 import Archive from "@pages/Archive";
 import Blogs from "@pages/Blogs";
@@ -19,6 +18,7 @@ import Profile from "@pages/Profile";
 import Recommendations from "@pages/Recommendations";
 import Services from "@pages/Services";
 import Skills from "@pages/Skills";
+import Books from "@pages/Books";
 
 const client = new ApolloClient({
   uri: import.meta.env.backendUrl || "http://localhost:8080/graphql",
