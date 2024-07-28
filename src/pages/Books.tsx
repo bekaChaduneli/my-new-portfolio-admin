@@ -1,61 +1,27 @@
-import { Button, Form, Input, message, List, Modal } from "antd";
-import { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_BOOKS } from "@graphql/query";
+import {
+  Button,
+  Flex,
+  Space,
+  Table,
+  List,
+  Popconfirm,
+  Form,
+  message,
+  Modal,
+  Input,
+} from "antd";
+import { IBook, IBooksResponse, IBookTranslation } from "../types/Books";
+import { useNavigate } from "react-router-dom";
 import { CREATE_BOOK, DELETE_BOOKS, UPDATE_BOOK } from "@graphql/mutation";
 import { FileUpload } from "@components/FileUpload";
-import { IBooksResponse, Book } from "../types/Books";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 
-const toolbarOptions = [
-  ["bold", "italic", "underline", "strike"],
-  ["blockquote", "code-block"],
-  ["link", "image", "video", "formula"],
-  [{ header: 1 }, { header: 2 }],
-  [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-  [{ script: "sub" }, { script: "super" }],
-  [{ indent: "-1" }, { indent: "+1" }],
-  [{ direction: "rtl" }],
-  [{ size: ["small", false, "large", "huge"] }],
-  [{ header: [1, 2, 3, 4, 5, 6, false] }],
-  [{ color: [] }, { background: [] }],
-  [{ font: [] }],
-  [{ align: [] }],
-  ["clean"],
-];
-
-const Books = () => {
-  const [form] = Form.useForm();
-  const [currentBook, setCurrentBook] = useState<Book | null>(null);
-  const [value, setValue] = useState<string>("");
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+export const Books = () => {
   const { data, loading, error } = useQuery<IBooksResponse>(GET_BOOKS);
-
-  const [loadingImage, setLoadingImage] = useState<boolean>(false);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-
-  const [createBook] = useMutation(CREATE_BOOK, {
-    refetchQueries: [{ query: GET_BOOKS }],
-    onCompleted: () => {
-      message.success("Book created successfully!");
-    },
-    onError: (error) => {
-      message.error(error.message);
-    },
-  });
-
-  const [updateBook] = useMutation(UPDATE_BOOK, {
-    refetchQueries: [{ query: GET_BOOKS }],
-    onCompleted: () => {
-      message.success("Book updated successfully!");
-    },
-    onError: (error) => {
-      message.error(error.message);
-    },
-  });
-
+  console.log(data);
   const [deleteBook] = useMutation(DELETE_BOOKS, {
     refetchQueries: [{ query: GET_BOOKS }],
     onCompleted: () => {
@@ -65,19 +31,148 @@ const Books = () => {
       message.error(error.message);
     },
   });
+  const navigate = useNavigate();
 
-  const handleEdit = (book: Book) => {
+  const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
+
+  const [form] = Form.useForm();
+  const [currentBook, setCurrentBook] = useState<IBook | null>(null);
+  const [value, setValue] = useState<string>("");
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
+  const [loadingImage, setLoadingImage] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  if (error) {
+    return <div>Error</div>;
+  }
+
+  const handleImageUpload = async (file: File) => {
+    try {
+      setLoadingImage(true);
+      const result = await uploadToCloudinary(file);
+      setImageUrl(result.secure_url);
+      form.setFieldsValue({ image: result.secure_url });
+    } catch (error) {
+      message.error("Error uploading image.");
+    } finally {
+      setLoadingImage(false);
+    }
+  };
+
+  const [createOneBooks] = useMutation(CREATE_BOOK, {
+    refetchQueries: [{ query: GET_BOOKS }],
+    onCompleted: () => {
+      message.success("Book created successfully!");
+    },
+    onError: (error) => {
+      message.error(error.message);
+    },
+  });
+
+  const handleCreate = (values: any) => {
+    createOneBooks({
+      variables: {
+        data: {
+          index: values.id,
+          pages: values.pages,
+          readedPages: values.readedPages,
+          type: values.type,
+          image: values.image,
+          link: values.link,
+          finished: values.finished,
+          translations: {
+            createMany: {
+              data: [
+                {
+                  title: values.kaTitle,
+                  description: values.kaDescription,
+                  author: values.kaAuthor,
+                  languageCode: "ka",
+                },
+                {
+                  title: values.enTitle,
+                  description: values.enDescription,
+                  author: values.enAuthor,
+                  languageCode: "en",
+                },
+              ],
+            },
+          },
+        },
+      },
+    });
+  };
+
+  const [updateOneBooks] = useMutation(UPDATE_BOOK, {
+    refetchQueries: [{ query: GET_BOOKS }],
+    onCompleted: () => {
+      message.success("Book updated successfully!");
+    },
+    onError: (error) => {
+      console.error(error);
+      message.error(error.message);
+    },
+  });
+
+  const handleUpdate = (values: any) => {
+    updateOneBooks({
+      variables: {
+        id: currentBook?.id,
+        data: {
+          index: { set: values.id },
+          pages: { set: values.pages },
+          readedPages: { set: values.readedPages },
+          type: { set: values.type },
+          image: { set: values.image },
+          link: { set: values.link },
+          finished: { set: values.finished },
+          translations: {
+            updateMany: [
+              {
+                where: { languageCode: { equals: "ka" } },
+                data: {
+                  title: { set: values.kaTitle },
+                  description: { set: values.kaDescription },
+                  author: { set: values.kaAuthor },
+                },
+              },
+              {
+                where: { languageCode: { equals: "en" } },
+                data: {
+                  title: { set: values.enTitle },
+                  description: { set: values.enDescription },
+                  author: { set: values.enAuthor },
+                },
+              },
+            ],
+          },
+        },
+      },
+    });
+  };
+
+  const handleCancel = () => {
+    setCurrentBook(null);
+    form.resetFields();
+    setValue("");
+    setImageUrl(null);
+    setIsModalVisible(false);
+  };
+
+  const handleEdit = (book: IBook) => {
     setCurrentBook(book);
     setIsModalVisible(true);
 
     const en = book.translations.find(
-      (translation: any) => translation.languageCode === "en"
+      (translation: IBookTranslation) => translation.languageCode === "en"
     );
     const ka = book.translations.find(
-      (translation: any) => translation.languageCode === "ka"
+      (translation: IBookTranslation) => translation.languageCode === "ka"
     );
 
     const initialValues = {
+      id: book.id,
       image: book.image,
       link: book.link,
       pages: book.pages,
@@ -100,35 +195,6 @@ const Books = () => {
     deleteBook({ variables: { id } });
   };
 
-  const handleCancel = () => {
-    setCurrentBook(null);
-    form.resetFields();
-    setValue("");
-    setImageUrl(null);
-    setIsModalVisible(false);
-  };
-
-  const handleImageUpload = async (file: File) => {
-    try {
-      setLoadingImage(true);
-      const result = await uploadToCloudinary(file); // Assuming uploadToCloudinary returns the URL
-      setImageUrl(result.secure_url);
-      form.setFieldsValue({ image: result.secure_url });
-    } catch (error) {
-      message.error("Error uploading image.");
-    } finally {
-      setLoadingImage(false);
-    }
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error...</div>;
-  }
-
   return (
     <div>
       <Button
@@ -144,7 +210,7 @@ const Books = () => {
       </Button>
       <List
         dataSource={data?.findManyBooks}
-        renderItem={(item: Book) => (
+        renderItem={(item: IBook) => (
           <List.Item
             actions={[
               <Button type="link" onClick={() => handleEdit(item)}>
@@ -155,7 +221,7 @@ const Books = () => {
               </Button>,
             ]}
           >
-            {item.translations.find((t: any) => t.languageCode === "en")?.title}
+            {item.translations.find((t) => t.languageCode === "en")?.title}
           </List.Item>
         )}
       />
@@ -164,20 +230,11 @@ const Books = () => {
           form={form}
           layout="vertical"
           onFinish={(values) => {
-            const input = {
-              ...values,
-              id: currentBook?.id,
-              image: imageUrl || values.image,
-            };
-
             if (currentBook) {
-              updateBook({
-                variables: { data: input, where: { id: currentBook.id } },
-              });
+              handleUpdate(values);
             } else {
-              createBook({ variables: { input } });
+              handleCreate(values);
             }
-
             handleCancel();
           }}
         >
@@ -185,6 +242,9 @@ const Books = () => {
             <FileUpload onUpload={handleImageUpload} />
           </Form.Item>
           <Form.Item label="Link" name="link">
+            <Input />
+          </Form.Item>
+          <Form.Item label="ID" name="id">
             <Input />
           </Form.Item>
           <Form.Item label="Pages" name="pages">
@@ -203,15 +263,7 @@ const Books = () => {
             <Input />
           </Form.Item>
           <Form.Item label="English Description" name="enDescription">
-            <ReactQuill
-              value={value}
-              onChange={(val) => {
-                form.setFieldsValue({ enDescription: val });
-                setValue(val);
-              }}
-              modules={{ toolbar: toolbarOptions }}
-              theme="snow"
-            />
+            <Input.TextArea />
           </Form.Item>
           <Form.Item label="English Author" name="enAuthor">
             <Input />
@@ -220,21 +272,13 @@ const Books = () => {
             <Input />
           </Form.Item>
           <Form.Item label="Georgian Description" name="kaDescription">
-            <ReactQuill
-              value={value}
-              onChange={(val) => {
-                form.setFieldsValue({ kaDescription: val });
-                setValue(val);
-              }}
-              modules={{ toolbar: toolbarOptions }}
-              theme="snow"
-            />
+            <Input.TextArea />
           </Form.Item>
           <Form.Item label="Georgian Author" name="kaAuthor">
             <Input />
           </Form.Item>
           <Form.Item>
-            <Button htmlType="submit" type="primary">
+            <Button type="primary" htmlType="submit">
               Submit
             </Button>
           </Form.Item>
@@ -243,5 +287,3 @@ const Books = () => {
     </div>
   );
 };
-
-export default Books;

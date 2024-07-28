@@ -1,16 +1,8 @@
-// types/Books.ts
-export interface BookTranslation {
-  id: string;
-  title: string;
-  description: string;
-  author: string;
-  languageCode: string;
-  booksId: string;
-  createdAt: string;
-  updatedAt: string;
+export interface IBooksResponse {
+  findManyBooks: IBook[];
 }
 
-export interface Book {
+export interface IBook {
   id: string;
   image: string;
   link: string;
@@ -18,9 +10,18 @@ export interface Book {
   readedPages: string;
   type: string;
   finished: boolean;
-  translations: BookTranslation[];
+  releaseDate: any;
+  index: string;
+  translations: IBookTranslation[];
 }
 
-export interface IBooksResponse {
-  findManyBooks: Book[];
+export interface IBookTranslation {
+  id: string;
+  title: string;
+  description: string;
+  author: string;
+  languageCode: string;
+  booksId: string;
+  createdAt: any;
+  updatedAt: any;
 }

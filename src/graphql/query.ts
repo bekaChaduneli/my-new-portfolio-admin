@@ -27,26 +27,22 @@ export const GET_BOOKS = gql`
 `;
 
 export const GET_BOOK = gql`
-  query findUniqueBooks($id: String!) {
-    findUniqueBooks(where: { id: $id }) {
-      finished
+  query GetBook($id: String!) {
+    book(where: { id: $id }) {
       id
-      image
       index
-      link
       pages
       readedPages
-      releaseDate
       type
+      image
+      link
+      finished
       translations {
-        updatedAt
-        title
-        languageCode
         id
+        title
         description
-        createdAt
-        booksId
         author
+        languageCode
       }
     }
   }
