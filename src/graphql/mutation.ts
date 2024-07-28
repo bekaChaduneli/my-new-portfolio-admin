@@ -140,6 +140,14 @@ export const DELETE_ABOUTME = gql`
   }
 `;
 
+export const UPDATE_ABOUTME = gql`
+  mutation UpdateOneAboutMe($data: AboutMeInput!, $where: AboutMeInput!) {
+    updateOneAboutMe(data: $data, where: $where) {
+      id
+    }
+  }
+`;
+
 export const CREATE_GITHUBREPO = gql`
   mutation CreateGithubRepo($input: GithubRepoInput!) {
     createGithubRepo(data: $input) {
@@ -231,6 +239,14 @@ export const DELETE_POSTS = gql`
   }
 `;
 
+export const UPDATE_POSTS = gql`
+  mutation UpdateOnePosts($data: PostsInput!, $where: PostsInput!) {
+    updateOnePosts(data: $data, where: $where) {
+      id
+    }
+  }
+`;
+
 export const CREATE_RECOMMENDATION = gql`
   mutation CreateRecommendation($input: RecommendationInput!) {
     createRecommendation(data: $input) {
@@ -242,6 +258,17 @@ export const CREATE_RECOMMENDATION = gql`
 export const DELETE_RECOMMENDATIONS = gql`
   mutation DeleteOneRecommendations($id: IdInput!) {
     deleteOneRecommendations(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_RECOMMENDATIONS = gql`
+  mutation UpdateOneRecommendations(
+    $data: RecommendationsInput!
+    $where: RecommendationsInput!
+  ) {
+    updateOneRecommendations(data: $data, where: $where) {
       id
     }
   }
@@ -263,6 +290,14 @@ export const DELETE_SERVICES = gql`
   }
 `;
 
+export const UPDATE_SERVICES = gql`
+  mutation UpdateOneServices($data: ServicesInput!, $where: ServicesInput!) {
+    updateOneServices(data: $data, where: $where) {
+      id
+    }
+  }
+`;
+
 export const CREATE_SKILLS = gql`
   mutation CreateSkills($input: SkillsInput!) {
     createSkills(data: $input) {
@@ -279,6 +314,14 @@ export const DELETE_SKILLS = gql`
   }
 `;
 
+export const UPDATE_SKILLS = gql`
+  mutation UpdateOneSkills($data: SkillsInput!, $where: SkillsInput!) {
+    updateOneSkills(data: $data, where: $where) {
+      id
+    }
+  }
+`;
+
 export const CREATE_TOPSKILL = gql`
   mutation CreateTopSkill($input: TopSkillInput!) {
     createTopSkill(data: $input) {
@@ -290,6 +333,14 @@ export const CREATE_TOPSKILL = gql`
 export const DELETE_TOPSKILLS = gql`
   mutation DeleteOneTopSkills($id: IdInput!) {
     deleteOneTopSkills(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_TOPSKILLS = gql`
+  mutation UpdateOneTopSkills($data: TopSkillsInput!, $where: TopSkillsInput!) {
+    updateOneTopSkills(data: $data, where: $where) {
       id
     }
   }
