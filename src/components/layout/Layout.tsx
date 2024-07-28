@@ -18,12 +18,12 @@ const config: ThemeConfig = {
     },
   },
   token: {
-    colorPrimary: "#4caf50",
-    colorInfo: "#4caf50",
+    colorPrimary: "#000",
+    colorInfo: "#000",
     colorSuccess: "#2dedb3",
     colorWarning: "#fca728",
     colorError: "#fc2828",
-    colorLink: "#4caf50",
+    colorLink: "#000",
   },
 };
 
@@ -117,7 +117,7 @@ const LoadingWrapper = styled.div`
   min-height: 100vh;
   font-size: 24px;
   font-weight: bold;
-  color: #4caf50;
+  color: #000;
 `;
 
 export default CustomLayout;

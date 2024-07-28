@@ -30,7 +30,7 @@ const NewSideBar = ({
         }))}
       />
       <Footer>
-        <LogoutButton onClick={logout}>გასვლა</LogoutButton>
+        <LogoutButton onClick={logout}>Log Out</LogoutButton>
         <ToggleArrow
           onClick={() => onCollapse(!collapsed)}
           $collapsed={collapsed}

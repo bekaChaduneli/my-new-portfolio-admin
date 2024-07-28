@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { uploadToCloudinary } from "../services/cloudinaryService";
 
-export const FileUpload = () => {
+interface FileUploadProps {
+  onUpload: (file: File) => Promise<void>;
+}
+
+export const FileUpload: React.FC<FileUploadProps> = ({ onUpload }) => {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
@@ -20,8 +23,8 @@ export const FileUpload = () => {
     setError(null);
 
     try {
-      const result = await uploadToCloudinary(file);
-      console.log("Upload successful:", result);
+      await onUpload(file);
+      setFile(null);
     } catch (error) {
       setError("Error uploading file.");
     } finally {
