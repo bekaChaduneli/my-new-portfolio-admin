@@ -378,3 +378,215 @@ type Mutation {
 type Query {
   findManyGithubRepos: [GithubRepos!]!
 }
+
+type Linkedin {
+  id: ID!
+  image: String!
+  banner: String!
+  link: String!
+  translations: [LinkedinTranslations!]!
+  posts: [Posts!]!
+  topSkills: [TopSkills!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type LinkedinTranslations {
+  id: ID!
+  name: String!
+  bio: String!
+  company: String!
+  languageCode: String!
+  university: String!
+  linkedinId: String!
+  linkedin: Linkedin!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Posts {
+  id: ID!
+  linkedinId: String!
+  linkedin: Linkedin!
+  image: String
+  likes: String!
+  commentsSum: String!
+  link: String!
+  translations: [PostsTranslations!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type PostsTranslations {
+  id: ID!
+  linkedinName: String!
+  languageCode: String!
+  description: String!
+  postsId: String!
+  posts: Posts!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type TopSkills {
+  id: ID!
+  linkedinId: String!
+  linkedin: Linkedin!
+  translations: [TopSkillsTranslations!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type TopSkillsTranslations {
+  id: ID!
+  linkedinName: String!
+  languageCode: String!
+  name: String!
+  topSkillsId: String!
+  topSkills: TopSkills
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  linkedins: [Linkedin!]!
+  linkedin(id: ID!): Linkedin
+}
+
+type Mutation {
+  createOneLinkedin(data: LinkedinCreateInput!): Linkedin!
+  updateOneLinkedin(
+    where: LinkedinWhereUniqueInput!
+    data: LinkedinUpdateInput!
+  ): Linkedin!
+  deleteOneLinkedin(where: LinkedinWhereUniqueInput!): Linkedin
+}
+
+input LinkedinCreateInput {
+  image: String!
+  banner: String!
+  link: String!
+  translations: LinkedinTranslationsCreateManyInput
+  posts: PostsCreateManyInput
+  topSkills: TopSkillsCreateManyInput
+}
+
+input LinkedinUpdateInput {
+  image: String
+  banner: String
+  link: String
+  translations: LinkedinTranslationsUpdateManyInput
+  posts: PostsUpdateManyInput
+  topSkills: TopSkillsUpdateManyInput
+}
+
+input LinkedinWhereUniqueInput {
+  id: ID!
+}
+
+input LinkedinTranslationsCreateManyInput {
+  create: [LinkedinTranslationsCreateInput!]
+}
+
+input LinkedinTranslationsCreateInput {
+  name: String!
+  bio: String!
+  company: String!
+  languageCode: String!
+  university: String!
+  linkedinId: String!
+}
+
+input LinkedinTranslationsUpdateManyInput {
+  update: [LinkedinTranslationsUpdateInput!]
+}
+
+input LinkedinTranslationsUpdateInput {
+  name: String
+  bio: String
+  company: String
+  languageCode: String
+  university: String
+}
+
+input PostsCreateManyInput {
+  create: [PostsCreateInput!]
+}
+
+input PostsCreateInput {
+  image: String
+  likes: String!
+  commentsSum: String!
+  link: String!
+  translations: PostsTranslationsCreateManyInput
+}
+
+input PostsUpdateManyInput {
+  update: [PostsUpdateInput!]
+}
+
+input PostsUpdateInput {
+  image: String
+  likes: String
+  commentsSum: String
+  link: String
+  translations: PostsTranslationsUpdateManyInput
+}
+
+input PostsTranslationsCreateManyInput {
+  create: [PostsTranslationsCreateInput!]
+}
+
+input PostsTranslationsCreateInput {
+  linkedinName: String!
+  languageCode: String!
+  description: String!
+  postsId: String!
+}
+
+input PostsTranslationsUpdateManyInput {
+  update: [PostsTranslationsUpdateInput!]
+}
+
+input PostsTranslationsUpdateInput {
+  linkedinName: String
+  languageCode: String
+  description: String
+}
+
+input TopSkillsCreateManyInput {
+  create: [TopSkillsCreateInput!]
+}
+
+input TopSkillsCreateInput {
+  translations: TopSkillsTranslationsCreateManyInput
+}
+
+input TopSkillsUpdateManyInput {
+  update: [TopSkillsUpdateInput!]
+}
+
+input TopSkillsUpdateInput {
+  translations: TopSkillsTranslationsUpdateManyInput
+}
+
+input TopSkillsTranslationsCreateManyInput {
+  create: [TopSkillsTranslationsCreateInput!]
+}
+
+input TopSkillsTranslationsCreateInput {
+  linkedinName: String!
+  languageCode: String!
+  name: String!
+  topSkillsId: String!
+}
+
+input TopSkillsTranslationsUpdateManyInput {
+  update: [TopSkillsTranslationsUpdateInput!]
+}
+
+input TopSkillsTranslationsUpdateInput {
+  linkedinName: String
+  languageCode: String
+  name: String
+}
