@@ -199,3 +199,123 @@ type ArchiveTranslation {
   name: String
   location: String
 }
+
+type MainProjects {
+  id: ID!
+  link: String!
+  github: String!
+  background: String
+  images: [String!]
+  video: [String!]
+  mobileBackgrounds: [String!]
+  skills: [String!]!
+  isReal: Boolean!
+  translations: [MainProjectsTranslations!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type MainProjectsTranslations {
+  id: ID!
+  languageCode: String!
+  description: String!
+  name: String!
+  markdown: String!
+  about: String!
+  location: String!
+  mainProjectsId: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input MainProjectsCreateInput {
+  link: String!
+  github: String!
+  background: String
+  images: [String!]
+  video: [String!]
+  mobileBackgrounds: [String!]
+  skills: [String!]!
+  isReal: Boolean!
+  translations: [MainProjectsTranslationsCreateInput!]!
+}
+
+input MainProjectsUpdateInput {
+  link: String
+  github: String
+  background: String
+  images: [String!]
+  video: [String!]
+  mobileBackgrounds: [String!]
+  skills: [String!]
+  isReal: Boolean
+  translations: [MainProjectsTranslationsUpdateInput!]
+}
+
+input MainProjectsTranslationsCreateInput {
+  languageCode: String!
+  description: String!
+  name: String!
+  markdown: String!
+  about: String!
+  location: String!
+}
+
+input MainProjectsTranslationsUpdateInput {
+  description: String
+  name: String
+  markdown: String
+  about: String
+  location: String
+}
+
+type Query {
+  findManyMainProjects(
+    orderBy: [MainProjectOrderByWithRelationInput!]
+    where: MainProjectInputWhereInput
+  ): [MainProjects!]!
+}
+
+type Mutation {
+  createOneMainProjects(data: MainProjectsCreateInput!): MainProjects!
+  updateOneMainProjects(
+    data: MainProjectsUpdateInput!
+    where: ID!
+  ): MainProjects!
+  deleteOneMainProjects(where: ID!): MainProjects!
+}
+
+scalar DateTime
+
+input MainProjectOrderByWithRelationInput {
+  createdAt: OrderByInput
+  updatedAt: OrderByInput
+}
+
+input MainProjectInputWhereInput {
+  link: StringFilter
+  github: StringFilter
+  background: StringFilter
+  skills: StringListFilter
+  isReal: BooleanFilter
+}
+
+input StringFilter {
+  equals: String
+  contains: String
+  startsWith: String
+  endsWith: String
+}
+
+input StringListFilter {
+  has: String
+}
+
+input BooleanFilter {
+  equals: Boolean
+}
+
+enum OrderByInput {
+  asc
+  desc
+}

@@ -214,7 +214,11 @@ const Archives = () => {
               <Button type="link" onClick={() => handleEdit(archive)}>
                 Edit
               </Button>,
-              <Button type="link" onClick={() => handleDelete(archive.id)}>
+              <Button
+                type="link"
+                danger
+                onClick={() => handleDelete(archive.id)}
+              >
                 Delete
               </Button>,
             ]}
