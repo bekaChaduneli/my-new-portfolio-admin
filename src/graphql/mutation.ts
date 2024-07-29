@@ -48,17 +48,16 @@ export const VALIDATE_TOKEN = gql`
     }
   }
 `;
-
 export const CREATE_BLOG = gql`
-  mutation CreateBlogs($input: BlogInput!) {
-    createBlogs(data: $input) {
+  mutation createOneBlogs($data: BlogsCreateInput!) {
+    createOneBlogs(data: $data) {
       id
     }
   }
 `;
 
 export const DELETE_BLOGS = gql`
-  mutation DeleteOneBlogs($id: IdInput!) {
+  mutation DeleteOneBlogs($id: String!) {
     deleteOneBlogs(where: { id: $id }) {
       id
     }
@@ -66,8 +65,8 @@ export const DELETE_BLOGS = gql`
 `;
 
 export const UPDATE_BLOGS = gql`
-  mutation UpdateOneBlogs($data: BlogsInput!, $where: BlogsInput!) {
-    updateOneBlogs(data: $data, where: $where) {
+  mutation UpdateOneBlogs($id: String!, $data: BlogsUpdateInput!) {
+    updateOneBlogs(data: $data, where: { id: $id }) {
       id
     }
   }

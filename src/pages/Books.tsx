@@ -9,7 +9,6 @@ import { uploadToCloudinary } from "../services/cloudinaryService";
 
 export const Books = () => {
   const { data, loading, error } = useQuery<IBooksResponse>(GET_BOOKS);
-  console.log(data);
   const [deleteBook] = useMutation(DELETE_BOOKS, {
     refetchQueries: [{ query: GET_BOOKS }],
     onCompleted: () => {
@@ -19,19 +18,41 @@ export const Books = () => {
       message.error(error.message);
     },
   });
+
   const [form] = Form.useForm();
   const [currentBook, setCurrentBook] = useState<IBook | null>(null);
   const [value, setValue] = useState<string>("");
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-
   const [loadingImage, setLoadingImage] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  const [createOneBooks] = useMutation(CREATE_BOOK, {
+    refetchQueries: [{ query: GET_BOOKS }],
+    onCompleted: () => {
+      message.success("Book created successfully!");
+    },
+    onError: (error) => {
+      message.error(error.message);
+    },
+  });
+
+  const [updateOneBooks] = useMutation(UPDATE_BOOK, {
+    refetchQueries: [{ query: GET_BOOKS }],
+    onCompleted: () => {
+      message.success("Book updated successfully!");
+    },
+    onError: (error) => {
+      console.error(error);
+      message.error(error.message);
+    },
+  });
+
   if (loading) {
-    return <div>loading...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error</div>;
+    return <div>Error: {error.message}</div>;
   }
 
   const handleImageUpload = async (file: File) => {
@@ -47,17 +68,8 @@ export const Books = () => {
     }
   };
 
-  const [createOneBooks] = useMutation(CREATE_BOOK, {
-    refetchQueries: [{ query: GET_BOOKS }],
-    onCompleted: () => {
-      message.success("Book created successfully!");
-    },
-    onError: (error) => {
-      message.error(error.message);
-    },
-  });
-
   const handleCreate = (values: any) => {
+    console.log(values);
     createOneBooks({
       variables: {
         data: {
@@ -90,17 +102,6 @@ export const Books = () => {
       },
     });
   };
-
-  const [updateOneBooks] = useMutation(UPDATE_BOOK, {
-    refetchQueries: [{ query: GET_BOOKS }],
-    onCompleted: () => {
-      message.success("Book updated successfully!");
-    },
-    onError: (error) => {
-      console.error(error);
-      message.error(error.message);
-    },
-  });
 
   const handleUpdate = (values: any) => {
     updateOneBooks({
@@ -190,6 +191,7 @@ export const Books = () => {
           setCurrentBook(null);
           form.resetFields();
           setValue("");
+          setImageUrl(null);
           setIsModalVisible(true);
         }}
       >
