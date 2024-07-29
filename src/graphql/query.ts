@@ -352,6 +352,7 @@ export const GET_BLOGS = gql`
         createdAt
         blogsId
         about
+        markdown
       }
     }
   }

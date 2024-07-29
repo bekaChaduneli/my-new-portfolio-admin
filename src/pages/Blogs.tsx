@@ -6,6 +6,15 @@ import { IBlog, IBlogsResponse, IBlogTranslation } from "../types/Blogs";
 import { FileUpload } from "@components/FileUpload";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import { GET_BLOGS } from "@graphql/query";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import styled from "styled-components";
+
+const StyledReactQuill = styled(ReactQuill)`
+  height: 300px;
+  margin-bottom: 30px;
+  width: 100%;
+`;
 
 const Blogs = () => {
   const { data, loading, error } = useQuery<IBlogsResponse>(GET_BLOGS);
@@ -22,6 +31,7 @@ const Blogs = () => {
   const [form] = Form.useForm();
   const [currentBlog, setCurrentBlog] = useState<IBlog | null>(null);
   const [value, setValue] = useState<string>("");
+
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [loadingImage, setLoadingImage] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -80,11 +90,13 @@ const Blogs = () => {
                 {
                   headline: values.kaHeadline,
                   about: values.kaAbout,
+                  markdown: values.kaMarkdown,
                   languageCode: "ka",
                 },
                 {
                   headline: values.enHeadline,
                   about: values.enAbout,
+                  markdown: values.enMarkdown,
                   languageCode: "en",
                 },
               ],
@@ -109,6 +121,7 @@ const Blogs = () => {
                 data: {
                   headline: { set: values.kaHeadline },
                   about: { set: values.kaAbout },
+                  markdown: { set: values.kaMarkdown },
                 },
               },
               {
@@ -116,6 +129,7 @@ const Blogs = () => {
                 data: {
                   headline: { set: values.enHeadline },
                   about: { set: values.enAbout },
+                  markdown: { set: values.enMarkdown },
                 },
               },
             ],
@@ -149,8 +163,10 @@ const Blogs = () => {
       background: blog.background,
       enHeadline: en?.headline,
       enAbout: en?.about,
+      enMarkdown: en?.markdown,
       kaHeadline: ka?.headline,
       kaAbout: ka?.about,
+      kaMarkdown: ka?.markdown,
     };
 
     form.setFieldsValue(initialValues);
@@ -192,7 +208,12 @@ const Blogs = () => {
           </List.Item>
         )}
       />
-      <Modal visible={isModalVisible} onCancel={handleCancel} footer={null}>
+      <Modal
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width={1200}
+      >
         <Form
           form={form}
           layout="vertical"
@@ -207,6 +228,7 @@ const Blogs = () => {
         >
           <Form.Item label="Background Image" name="background">
             <FileUpload onUpload={handleImageUpload} />
+            {loadingImage && <p>Loading...</p>}
           </Form.Item>
           <Form.Item label="Link" name="link">
             <Input />
@@ -217,11 +239,17 @@ const Blogs = () => {
           <Form.Item label="English About" name="enAbout">
             <Input.TextArea />
           </Form.Item>
+          <Form.Item label="English Markdown" name="enMarkdown">
+            <StyledReactQuill theme="snow" />
+          </Form.Item>
           <Form.Item label="Georgian Headline" name="kaHeadline">
             <Input />
           </Form.Item>
           <Form.Item label="Georgian About" name="kaAbout">
             <Input.TextArea />
+          </Form.Item>
+          <Form.Item label="Georgian Markdown" name="kaMarkdown">
+            <StyledReactQuill theme="snow" />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">

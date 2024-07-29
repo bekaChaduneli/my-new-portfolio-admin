@@ -10,6 +10,7 @@ export interface IBlogTranslation {
   languageCode: string;
   headline: string;
   about: string;
+  markdown: string;
 }
 
 export interface IBlogsResponse {
