@@ -199,8 +199,8 @@ export const GET_ABOUTME = gql`
 `;
 
 export const GET_ARCHIVES = gql`
-  query archives($orderBy: [ArchiveInput!], $where: ArchiveInput) {
-    archives(orderBy: $orderBy, where: $where) {
+  query archives {
+    archives {
       updatedAt
       translations {
         updatedAt
@@ -319,6 +319,7 @@ export const GET_MAINPROJECTS = gql`
         languageCode
         id
         description
+        markdown
         createdAt
         archiveId
         about

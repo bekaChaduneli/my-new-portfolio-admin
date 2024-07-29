@@ -114,3 +114,88 @@ type BlogsTranslation {
   about: String!
   languageCode: String!
 }
+
+input ArchiveCreateInput {
+  link: String!
+  github: String!
+  background: String!
+  isReal: Boolean!
+  skills: [String!]
+  translations: [ArchiveTranslationsCreateWithoutArchiveInput!]!
+}
+
+input ArchiveTranslationsCreateWithoutArchiveInput {
+  languageCode: String!
+  description: String!
+  name: String!
+  location: String!
+}
+
+input ArchiveUpdateInput {
+  link: StringFieldUpdateOperationsInput
+  github: StringFieldUpdateOperationsInput
+  background: StringFieldUpdateOperationsInput
+  isReal: BoolFieldUpdateOperationsInput
+  skills: String
+  translations: ArchiveTranslationsUpdateManyWithoutArchiveInput
+}
+
+input ArchiveTranslationsUpdateManyWithoutArchiveInput {
+  update: [ArchiveTranslationsUpdateWithWhereUniqueWithoutArchiveInput]
+  upsert: [ArchiveTranslationsUpsertWithWhereUniqueWithoutArchiveInput]
+}
+
+input ArchiveTranslationsUpdateWithWhereUniqueWithoutArchiveInput {
+  where: ArchiveTranslationsWhereUniqueInput
+  data: ArchiveTranslationsUpdateWithoutArchiveDataInput
+}
+
+input ArchiveTranslationsUpsertWithWhereUniqueWithoutArchiveInput {
+  where: ArchiveTranslationsWhereUniqueInput
+  update: ArchiveTranslationsUpdateWithoutArchiveDataInput
+  create: ArchiveTranslationsCreateWithoutArchiveInput
+}
+
+input ArchiveTranslationsUpdateWithoutArchiveDataInput {
+  languageCode: StringFieldUpdateOperationsInput
+  description: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  location: StringFieldUpdateOperationsInput
+}
+
+input ArchiveTranslationsWhereUniqueInput {
+  id: String
+}
+
+input ArchiveWhereUniqueInput {
+  id: String
+}
+
+type Mutation {
+  createOneArchive(data: ArchiveCreateInput!): Archive!
+  deleteOneArchive(where: ArchiveWhereUniqueInput!): Archive
+  updateOneArchive(
+    data: ArchiveUpdateInput!
+    where: ArchiveWhereUniqueInput!
+  ): Archive
+}
+
+type Archive {
+  id: String
+  link: String
+  github: String
+  background: String
+  isReal: Boolean
+  skills: [String]
+  translations: [ArchiveTranslation]
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type ArchiveTranslation {
+  id: String
+  languageCode: String
+  description: String
+  name: String
+  location: String
+}
