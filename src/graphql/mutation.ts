@@ -148,15 +148,15 @@ export const UPDATE_ABOUTME = gql`
 `;
 
 export const CREATE_GITHUBREPO = gql`
-  mutation CreateGithubRepo($input: GithubRepoInput!) {
-    createGithubRepo(data: $input) {
+  mutation createOneGithubRepos($input: GithubReposCreateInput!) {
+    createOneGithubRepos(data: $input) {
       id
     }
   }
 `;
 
 export const DELETE_GITHUBREPOS = gql`
-  mutation DeleteOneGithubRepos($id: IdInput!) {
+  mutation deleteOneGithubRepos($id: String!) {
     deleteOneGithubRepos(where: { id: $id }) {
       id
     }
@@ -164,11 +164,8 @@ export const DELETE_GITHUBREPOS = gql`
 `;
 
 export const UPDATE_GITHUBREPO = gql`
-  mutation UpdateOneGithubRepos(
-    $data: GithubRepoInput!
-    $where: GithubRepoInput!
-  ) {
-    updateOneGithubRepos(data: $data, where: $where) {
+  mutation updateOneGithubRepos($data: GithubReposUpdateInput!, $id: String!) {
+    updateOneGithubRepos(data: $data, where: { id: $id }) {
       id
     }
   }
