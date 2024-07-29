@@ -105,7 +105,7 @@ export const CREATE_MAINPROJECT = gql`
 `;
 
 export const DELETE_MAINPROJECTS = gql`
-  mutation DeleteOneMainProjects($id: String!) {
+  mutation deleteOneMainProjects($id: String!) {
     deleteOneMainProjects(where: { id: $id }) {
       id
     }
@@ -113,7 +113,7 @@ export const DELETE_MAINPROJECTS = gql`
 `;
 
 export const UPDATE_MAINPROJECT = gql`
-  mutation UpdateOneMainProjects(
+  mutation updateOneMainProjects(
     $data: MainProjectsUpdateInput!
     $id: String!
   ) {

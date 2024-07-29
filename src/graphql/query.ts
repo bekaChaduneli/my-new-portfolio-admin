@@ -304,11 +304,8 @@ export const GET_MAINPROJECT = gql`
 `;
 
 export const GET_MAINPROJECTS = gql`
-  query findManyMainProjects(
-    $orderBy: [MainProjectOrderByWithRelationInput!]
-    $where: MainProjectInputWhereInput
-  ) {
-    findManyMainProjects(orderBy: $orderBy, where: $where) {
+  query findManyMainProjects {
+    findManyMainProjects {
       video
       updatedAt
       translations {
@@ -321,7 +318,6 @@ export const GET_MAINPROJECTS = gql`
         description
         markdown
         createdAt
-        archiveId
         about
       }
       skills
