@@ -337,8 +337,8 @@ export const GET_MAINPROJECTS = gql`
 `;
 
 export const GET_BLOGS = gql`
-  query findManyBlogs($orderBy: [BlogInput!], $where: BlogInput) {
-    findManyBlogs(orderBy: $orderBy, where: $where) {
+  query findManyBlogs {
+    findManyBlogs {
       updatedAt
       link
       id
@@ -352,6 +352,7 @@ export const GET_BLOGS = gql`
         createdAt
         blogsId
         about
+        markdown
       }
     }
   }

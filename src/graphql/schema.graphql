@@ -1,5 +1,3 @@
-# schema.graphql
-
 input StringFieldUpdateOperationsInput {
   set: String
 }
@@ -85,4 +83,34 @@ input CreateBookInput {
   type: String
   finished: Boolean
   translations: [BooksTranslationsCreateWithoutBooksInput]
+}
+
+input BlogsTranslationCreateInput {
+  headline: String!
+  about: String!
+  languageCode: String!
+}
+
+input BlogsCreateInput {
+  link: String!
+  background: String!
+  translations: [BlogsTranslationCreateInput!]!
+}
+
+type Mutation {
+  createOneBlogs(data: BlogsCreateInput!): Blog!
+}
+
+type Blog {
+  id: ID!
+  link: String!
+  background: String!
+  translations: [BlogsTranslation!]!
+}
+
+type BlogsTranslation {
+  id: ID!
+  headline: String!
+  about: String!
+  languageCode: String!
 }
