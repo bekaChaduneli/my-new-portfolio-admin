@@ -319,3 +319,62 @@ enum OrderByInput {
   asc
   desc
 }
+
+type GithubRepos {
+  id: ID!
+  link: String!
+  stars: String!
+  language: String!
+  translations: [GithubReposTranslations!]!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type GithubReposTranslations {
+  id: ID!
+  title: String!
+  description: String!
+  languageCode: String!
+  githubReposId: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input CreateGithubReposInput {
+  link: String!
+  stars: String!
+  language: String!
+  translations: [CreateGithubReposTranslationsInput!]!
+}
+
+input CreateGithubReposTranslationsInput {
+  title: String!
+  description: String!
+  languageCode: String!
+}
+
+input UpdateGithubReposInput {
+  link: String
+  stars: String
+  language: String
+  translations: [UpdateGithubReposTranslationsInput!]
+}
+
+input UpdateGithubReposTranslationsInput {
+  id: String!
+  title: String
+  description: String
+}
+
+type Mutation {
+  createOneGithubRepos(data: CreateGithubReposInput!): GithubRepos!
+  updateOneGithubRepos(
+    data: UpdateGithubReposInput!
+    where: WhereUniqueInput!
+  ): GithubRepos!
+  deleteOneGithubRepos(where: WhereUniqueInput!): GithubRepos!
+}
+
+type Query {
+  findManyGithubRepos: [GithubRepos!]!
+}

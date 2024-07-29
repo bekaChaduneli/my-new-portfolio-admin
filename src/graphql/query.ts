@@ -356,11 +356,8 @@ export const GET_BLOGS = gql`
 `;
 
 export const GET_GITHUBREPOS = gql`
-  query FindManyGithubRepos(
-    $orderBy: [GithubRepoInput!]
-    $where: GithubRepoInput
-  ) {
-    findManyGithubRepos(orderBy: $orderBy, where: $where) {
+  query FindManyGithubRepos {
+    findManyGithubRepos {
       updatedAt
       translations {
         updatedAt
