@@ -73,15 +73,15 @@ export const UPDATE_BLOGS = gql`
 `;
 
 export const CREATE_ARCHIVE = gql`
-  mutation CreateArchive($input: ArchiveInput!) {
-    createArchive(data: $input) {
+  mutation createOneArchive($input: ArchiveCreateInput!) {
+    createOneArchive(data: $input) {
       id
     }
   }
 `;
 
 export const DELETE_ARCHIVE = gql`
-  mutation DeleteOneArchive($id: IdInput!) {
+  mutation DeleteOneArchive($id: String!) {
     deleteOneArchive(where: { id: $id }) {
       id
     }
@@ -89,23 +89,23 @@ export const DELETE_ARCHIVE = gql`
 `;
 
 export const UPDATE_ARCHIVE = gql`
-  mutation UpdateOneArchive($data: ArchiveInput!, $where: ArchiveInput!) {
-    updateOneArchive(data: $data, where: $where) {
+  mutation UpdateOneArchive($data: ArchiveUpdateInput!, $id: String!) {
+    updateOneArchive(data: $data, where: { id: $id }) {
       id
     }
   }
 `;
 
 export const CREATE_MAINPROJECT = gql`
-  mutation CreateMainProject($input: MainProjectInput!) {
-    createMainProject(data: $input) {
+  mutation createOneMainProjects($input: MainProjectsCreateInput!) {
+    createOneMainProjects(data: $input) {
       id
     }
   }
 `;
 
 export const DELETE_MAINPROJECTS = gql`
-  mutation DeleteOneMainProjects($id: IdInput!) {
+  mutation DeleteOneMainProjects($id: String!) {
     deleteOneMainProjects(where: { id: $id }) {
       id
     }
@@ -114,10 +114,10 @@ export const DELETE_MAINPROJECTS = gql`
 
 export const UPDATE_MAINPROJECT = gql`
   mutation UpdateOneMainProjects(
-    $data: MainProjectsInput!
-    $where: MainProjectsInput!
+    $data: MainProjectsUpdateInput!
+    $id: String!
   ) {
-    updateOneMainProjects(data: $data, where: $where) {
+    updateOneMainProjects(data: $data, where: { id: $id }) {
       id
     }
   }
