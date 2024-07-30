@@ -378,51 +378,14 @@ export const GET_GITHUBREPOS = gql`
 `;
 
 export const GET_LINKEDIN = gql`
-  query MyQuery {
-    linkedins {
-      updatedAt
-      translations {
-        updatedAt
-        university
-        name
-        linkedinId
-        languageCode
-        id
-        createdAt
-        company
-        bio
-      }
-      topSkills {
-        updatedAt
-        linkedinId
-        id
-        createdAt
-        translations {
-          updatedAt
-          topSkillsId
-          name
-          linkedinName
-          languageCode
-          id
-          createdAt
-        }
-      }
-      link
-      image
-      id
-      createdAt
+  query findFirstLinkedin {
+    findFirstLinkedin {
       banner
+      createdAt
+      id
+      image
+      link
       posts {
-        updatedAt
-        translations {
-          reatedAt
-          updatedAt
-          postsId
-          linkedinName
-          languageCode
-          id
-          description
-        }
         linkedinId
         link
         likes
@@ -430,6 +393,43 @@ export const GET_LINKEDIN = gql`
         id
         createdAt
         commentsSum
+        updatedAt
+        translations {
+          description
+          id
+          languageCode
+          linkedinName
+          postsId
+          reatedAt
+          updatedAt
+        }
+      }
+      topSkills {
+        updatedAt
+        linkedinId
+        id
+        createdAt
+        translations {
+          id
+          createdAt
+          languageCode
+          linkedinName
+          name
+          topSkillsId
+          updatedAt
+        }
+      }
+      updatedAt
+      translations {
+        updatedAt
+        name
+        university
+        linkedinId
+        languageCode
+        id
+        createdAt
+        company
+        bio
       }
     }
   }

@@ -1,15 +1,3 @@
-export interface ILinkedin {
-  id: string;
-  image: string;
-  banner: string;
-  link: string;
-  translations: ILinkedinTranslation[];
-  posts: IPosts[];
-  topSkills: ITopSkills[];
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface ILinkedinTranslation {
   id: string;
   name: string;
@@ -18,18 +6,6 @@ export interface ILinkedinTranslation {
   university: string;
   languageCode: string;
   linkedinId: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface IPosts {
-  id: string;
-  linkedinId: string;
-  image?: string;
-  likes: number; // Changed to number
-  commentsSum: number; // Changed to number
-  link: string;
-  translations: IPostsTranslation[];
   createdAt: string;
   updatedAt: string;
 }
@@ -44,14 +20,6 @@ export interface IPostsTranslation {
   updatedAt: string;
 }
 
-export interface ITopSkills {
-  id: string;
-  linkedinId: string;
-  translations: ITopSkillsTranslation[];
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface ITopSkillsTranslation {
   id: string;
   linkedinName: string;
@@ -60,4 +28,40 @@ export interface ITopSkillsTranslation {
   topSkillsId: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface IPosts {
+  id: string;
+  linkedinId: string;
+  image?: string;
+  likes: number;
+  commentsSum: number;
+  link: string;
+  translations: IPostsTranslation[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ITopSkills {
+  id: string;
+  linkedinId: string;
+  translations: ITopSkillsTranslation[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ILinkedin {
+  id: string;
+  image: string;
+  banner: string;
+  link: string;
+  translations: ILinkedinTranslation[];
+  posts: IPosts[];
+  topSkills: ITopSkills[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ILinkedinResponse {
+  findFirstLinkedin: ILinkedin;
 }

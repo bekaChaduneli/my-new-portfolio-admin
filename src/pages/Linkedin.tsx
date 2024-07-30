@@ -10,6 +10,7 @@ import {
   Row,
   Col,
   Space,
+  Upload,
 } from "antd";
 import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import { ILinkedin, IPosts, ITopSkills } from "../types/Linkedin";
@@ -21,9 +22,9 @@ import {
 import { GET_LINKEDIN } from "@graphql/query";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 
-const LinkedinPage = () => {
+const Linkedin = () => {
   const { data, loading, error } = useQuery(GET_LINKEDIN);
-  const [deleteLinkedin] = useMutation(DELETE_LINKEDIN, {
+  const [deleteOneLinkedin] = useMutation(DELETE_LINKEDIN, {
     refetchQueries: [{ query: GET_LINKEDIN }],
     onCompleted: () => {
       message.success("LinkedIn profile deleted successfully!");
@@ -39,7 +40,40 @@ const LinkedinPage = () => {
   );
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
-  const [createLinkedin] = useMutation(CREATE_LINKEDIN, {
+  const [loadingImage, setLoadingImage] = useState<boolean>(false);
+  const [image, setImage] = useState<string | null>(null);
+  const [banner, setBanner] = useState<string | null>(null);
+  const [postImage, setPostImage] = useState<string | null>(null);
+
+  const handleFileUpload = async (
+    file: File,
+    type: "image" | "banner" | "postImage"
+  ) => {
+    try {
+      setLoadingImage(true);
+      const result = await uploadToCloudinary(file);
+      const url = result.secure_url;
+      switch (type) {
+        case "image":
+          setImage(url);
+          break;
+        case "banner":
+          setBanner(url);
+          break;
+        case "postImage":
+          setPostImage(url);
+          break;
+        default:
+          message.error("Unsupported file type.");
+      }
+    } catch (error) {
+      message.error("Error uploading file.");
+    } finally {
+      setLoadingImage(false);
+    }
+  };
+
+  const [createOneLinkedin] = useMutation(CREATE_LINKEDIN, {
     refetchQueries: [{ query: GET_LINKEDIN }],
     onCompleted: () => {
       message.success("LinkedIn profile created successfully!");
@@ -49,7 +83,7 @@ const LinkedinPage = () => {
     },
   });
 
-  const [updateLinkedin] = useMutation(UPDATE_LINKEDIN, {
+  const [updateOneLinkedin] = useMutation(UPDATE_LINKEDIN, {
     refetchQueries: [{ query: GET_LINKEDIN }],
     onCompleted: () => {
       message.success("LinkedIn profile updated successfully!");
@@ -63,222 +97,215 @@ const LinkedinPage = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   const handleCreate = async (values: any) => {
-    // Upload images to Cloudinary
-    const uploadedImage = await uploadToCloudinary(values.image);
-    const uploadedBanner = await uploadToCloudinary(values.banner);
-
-    createLinkedin({
-      variables: {
-        input: {
-          image: uploadedImage.url,
-          banner: uploadedBanner.url,
-          link: values.link,
-          translations: {
-            createMany: {
-              data: [
-                {
-                  name: values.enName,
-                  bio: values.enBio,
-                  company: values.enCompany,
-                  languageCode: "en",
-                  university: values.enUniversity,
-                },
-                {
-                  name: values.kaName,
-                  bio: values.kaBio,
-                  company: values.kaCompany,
-                  languageCode: "ka",
-                  university: values.kaUniversity,
-                },
-              ],
-            },
-          },
-          posts: {
-            createMany: {
-              data: values.posts.map((post: IPosts) => ({
-                image: post.image,
-                likes: post.likes,
-                commentsSum: post.commentsSum,
-                link: post.link,
-                translations: {
-                  createMany: {
-                    data: [
-                      {
-                        linkedinName: post.translations.find(
-                          (t) => t.languageCode === "en"
-                        )?.linkedinName,
-                        description: post.translations.find(
-                          (t) => t.languageCode === "en"
-                        )?.description,
-                        languageCode: "en",
-                      },
-                      {
-                        linkedinName: post.translations.find(
-                          (t) => t.languageCode === "ka"
-                        )?.linkedinName,
-                        description: post.translations.find(
-                          (t) => t.languageCode === "ka"
-                        )?.description,
-                        languageCode: "ka",
-                      },
-                    ],
-                  },
-                },
-              })),
-            },
-          },
-          topSkills: {
-            createMany: {
-              data: values.topSkills.map((skill: ITopSkills) => ({
-                translations: {
-                  createMany: {
-                    data: [
-                      {
-                        linkedinName: skill.translations.find(
-                          (t) => t.languageCode === "en"
-                        )?.linkedinName,
-                        name: skill.translations.find(
-                          (t) => t.languageCode === "en"
-                        )?.name,
-                        languageCode: "en",
-                      },
-                      {
-                        linkedinName: skill.translations.find(
-                          (t) => t.languageCode === "ka"
-                        )?.linkedinName,
-                        name: skill.translations.find(
-                          (t) => t.languageCode === "ka"
-                        )?.name,
-                        languageCode: "ka",
-                      },
-                    ],
-                  },
-                },
-              })),
-            },
-          },
-        },
-      },
-    });
+    console.log(values);
+    // createOneLinkedin({
+    //   variables: {
+    //     input: {
+    //       image: uploadedImage,
+    //       banner: uploadedBanner,
+    //       link: values.link,
+    //       translations: {
+    //         createMany: {
+    //           data: [
+    //             {
+    //               name: values.enName,
+    //               bio: values.enBio,
+    //               company: values.enCompany,
+    //               languageCode: "en",
+    //               university: values.enUniversity,
+    //             },
+    //             {
+    //               name: values.kaName,
+    //               bio: values.kaBio,
+    //               company: values.kaCompany,
+    //               languageCode: "ka",
+    //               university: values.kaUniversity,
+    //             },
+    //           ],
+    //         },
+    //       },
+    //       posts: {
+    //         createMany: {
+    //           data: values.posts.map((post: IPosts) => ({
+    //             image: post.image,
+    //             likes: post.likes,
+    //             commentsSum: post.commentsSum,
+    //             link: post.link,
+    //             translations: {
+    //               createMany: {
+    //                 data: [
+    //                   {
+    //                     linkedinName: post.translations.find(
+    //                       (t) => t.languageCode === "en"
+    //                     )?.linkedinName,
+    //                     description: post.translations.find(
+    //                       (t) => t.languageCode === "en"
+    //                     )?.description,
+    //                     languageCode: "en",
+    //                   },
+    //                   {
+    //                     linkedinName: post.translations.find(
+    //                       (t) => t.languageCode === "ka"
+    //                     )?.linkedinName,
+    //                     description: post.translations.find(
+    //                       (t) => t.languageCode === "ka"
+    //                     )?.description,
+    //                     languageCode: "ka",
+    //                   },
+    //                 ],
+    //               },
+    //             },
+    //           })),
+    //         },
+    //       },
+    //       topSkills: {
+    //         createMany: {
+    //           data: values.topSkills.map((skill: ITopSkills) => ({
+    //             translations: {
+    //               createMany: {
+    //                 data: [
+    //                   {
+    //                     linkedinName: skill.translations.find(
+    //                       (t) => t.languageCode === "en"
+    //                     )?.linkedinName,
+    //                     name: skill.translations.find(
+    //                       (t) => t.languageCode === "en"
+    //                     )?.name,
+    //                     languageCode: "en",
+    //                   },
+    //                   {
+    //                     linkedinName: skill.translations.find(
+    //                       (t) => t.languageCode === "ka"
+    //                     )?.linkedinName,
+    //                     name: skill.translations.find(
+    //                       (t) => t.languageCode === "ka"
+    //                     )?.name,
+    //                     languageCode: "ka",
+    //                   },
+    //                 ],
+    //               },
+    //             },
+    //           })),
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
   };
 
   const handleUpdate = async (values: any) => {
-    // Upload images to Cloudinary if changed
-    const uploadedImage = values.image
-      ? await uploadToCloudinary(values.image)
-      : undefined;
-    const uploadedBanner = values.banner
-      ? await uploadToCloudinary(values.banner)
-      : undefined;
-
-    updateLinkedin({
-      variables: {
-        id: currentLinkedin?.id,
-        data: {
-          image: uploadedImage?.url || currentLinkedin?.image,
-          banner: uploadedBanner?.url || currentLinkedin?.banner,
-          link: values.link,
-          translations: {
-            updateMany: [
-              {
-                where: { languageCode: { equals: "en" } },
-                data: {
-                  name: values.enName,
-                  bio: values.enBio,
-                  company: values.enCompany,
-                  university: values.enUniversity,
-                },
-              },
-              {
-                where: { languageCode: { equals: "ka" } },
-                data: {
-                  name: values.kaName,
-                  bio: values.kaBio,
-                  company: values.kaCompany,
-                  university: values.kaUniversity,
-                },
-              },
-            ],
-          },
-          posts: {
-            updateMany: values.posts.map((post: IPosts) => ({
-              where: { id: { equals: post.id } },
-              data: {
-                image: post.image,
-                likes: post.likes,
-                commentsSum: post.commentsSum,
-                link: post.link,
-                translations: {
-                  updateMany: [
-                    {
-                      where: { languageCode: { equals: "en" } },
-                      data: {
-                        linkedinName: post.translations.find(
-                          (t) => t.languageCode === "en"
-                        )?.linkedinName,
-                        description: post.translations.find(
-                          (t) => t.languageCode === "en"
-                        )?.description,
-                      },
-                    },
-                    {
-                      where: { languageCode: { equals: "ka" } },
-                      data: {
-                        linkedinName: post.translations.find(
-                          (t) => t.languageCode === "ka"
-                        )?.linkedinName,
-                        description: post.translations.find(
-                          (t) => t.languageCode === "ka"
-                        )?.description,
-                      },
-                    },
-                  ],
-                },
-              },
-            })),
-          },
-          topSkills: {
-            updateMany: values.topSkills.map((skill: ITopSkills) => ({
-              where: { id: { equals: skill.id } },
-              data: {
-                translations: {
-                  updateMany: [
-                    {
-                      where: { languageCode: { equals: "en" } },
-                      data: {
-                        linkedinName: skill.translations.find(
-                          (t) => t.languageCode === "en"
-                        )?.linkedinName,
-                        name: skill.translations.find(
-                          (t) => t.languageCode === "en"
-                        )?.name,
-                      },
-                    },
-                    {
-                      where: { languageCode: { equals: "ka" } },
-                      data: {
-                        linkedinName: skill.translations.find(
-                          (t) => t.languageCode === "ka"
-                        )?.linkedinName,
-                        name: skill.translations.find(
-                          (t) => t.languageCode === "ka"
-                        )?.name,
-                      },
-                    },
-                  ],
-                },
-              },
-            })),
-          },
-        },
-      },
-    });
+    console.log(values);
+    // updateOneLinkedin({
+    //   variables: {
+    //     id: currentLinkedin?.id,
+    //     data: {
+    //       image: uploadedImage || currentLinkedin?.image,
+    //       banner: uploadedBanner || currentLinkedin?.banner,
+    //       link: values.link,
+    //       translations: {
+    //         updateMany: [
+    //           {
+    //             where: { languageCode: { equals: "en" } },
+    //             data: {
+    //               name: values.enName,
+    //               bio: values.enBio,
+    //               company: values.enCompany,
+    //               university: values.enUniversity,
+    //             },
+    //           },
+    //           {
+    //             where: { languageCode: { equals: "ka" } },
+    //             data: {
+    //               name: values.kaName,
+    //               bio: values.kaBio,
+    //               company: values.kaCompany,
+    //               university: values.kaUniversity,
+    //             },
+    //           },
+    //         ],
+    //       },
+    //       posts: {
+    //         updateMany: values.posts.map((post: IPosts) => ({
+    //           where: { id: { equals: post.id } },
+    //           data: {
+    //             image: post.image,
+    //             likes: post.likes,
+    //             commentsSum: post.commentsSum,
+    //             link: post.link,
+    //             translations: {
+    //               updateMany: [
+    //                 {
+    //                   where: { languageCode: { equals: "en" } },
+    //                   data: {
+    //                     linkedinName: post.translations.find(
+    //                       (t) => t.languageCode === "en"
+    //                     )?.linkedinName,
+    //                     description: post.translations.find(
+    //                       (t) => t.languageCode === "en"
+    //                     )?.description,
+    //                   },
+    //                 },
+    //                 {
+    //                   where: { languageCode: { equals: "ka" } },
+    //                   data: {
+    //                     linkedinName: post.translations.find(
+    //                       (t) => t.languageCode === "ka"
+    //                     )?.linkedinName,
+    //                     description: post.translations.find(
+    //                       (t) => t.languageCode === "ka"
+    //                     )?.description,
+    //                   },
+    //                 },
+    //               ],
+    //             },
+    //           },
+    //         })),
+    //       },
+    //       topSkills: {
+    //         updateMany: values.topSkills.map((skill: ITopSkills) => ({
+    //           where: { id: { equals: skill.id } },
+    //           data: {
+    //             translations: {
+    //               updateMany: [
+    //                 {
+    //                   where: { languageCode: { equals: "en" } },
+    //                   data: {
+    //                     linkedinName: skill.translations.find(
+    //                       (t) => t.languageCode === "en"
+    //                     )?.linkedinName,
+    //                     name: skill.translations.find(
+    //                       (t) => t.languageCode === "en"
+    //                     )?.name,
+    //                   },
+    //                 },
+    //                 {
+    //                   where: { languageCode: { equals: "ka" } },
+    //                   data: {
+    //                     linkedinName: skill.translations.find(
+    //                       (t) => t.languageCode === "ka"
+    //                     )?.linkedinName,
+    //                     name: skill.translations.find(
+    //                       (t) => t.languageCode === "ka"
+    //                     )?.name,
+    //                   },
+    //                 },
+    //               ],
+    //             },
+    //           },
+    //         })),
+    //       },
+    //     },
+    //   },
+    // });
   };
 
   const handleCancel = () => {
     setCurrentLinkedin(null);
-    form.resetFields();
+    setImage(null);
+    setBanner(null);
+    setPostImage(null);
     setIsModalVisible(false);
+    form.resetFields();
   };
 
   const handleEdit = (linkedin: ILinkedin) => {
@@ -304,83 +331,65 @@ const LinkedinPage = () => {
       kaBio: ka?.bio,
       kaCompany: ka?.company,
       kaUniversity: ka?.university,
-      posts: linkedin.posts.map((post: IPosts) => ({
-        id: post.id,
-        image: post.image,
-        likes: post.likes,
-        commentsSum: post.commentsSum,
-        link: post.link,
-        enLinkedinName: post.translations.find((t) => t.languageCode === "en")
-          ?.linkedinName,
-        enDescription: post.translations.find((t) => t.languageCode === "en")
-          ?.description,
-        kaLinkedinName: post.translations.find((t) => t.languageCode === "ka")
-          ?.linkedinName,
-        kaDescription: post.translations.find((t) => t.languageCode === "ka")
-          ?.description,
-      })),
-      topSkills: linkedin.topSkills.map((skill: ITopSkills) => ({
-        id: skill.id,
-        enLinkedinName: skill.translations.find((t) => t.languageCode === "en")
-          ?.linkedinName,
-        enName: skill.translations.find((t) => t.languageCode === "en")?.name,
-        kaLinkedinName: skill.translations.find((t) => t.languageCode === "ka")
-          ?.linkedinName,
-        kaName: skill.translations.find((t) => t.languageCode === "ka")?.name,
-      })),
+      posts: linkedin.posts,
+      topSkills: linkedin.topSkills,
     };
-
     form.setFieldsValue(initialValues);
-    setIsModalVisible(true);
-  };
-
-  const handleDelete = (linkedin: ILinkedin) => {
-    Modal.confirm({
-      title: "Are you sure?",
-      content: "This will permanently delete the LinkedIn profile.",
-      onOk: () => deleteLinkedin({ variables: { id: linkedin.id } }),
-    });
   };
 
   return (
     <div>
-      <Button type="primary" onClick={() => setIsModalVisible(true)}>
-        Create New LinkedIn Profile
+      <Button
+        type="primary"
+        icon={<PlusOutlined />}
+        onClick={() => setIsModalVisible(true)}
+      >
+        Add New LinkedIn Profile
       </Button>
-
       <List
         itemLayout="horizontal"
         dataSource={data?.linkedin || []}
-        renderItem={(linkedin: ILinkedin) => (
+        renderItem={(linkedin: any) => (
           <List.Item
             actions={[
-              <Button onClick={() => handleEdit(linkedin)}>Edit</Button>,
-              <Button danger onClick={() => handleDelete(linkedin)}>
+              <Button type="link" onClick={() => handleEdit(linkedin)}>
+                Edit
+              </Button>,
+              <Button
+                type="link"
+                danger
+                onClick={() =>
+                  deleteOneLinkedin({ variables: { id: linkedin.id } })
+                }
+              >
                 Delete
               </Button>,
             ]}
           >
             <List.Item.Meta
-              avatar={
-                <img
-                  src={linkedin.image}
-                  alt="Profile"
-                  style={{ width: 50, height: 50, borderRadius: "50%" }}
-                />
-              }
-              title={
-                linkedin.translations.find((t: any) => t.languageCode === "en")
-                  ?.name
-              }
+              title={linkedin.link}
               description={
-                linkedin.translations.find((t: any) => t.languageCode === "en")
-                  ?.bio
+                <>
+                  <div>
+                    {
+                      linkedin.translations.find(
+                        (t: any) => t.languageCode === "en"
+                      )?.name
+                    }
+                  </div>
+                  <div>
+                    {
+                      linkedin.translations.find(
+                        (t: any) => t.languageCode === "en"
+                      )?.bio
+                    }
+                  </div>
+                </>
               }
             />
           </List.Item>
         )}
       />
-
       <Modal
         title={
           currentLinkedin ? "Edit LinkedIn Profile" : "Create LinkedIn Profile"
@@ -388,147 +397,138 @@ const LinkedinPage = () => {
         visible={isModalVisible}
         onCancel={handleCancel}
         footer={null}
+        width={1200}
       >
         <Form
           form={form}
           layout="vertical"
           onFinish={currentLinkedin ? handleUpdate : handleCreate}
         >
+          <Form.Item label="Link" name="link" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item label="Image">
+            <Form.Item name="image" valuePropName="file" noStyle>
+              <Upload name="image" listType="picture">
+                <Button icon={<PlusOutlined />}>Upload</Button>
+              </Upload>
+            </Form.Item>
+          </Form.Item>
+          <Form.Item label="Banner">
+            <Form.Item name="banner" valuePropName="file" noStyle>
+              <Upload name="banner" listType="picture">
+                <Button icon={<PlusOutlined />}>Upload</Button>
+              </Upload>
+            </Form.Item>
+          </Form.Item>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item name="image" label="Profile Image">
-                <Input type="file" />
+              <Form.Item
+                label="English Name"
+                name="enName"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="English Bio"
+                name="enBio"
+                rules={[{ required: true }]}
+              >
+                <Input.TextArea />
+              </Form.Item>
+              <Form.Item label="English Company" name="enCompany">
+                <Input />
+              </Form.Item>
+              <Form.Item label="English University" name="enUniversity">
+                <Input />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item name="banner" label="Banner Image">
-                <Input type="file" />
+              <Form.Item
+                label="Georgian Name"
+                name="kaName"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Georgian Bio"
+                name="kaBio"
+                rules={[{ required: true }]}
+              >
+                <Input.TextArea />
+              </Form.Item>
+              <Form.Item label="Georgian Company" name="kaCompany">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Georgian University" name="kaUniversity">
+                <Input />
               </Form.Item>
             </Col>
           </Row>
-
-          <Form.Item name="link" label="LinkedIn Profile Link">
-            <Input />
-          </Form.Item>
-
-          <Form.Item name="enName" label="English Name">
-            <Input />
-          </Form.Item>
-          <Form.Item name="enBio" label="English Bio">
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item name="enCompany" label="English Company">
-            <Input />
-          </Form.Item>
-          <Form.Item name="enUniversity" label="English University">
-            <Input />
-          </Form.Item>
-
-          <Form.Item name="kaName" label="Georgian Name">
-            <Input />
-          </Form.Item>
-          <Form.Item name="kaBio" label="Georgian Bio">
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item name="kaCompany" label="Georgian Company">
-            <Input />
-          </Form.Item>
-          <Form.Item name="kaUniversity" label="Georgian University">
-            <Input />
-          </Form.Item>
-
           <Form.List name="posts">
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ key, name, fieldKey, ...restField }) => (
-                  <Row key={key} gutter={16}>
-                    <Col span={8}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "image"]}
-                        fieldKey={fieldKey ? [fieldKey, "image"] : ""}
-                        label="Post Image"
-                      >
-                        <Input type="file" />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "likes"]}
-                        fieldKey={fieldKey ? [fieldKey, "likes"] : ""}
-                        label="Likes"
-                      >
-                        <Input type="number" />
-                      </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "commentsSum"]}
-                        fieldKey={fieldKey ? [fieldKey, "commentsSum"] : ""}
-                        label="Comments Sum"
-                      >
-                        <Input type="number" />
-                      </Form.Item>
-                    </Col>
-                    <Col span={24}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "link"]}
-                        fieldKey={fieldKey ? [fieldKey, "link"] : ""}
-                        label="Post Link"
-                      >
-                        <Input />
-                      </Form.Item>
-                    </Col>
+                  <>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "image"]}
+                      fieldKey={fieldKey ? [fieldKey, "image"] : ""}
+                      label="Post Image"
+                      valuePropName="file"
+                    >
+                      <Upload name="image" listType="picture">
+                        <Button icon={<PlusOutlined />}>Upload</Button>
+                      </Upload>
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "link"]}
+                      fieldKey={fieldKey ? [fieldKey, "link"] : ""}
+                      label="Post Link"
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "likes"]}
+                      fieldKey={fieldKey ? [fieldKey, "likes"] : ""}
+                      label="Likes"
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "commentsSum"]}
+                      fieldKey={fieldKey ? [fieldKey, "commentsSum"] : ""}
+                      label="Comments"
+                    >
+                      <Input />
+                    </Form.Item>
 
-                    <Col span={12}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "enLinkedinName"]}
-                        fieldKey={fieldKey ? [fieldKey, "enLinkedinName"] : ""}
-                        label="English LinkedIn Name"
-                      >
-                        <Input />
-                      </Form.Item>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "enDescription"]}
-                        fieldKey={fieldKey ? [fieldKey, "enDescription"] : ""}
-                        label="English Description"
-                      >
-                        <Input.TextArea />
-                      </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "kaLinkedinName"]}
-                        fieldKey={fieldKey ? [fieldKey, "kaLinkedinName"] : ""}
-                        label="Georgian LinkedIn Name"
-                      >
-                        <Input />
-                      </Form.Item>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "kaDescription"]}
-                        fieldKey={fieldKey ? [fieldKey, "kaDescription"] : ""}
-                        label="Georgian Description"
-                      >
-                        <Input.TextArea />
-                      </Form.Item>
-                    </Col>
-                    <Col span={24}>
-                      <Button
-                        type="dashed"
-                        onClick={() => remove(name)}
-                        icon={<MinusCircleOutlined />}
-                      >
-                        Remove
-                      </Button>
-                    </Col>
-                  </Row>
+                    <Form.Item
+                      fieldKey={fieldKey ? [fieldKey, "enDescription"] : ""}
+                      label="English Description"
+                      name="enDescription"
+                    >
+                      <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                      fieldKey={fieldKey ? [fieldKey, "kaDescription"] : ""}
+                      label="Georgian Description"
+                      name="kaDescription"
+                    >
+                      <Input />
+                    </Form.Item>
+
+                    <MinusCircleOutlined
+                      style={{ marginBottom: "16px", color: "red" }}
+                      onClick={() => remove(name)}
+                    />
+                  </>
                 ))}
                 <Form.Item>
                   <Button
@@ -542,58 +542,32 @@ const LinkedinPage = () => {
               </>
             )}
           </Form.List>
-
           <Form.List name="topSkills">
             {(fields, { add, remove }) => (
               <>
                 {fields.map(({ key, name, fieldKey, ...restField }) => (
-                  <Row key={key} gutter={16}>
-                    <Col span={12}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "enLinkedinName"]}
-                        fieldKey={fieldKey ? [fieldKey, "enLinkedinName"] : ""}
-                        label="English LinkedIn Name"
-                      >
-                        <Input />
-                      </Form.Item>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "enName"]}
-                        fieldKey={fieldKey ? [fieldKey, "enName"] : ""}
-                        label="English Skill Name"
-                      >
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "kaLinkedinName"]}
-                        fieldKey={fieldKey ? [fieldKey, "kaLinkedinName"] : ""}
-                        label="Georgian LinkedIn Name"
-                      >
-                        <Input />
-                      </Form.Item>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "kaName"]}
-                        fieldKey={fieldKey ? [fieldKey, "kaName"] : ""}
-                        label="Georgian Skill Name"
-                      >
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                    <Col span={24}>
-                      <Button
-                        type="dashed"
-                        onClick={() => remove(name)}
-                        icon={<MinusCircleOutlined />}
-                      >
-                        Remove
-                      </Button>
-                    </Col>
-                  </Row>
+                  <>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "kaName"]}
+                      fieldKey={fieldKey ? [fieldKey, "kaName"] : ""}
+                      label="Georgian Name"
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, "enName"]}
+                      fieldKey={fieldKey ? [fieldKey, "enName"] : ""}
+                      label="English Name"
+                    >
+                      <Input />
+                    </Form.Item>
+                    <MinusCircleOutlined
+                      style={{ color: "red", marginBottom: "16px" }}
+                      onClick={() => remove(name)}
+                    />
+                  </>
                 ))}
                 <Form.Item>
                   <Button
@@ -601,13 +575,12 @@ const LinkedinPage = () => {
                     onClick={() => add()}
                     icon={<PlusOutlined />}
                   >
-                    Add Top Skill
+                    Add Skill
                   </Button>
                 </Form.Item>
               </>
             )}
           </Form.List>
-
           <Form.Item>
             <Button type="primary" htmlType="submit">
               {currentLinkedin ? "Update" : "Create"}
@@ -619,4 +592,4 @@ const LinkedinPage = () => {
   );
 };
 
-export default LinkedinPage;
+export default Linkedin;

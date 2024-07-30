@@ -172,15 +172,15 @@ export const UPDATE_GITHUBREPO = gql`
 `;
 
 export const CREATE_LINKEDIN = gql`
-  mutation CreateLinkedin($input: LinkedinCreateInput!) {
-    createLinkedin(data: $input) {
+  mutation createOneLinkedin($input: LinkedinCreateInput!) {
+    createOneLinkedin(data: $input) {
       id
     }
   }
 `;
 
 export const DELETE_LINKEDIN = gql`
-  mutation DeleteOneLinkedin($id: String!) {
+  mutation deleteOneLinkedin($id: String!) {
     deleteOneLinkedin(where: { id: $id }) {
       id
     }
@@ -188,7 +188,7 @@ export const DELETE_LINKEDIN = gql`
 `;
 
 export const UPDATE_LINKEDIN = gql`
-  mutation UpdateOneLinkedin($data: LinkedinUpdateInput!, $id: String!) {
+  mutation updateOneLinkedin($data: LinkedinUpdateInput!, $id: String!) {
     updateOneLinkedin(data: $data, where: { id: $id }) {
       id
     }
