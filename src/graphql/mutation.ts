@@ -220,15 +220,15 @@ export const UPDATE_POSTS = gql`
 `;
 
 export const CREATE_PROFILE = gql`
-  mutation CreateProfile($input: ProfileInput!) {
-    createProfile(data: $input) {
+  mutation createOneProfile($input: ProfileCreateInput!) {
+    createOneProfile(data: $input) {
       id
     }
   }
 `;
 
 export const DELETE_PROFILE = gql`
-  mutation DeleteOneProfile($id: IdInput!) {
+  mutation deleteOneProfile($id: String!) {
     deleteOneProfile(where: { id: $id }) {
       id
     }
@@ -236,8 +236,8 @@ export const DELETE_PROFILE = gql`
 `;
 
 export const UPDATE_PROFILE = gql`
-  mutation UpdateOneProfile($data: ProfileInput!, $where: ProfileInput!) {
-    updateOneProfile(data: $data, where: $where) {
+  mutation updateOneProfile($data: ProfileUpdateInput!, $id: String!) {
+    updateOneProfile(data: $data, where: { id: $id }) {
       id
     }
   }

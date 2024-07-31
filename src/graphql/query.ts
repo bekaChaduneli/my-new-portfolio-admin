@@ -457,8 +457,8 @@ export const GET_POSTS = gql`
 `;
 
 export const GET_PROFILE = gql`
-  query Profiles {
-    profiles {
+  query findFirstProfile {
+    findFirstProfile {
       Image
       age
       createdAt
@@ -466,75 +466,17 @@ export const GET_PROFILE = gql`
       mail
       resume
       updatedAt
-      socials {
-        updatedAt
-        profileId
-        name
-        link
-        id
-        createdAt
-      }
       translations {
-        works {
-          workLogo
-          updatedAt
-          toDate
-          profileTranslationsId
-          id
-          fromDate
-          createdAt
-          translations {
-            workAbout
-            work
-            updatedAt
-            profileWorksId
-            position
-            languageCode
-            id
-            createdAt
-          }
-        }
         updatedAt
         universityAbout
         university
         surname
-        questions {
-          updatedAt
-          profileTranslationsId
-          id
-          createdAt
-          translations {
-            updatedAt
-            questionsId
-            question
-            languageCode
-            id
-            answer
-            createdAt
-          }
-        }
-        profileId
         profession
+        profileId
         name
-        location
         languageCode
+        location
         id
-        hobbys {
-          updatedAt
-          translations {
-            updatedAt
-            languageCode
-            id
-            hobbysId
-            hobby
-            aboutHobby
-            createdAt
-          }
-          profileTranslationsId
-          image
-          id
-          createdAt
-        }
         experience
         createdAt
         aboutMe
