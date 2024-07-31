@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -58,6 +58,18 @@ const Profile = () => {
       setLoadingImage(false);
     }
   };
+
+  useEffect(() => {
+    console.log(data);
+    console.log(currentProfile);
+    if (currentProfile) {
+      currentProfile && setImage(currentProfile.image);
+      currentProfile && setResume(currentProfile.resume);
+    } else {
+      setImage(null);
+      setResume(null);
+    }
+  }, [currentProfile]);
 
   const [createOneProfile] = useMutation(CREATE_PROFILE, {
     refetchQueries: [{ query: GET_PROFILE }],
@@ -248,17 +260,9 @@ const Profile = () => {
             ]}
           >
             <List.Item.Meta
-              title={profile.link}
-              description={
-                <>
-                  <div>
-                    {
-                      profile.translations.find(
-                        (t: any) => t.languageCode === "en"
-                      )?.name
-                    }
-                  </div>
-                </>
+              title={
+                profile.translations.find((t: any) => t.languageCode === "en")
+                  ?.name
               }
             />
           </List.Item>
@@ -326,9 +330,7 @@ const Profile = () => {
             </Dragger>
             {resume && (
               <div style={{ marginTop: 10 }}>
-                <h1 style={{ width: 100, height: 100, marginRight: 10 }}>
-                  resume
-                </h1>
+                <h1 style={{ marginTop: "20px" }}>Resume is uploaded</h1>
               </div>
             )}
           </Form.Item>
@@ -375,9 +377,6 @@ const Profile = () => {
               >
                 <Input />
               </Form.Item>
-              <Form.Item label="English Company" name="enCompany">
-                <Input />
-              </Form.Item>
               <Form.Item label="English University" name="enUniversity">
                 <Input />
               </Form.Item>
@@ -386,14 +385,14 @@ const Profile = () => {
                 name="enUniversityAbout"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input.TextArea style={{ minHeight: "120px" }} />
               </Form.Item>
               <Form.Item
                 label="English AboutMe"
                 name="enAboutMe"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input.TextArea style={{ minHeight: "120px" }} />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -432,9 +431,6 @@ const Profile = () => {
               >
                 <Input />
               </Form.Item>
-              <Form.Item label="Georgian Company" name="kaCompany">
-                <Input />
-              </Form.Item>
               <Form.Item label="Georgian University" name="kaUniversity">
                 <Input />
               </Form.Item>
@@ -443,14 +439,14 @@ const Profile = () => {
                 name="kaUniversityAbout"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input.TextArea style={{ minHeight: "120px" }} />
               </Form.Item>
               <Form.Item
                 label="Georgian AboutMe"
                 name="kaAboutMe"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <Input.TextArea style={{ minHeight: "120px" }} />
               </Form.Item>
             </Col>
           </Row>

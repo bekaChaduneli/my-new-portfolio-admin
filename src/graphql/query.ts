@@ -459,7 +459,7 @@ export const GET_POSTS = gql`
 export const GET_PROFILE = gql`
   query findFirstProfile {
     findFirstProfile {
-      Image
+      image
       age
       createdAt
       id
