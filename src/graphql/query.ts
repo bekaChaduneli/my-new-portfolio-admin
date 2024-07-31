@@ -457,84 +457,26 @@ export const GET_POSTS = gql`
 `;
 
 export const GET_PROFILE = gql`
-  query Profiles {
-    profiles {
-      Image
+  query findFirstProfile {
+    findFirstProfile {
+      image
       age
       createdAt
       id
       mail
       resume
       updatedAt
-      socials {
-        updatedAt
-        profileId
-        name
-        link
-        id
-        createdAt
-      }
       translations {
-        works {
-          workLogo
-          updatedAt
-          toDate
-          profileTranslationsId
-          id
-          fromDate
-          createdAt
-          translations {
-            workAbout
-            work
-            updatedAt
-            profileWorksId
-            position
-            languageCode
-            id
-            createdAt
-          }
-        }
         updatedAt
         universityAbout
         university
         surname
-        questions {
-          updatedAt
-          profileTranslationsId
-          id
-          createdAt
-          translations {
-            updatedAt
-            questionsId
-            question
-            languageCode
-            id
-            answer
-            createdAt
-          }
-        }
-        profileId
         profession
+        profileId
         name
-        location
         languageCode
+        location
         id
-        hobbys {
-          updatedAt
-          translations {
-            updatedAt
-            languageCode
-            id
-            hobbysId
-            hobby
-            aboutHobby
-            createdAt
-          }
-          profileTranslationsId
-          image
-          id
-          createdAt
-        }
         experience
         createdAt
         aboutMe
@@ -588,8 +530,8 @@ export const GET_SERVICES = gql`
 `;
 
 export const GET_SKILLS = gql`
-  query FindManySkills($orderBy: [SkillsInput!], $where: SkillsInput) {
-    findManySkills(orderBy: $orderBy, where: $where) {
+  query findManySkills {
+    findManySkills {
       updatedAt
       translations {
         updatedAt
