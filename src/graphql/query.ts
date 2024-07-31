@@ -567,7 +567,7 @@ export const GET_RECOMMENDATIONS = gql`
 `;
 
 export const GET_SERVICES = gql`
-  query FindManyServices {
+  query findManyServices {
     findManyServices {
       updatedAt
       order

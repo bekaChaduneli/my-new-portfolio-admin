@@ -271,15 +271,15 @@ export const UPDATE_RECOMMENDATIONS = gql`
 `;
 
 export const CREATE_SERVICES = gql`
-  mutation CreateServices($input: ServicesInput!) {
-    createServices(data: $input) {
+  mutation createOneServices($input: ServicesCreateInput!) {
+    createOneServices(data: $input) {
       id
     }
   }
 `;
 
 export const DELETE_SERVICES = gql`
-  mutation DeleteOneServices($id: IdInput!) {
+  mutation deleteOneServices($id: String!) {
     deleteOneServices(where: { id: $id }) {
       id
     }
@@ -287,8 +287,8 @@ export const DELETE_SERVICES = gql`
 `;
 
 export const UPDATE_SERVICES = gql`
-  mutation UpdateOneServices($data: ServicesInput!, $where: ServicesInput!) {
-    updateOneServices(data: $data, where: $where) {
+  mutation UpdateOneServices($data: ServicesUpdateInput!, $id: String!) {
+    updateOneServices(data: $data, where: { id: $id }) {
       id
     }
   }
