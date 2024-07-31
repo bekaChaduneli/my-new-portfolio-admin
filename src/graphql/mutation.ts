@@ -195,6 +195,30 @@ export const UPDATE_LINKEDIN = gql`
   }
 `;
 
+export const CREATE_POST = gql`
+  mutation createOnePosts($input: PostsCreateInput!) {
+    createOnePosts(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_POSTS = gql`
+  mutation DeleteOnePosts($id: String!) {
+    deleteOnePosts(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_POSTS = gql`
+  mutation UpdateOnePosts($data: PostsUpdateInput!, $id: String!) {
+    updateOnePosts(data: $data, where: { id: $id }) {
+      id
+    }
+  }
+`;
+
 export const CREATE_PROFILE = gql`
   mutation CreateProfile($input: ProfileInput!) {
     createProfile(data: $input) {
@@ -214,30 +238,6 @@ export const DELETE_PROFILE = gql`
 export const UPDATE_PROFILE = gql`
   mutation UpdateOneProfile($data: ProfileInput!, $where: ProfileInput!) {
     updateOneProfile(data: $data, where: $where) {
-      id
-    }
-  }
-`;
-
-export const CREATE_POST = gql`
-  mutation CreatePost($input: PostInput!) {
-    createPost(data: $input) {
-      id
-    }
-  }
-`;
-
-export const DELETE_POSTS = gql`
-  mutation DeleteOnePosts($id: IdInput!) {
-    deleteOnePosts(where: { id: $id }) {
-      id
-    }
-  }
-`;
-
-export const UPDATE_POSTS = gql`
-  mutation UpdateOnePosts($data: PostsInput!, $where: PostsInput!) {
-    updateOnePosts(data: $data, where: $where) {
       id
     }
   }

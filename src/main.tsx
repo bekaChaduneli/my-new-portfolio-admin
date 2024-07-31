@@ -19,6 +19,7 @@ import Recommendations from "@pages/Recommendations";
 import Services from "@pages/Services";
 import Skills from "@pages/Skills";
 import { Books } from "@pages/Books";
+import Posts from "@pages/Posts";
 
 const client = new ApolloClient({
   uri: import.meta.env.backendUrl || "http://localhost:8080/graphql",
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
       {
         path: "/linkedin",
         element: <Linkedin />,
+      },
+      {
+        path: "/posts",
+        element: <Posts />,
       },
       {
         path: "/profile",

@@ -10,54 +10,12 @@ export interface ILinkedinTranslation {
   updatedAt: string;
 }
 
-export interface IPostsTranslation {
-  id: string;
-  linkedinName: string;
-  languageCode: string;
-  description: string;
-  postsId: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface ITopSkillsTranslation {
-  id: string;
-  linkedinName: string;
-  languageCode: string;
-  name: string;
-  topSkillsId: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface IPosts {
-  id: string;
-  linkedinId: string;
-  image?: string;
-  likes: number;
-  commentsSum: number;
-  link: string;
-  translations: IPostsTranslation[];
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface ITopSkills {
-  id: string;
-  linkedinId: string;
-  translations: ITopSkillsTranslation[];
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface ILinkedin {
   id: string;
   image: string;
   banner: string;
   link: string;
   translations: ILinkedinTranslation[];
-  posts: IPosts[];
-  topSkills: ITopSkills[];
   createdAt: string;
   updatedAt: string;
 }

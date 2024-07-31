@@ -435,6 +435,30 @@ export const GET_LINKEDIN = gql`
   }
 `;
 
+export const GET_POSTS = gql`
+  query findManyPosts {
+    findManyPosts {
+      translations {
+        updatedAt
+        reatedAt
+        postsId
+        linkedinName
+        languageCode
+        id
+        description
+      }
+      updatedAt
+      linkedinId
+      link
+      image
+      likes
+      id
+      createdAt
+      commentsSum
+    }
+  }
+`;
+
 export const GET_PROFILE = gql`
   query Profiles {
     profiles {
