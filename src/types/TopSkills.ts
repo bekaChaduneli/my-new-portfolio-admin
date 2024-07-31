@@ -1,6 +1,5 @@
 export interface ITopSkillsTranslation {
   id: string;
-  linkedinName: string;
   languageCode: string;
   name: string;
   topSkillsId: string;

@@ -72,12 +72,10 @@ const Posts = () => {
                 data: [
                   {
                     description: values.enDescription,
-                    linkedinName: values.enLinkedinName,
                     languageCode: "en",
                   },
                   {
                     description: values.kaDescription,
-                    linkedinName: values.kaLinkedinName,
                     languageCode: "ka",
                   },
                 ],
@@ -110,14 +108,12 @@ const Posts = () => {
                   where: { languageCode: { equals: "en" } },
                   data: {
                     description: { set: values.enDescription },
-                    linkedinName: { set: values.enLinkedinName },
                   },
                 },
                 {
                   where: { languageCode: { equals: "ka" } },
                   data: {
                     description: { set: values.kaDescription },
-                    linkedinName: { set: values.kaLinkedinName },
                   },
                 },
               ],
@@ -151,9 +147,7 @@ const Posts = () => {
       likes: posts.likes.toString(),
       commentsSum: posts.commentsSum.toString(),
       enDescription: en?.description,
-      enLinkedinName: en?.linkedinName,
       kaDescription: ka?.description,
-      kaLinkedinName: ka?.linkedinName,
     };
     form.setFieldsValue(initialValues);
   };
@@ -190,6 +184,7 @@ const Posts = () => {
         title={currentPosts ? "Edit Post" : "Create Post"}
         visible={isModalVisible}
         onCancel={handleCancel}
+        width={1200}
         onOk={() => {
           form.validateFields().then((values) => {
             if (currentPosts) {
@@ -250,20 +245,6 @@ const Posts = () => {
           <Form.Item
             label="Georgian Description"
             name="kaDescription"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="English LinkedIn Name"
-            name="enLinkedinName"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Georgian LinkedIn Name"
-            name="kaLinkedinName"
             rules={[{ required: true }]}
           >
             <Input />
