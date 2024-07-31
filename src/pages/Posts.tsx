@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
+import { Button, List, Form, message, Modal, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { IPosts } from "../types/Posts";
 import { GET_POSTS } from "@graphql/query";
@@ -20,7 +20,6 @@ const Posts = () => {
       message.error(error.message);
     },
   });
-
   const handleDelete = (id: string) => {
     deleteOnePost({ variables: { id } });
   };
@@ -36,9 +35,8 @@ const Posts = () => {
     try {
       setLoadingImage(true);
       const result = await uploadToCloudinary(file);
-      const url = result.secure_url;
-      setImage(url);
-    } catch (error) {
+      setImage(result.secure_url);
+    } catch {
       message.error("Error uploading file.");
     } finally {
       setLoadingImage(false);
@@ -47,89 +45,91 @@ const Posts = () => {
 
   const [createOnePosts] = useMutation(CREATE_POST, {
     refetchQueries: [{ query: GET_POSTS }],
-    onCompleted: () => {
-      message.success("Posts created successfully!");
-    },
-    onError: (error) => {
-      message.error(error.message);
-    },
+    onCompleted: () => message.success("Post created successfully!"),
+    onError: (error) => message.error(error.message),
   });
 
   const [updateOnePosts] = useMutation(UPDATE_POSTS, {
     refetchQueries: [{ query: GET_POSTS }],
-    onCompleted: () => {
-      message.success("Posts updated successfully!");
-    },
-    onError: (error) => {
-      message.error(error.message);
-    },
+    onCompleted: () => message.success("Post updated successfully!"),
+    onError: (error) => message.error(error.message),
   });
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   const handleCreate = async (values: any) => {
-    console.log(values);
-    createOnePosts({
-      variables: {
-        input: {
-          image: image,
-          link: values.link,
-          likes: values.likes,
-          commentsSum: values.commentsSum,
-          translations: {
-            createMany: {
-              data: [
+    try {
+      await createOnePosts({
+        variables: {
+          input: {
+            image: image,
+            link: values.link,
+            likes: parseInt(values.likes),
+            commentsSum: parseInt(values.commentsSum),
+            translations: {
+              createMany: {
+                data: [
+                  {
+                    description: values.enDescription,
+                    linkedinName: values.enLinkedinName,
+                    languageCode: "en",
+                  },
+                  {
+                    description: values.kaDescription,
+                    linkedinName: values.kaLinkedinName,
+                    languageCode: "ka",
+                  },
+                ],
+              },
+            },
+            linkedin: { connect: { id: "1" } },
+          },
+        },
+      });
+      form.resetFields();
+      setIsModalVisible(false);
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
+  };
+
+  const handleUpdate = async (values: any) => {
+    try {
+      await updateOnePosts({
+        variables: {
+          id: currentPosts?.id,
+          data: {
+            image: { set: image },
+            link: { set: values.link },
+            likes: { set: parseInt(values.likes) },
+            commentsSum: { set: parseInt(values.commentsSum) },
+            translations: {
+              updateMany: [
                 {
-                  description: values?.enDescription,
-                  linkedinName: values?.enLinkedinName,
-                  languageCode: "en",
+                  where: { languageCode: { equals: "en" } },
+                  data: {
+                    description: { set: values.enDescription },
+                    linkedinName: { set: values.enLinkedinName },
+                  },
                 },
                 {
-                  description: values?.kaDescription,
-                  linkedinName: values?.kaLinkedinName,
-                  languageCode: "ka",
+                  where: { languageCode: { equals: "ka" } },
+                  data: {
+                    description: { set: values.kaDescription },
+                    linkedinName: { set: values.kaLinkedinName },
+                  },
                 },
               ],
             },
           },
-          linkedin: { connect: { id: "1" } },
         },
-      },
-    });
-  };
-
-  const handleUpdate = async (values: any) => {
-    console.log(values);
-    updateOnePosts({
-      variables: {
-        id: "1",
-        data: {
-          image: { set: image },
-          link: { set: values.link },
-          likes: { set: values.likes },
-          commentsSum: { set: values.commentsSum },
-          translations: {
-            updateMany: [
-              {
-                where: { languageCode: { equals: "en" } },
-                data: {
-                  description: { set: values.enDescription },
-                  linkedinName: { set: values.enLinkedinName },
-                },
-              },
-              {
-                where: { languageCode: { equals: "ka" } },
-                data: {
-                  description: { set: values.kaDescription },
-                  linkedinName: { set: values.kaLinkedinName },
-                },
-              },
-            ],
-          },
-        },
-      },
-    });
+      });
+      form.resetFields();
+      setIsModalVisible(false);
+    } catch (error) {
+      console.error("Error updating post:", error);
+    }
   };
 
   const handleCancel = () => {
@@ -143,27 +143,20 @@ const Posts = () => {
     setCurrentPosts(posts);
     setIsModalVisible(true);
 
-    const en = posts.translations.find(
-      (translation) => translation.languageCode === "en"
-    );
-    const ka = posts.translations.find(
-      (translation) => translation.languageCode === "ka"
-    );
+    const en = posts.translations.find((t) => t.languageCode === "en");
+    const ka = posts.translations.find((t) => t.languageCode === "ka");
 
     const initialValues = {
-      image: image,
       link: posts.link,
-      likes: posts.likes,
-      commentsSum: posts.commentsSum,
-      kaDescriptions: ka?.description,
-      enDescriptions: en?.description,
-      kaLinkedinName: ka?.linkedinName,
+      likes: posts.likes.toString(),
+      commentsSum: posts.commentsSum.toString(),
+      enDescription: en?.description,
       enLinkedinName: en?.linkedinName,
+      kaDescription: ka?.description,
+      kaLinkedinName: ka?.linkedinName,
     };
     form.setFieldsValue(initialValues);
   };
-
-  console.log(data?.findManyPosts);
 
   return (
     <div>
@@ -172,36 +165,31 @@ const Posts = () => {
         icon={<PlusOutlined />}
         onClick={() => setIsModalVisible(true)}
       >
-        Add New Posts
+        Add New Post
       </Button>
 
       <List
-        dataSource={data?.findManyPosts ? [data?.findManyPosts] : []}
-        renderItem={(posts: any, index: any) => (
+        dataSource={data?.findManyPosts || []}
+        renderItem={(posts: IPosts) => (
           <List.Item
             actions={[
               <Button type="link" onClick={() => handleEdit(posts)}>
                 Edit
               </Button>,
-              <Button
-                type="link"
-                danger
-                onClick={() => {
-                  console.log(posts.id);
-                  handleDelete(posts.id);
-                }}
-              >
+              <Button type="link" danger onClick={() => handleDelete(posts.id)}>
                 Delete
               </Button>,
             ]}
           >
-            <List.Item.Meta title={`Post ${index + 1}`} />
+            <List.Item.Meta title={posts.link} />
           </List.Item>
         )}
       />
 
       <Modal
-        title={currentPosts ? "Edit Posts" : "Create Posts"}
+        title={currentPosts ? "Edit Post" : "Create Post"}
+        visible={isModalVisible}
+        onCancel={handleCancel}
         onOk={() => {
           form.validateFields().then((values) => {
             if (currentPosts) {
@@ -209,21 +197,14 @@ const Posts = () => {
             } else {
               handleCreate(values);
             }
-            setIsModalVisible(false);
           });
         }}
-        visible={isModalVisible}
-        onCancel={handleCancel}
-        width={1200}
       >
         <Form
           form={form}
           layout="vertical"
           onFinish={currentPosts ? handleUpdate : handleCreate}
         >
-          <Form.Item label="Link" name="link" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
           <Form.Item label="Image">
             <Dragger
               name="file"
@@ -239,64 +220,54 @@ const Posts = () => {
               <p className="ant-upload-text">Click or drag to upload image</p>
             </Dragger>
             {image && (
-              <div style={{ marginTop: 10 }}>
-                <img
-                  src={image}
-                  alt={`image`}
-                  style={{ width: 100, height: 100, marginRight: 10 }}
-                />
-              </div>
+              <img
+                src={image}
+                alt="uploaded"
+                style={{ width: 100, height: 100, marginTop: 10 }}
+              />
             )}
           </Form.Item>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item label="Link" name="link" rules={[{ required: true }]}>
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="commentsSum"
-                name="commentsSum"
-                rules={[{ required: true }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="likes"
-                name="likes"
-                rules={[{ required: true }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="enDescription"
-                name="enDescription"
-                rules={[{ required: true }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="kaDescription"
-                name="kaDescription"
-                rules={[{ required: true }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="enLinkedinName"
-                name="enLinkedinName"
-                rules={[{ required: true }]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="kaLinkedinName"
-                name="kaLinkedinName"
-                rules={[{ required: true }]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
+          <Form.Item label="Link" name="link" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Comments Sum"
+            name="commentsSum"
+            rules={[{ required: true }]}
+          >
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item label="Likes" name="likes" rules={[{ required: true }]}>
+            <Input type="number" />
+          </Form.Item>
+          <Form.Item
+            label="English Description"
+            name="enDescription"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Georgian Description"
+            name="kaDescription"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="English LinkedIn Name"
+            name="enLinkedinName"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Georgian LinkedIn Name"
+            name="kaLinkedinName"
+            rules={[{ required: true }]}
+          >
+            <Input />
+          </Form.Item>
         </Form>
       </Modal>
     </div>

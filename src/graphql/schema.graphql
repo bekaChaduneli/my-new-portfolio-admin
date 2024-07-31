@@ -514,23 +514,24 @@ input PostsCreateManyInput {
 }
 
 input PostsCreateInput {
-  image: String
-  likes: String!
-  commentsSum: String!
+  image: String!
   link: String!
-  translations: PostsTranslationsCreateManyInput
-}
-
-input PostsUpdateManyInput {
-  update: [PostsUpdateInput!]
+  likes: Int!
+  commentsSum: Int!
+  translations: TranslationsCreateManyInput!
+  linkedin: LinkedInConnectInput!
 }
 
 input PostsUpdateInput {
   image: String
-  likes: String
-  commentsSum: String
   link: String
-  translations: PostsTranslationsUpdateManyInput
+  likes: Int
+  commentsSum: Int
+  translations: TranslationsUpdateManyInput
+}
+
+input PostsUpdateManyInput {
+  update: [PostsUpdateInput!]
 }
 
 input PostsTranslationsCreateManyInput {
@@ -541,7 +542,6 @@ input PostsTranslationsCreateInput {
   linkedinName: String!
   languageCode: String!
   description: String!
-  postsId: String!
 }
 
 input PostsTranslationsUpdateManyInput {
@@ -578,7 +578,6 @@ input TopSkillsTranslationsCreateInput {
   linkedinName: String!
   languageCode: String!
   name: String!
-  topSkillsId: String!
 }
 
 input TopSkillsTranslationsUpdateManyInput {
