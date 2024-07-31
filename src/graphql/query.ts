@@ -544,13 +544,13 @@ export const GET_PROFILE = gql`
 `;
 
 export const GET_RECOMMENDATIONS = gql`
-  query FindManyRecommendations {
+  query findManyRecommendations {
     findManyRecommendations {
+      createdAt
+      date
+      id
       updatedAt
       image
-      id
-      date
-      createdAt
       translations {
         updatedAt
         role

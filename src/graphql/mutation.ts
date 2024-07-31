@@ -244,15 +244,15 @@ export const UPDATE_PROFILE = gql`
 `;
 
 export const CREATE_RECOMMENDATION = gql`
-  mutation CreateRecommendation($input: RecommendationInput!) {
-    createRecommendation(data: $input) {
+  mutation createOneRecommendations($input: RecommendationsCreateInput!) {
+    createOneRecommendations(data: $input) {
       id
     }
   }
 `;
 
 export const DELETE_RECOMMENDATIONS = gql`
-  mutation DeleteOneRecommendations($id: IdInput!) {
+  mutation deleteOneRecommendations($id: String!) {
     deleteOneRecommendations(where: { id: $id }) {
       id
     }
@@ -261,10 +261,10 @@ export const DELETE_RECOMMENDATIONS = gql`
 
 export const UPDATE_RECOMMENDATIONS = gql`
   mutation UpdateOneRecommendations(
-    $data: RecommendationsInput!
-    $where: RecommendationsInput!
+    $data: RecommendationsUpdateInput!
+    $id: String!
   ) {
-    updateOneRecommendations(data: $data, where: $where) {
+    updateOneRecommendations(data: $data, where: { id: $id }) {
       id
     }
   }
