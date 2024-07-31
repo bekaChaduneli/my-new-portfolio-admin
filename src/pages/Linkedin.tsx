@@ -1,19 +1,8 @@
 import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import {
-  Button,
-  List,
-  Form,
-  message,
-  Modal,
-  Input,
-  Row,
-  Col,
-  Space,
-  Upload,
-} from "antd";
-import { PlusOutlined, MinusCircleOutlined } from "@ant-design/icons";
-import { ILinkedin, IPosts, ITopSkills } from "../types/Linkedin";
+import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { ILinkedin } from "../types/Linkedin";
 import {
   CREATE_LINKEDIN,
   DELETE_LINKEDIN,
@@ -100,6 +89,7 @@ const Linkedin = () => {
     createOneLinkedin({
       variables: {
         input: {
+          id: "1",
           image: image,
           banner: banner,
           link: values.link,
@@ -132,7 +122,7 @@ const Linkedin = () => {
     console.log(values);
     updateOneLinkedin({
       variables: {
-        id: currentLinkedin?.id,
+        id: "1",
         data: {
           image: { set: image },
           banner: { set: banner },
