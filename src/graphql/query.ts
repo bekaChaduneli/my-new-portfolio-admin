@@ -588,8 +588,8 @@ export const GET_SERVICES = gql`
 `;
 
 export const GET_SKILLS = gql`
-  query FindManySkills($orderBy: [SkillsInput!], $where: SkillsInput) {
-    findManySkills(orderBy: $orderBy, where: $where) {
+  query findManySkills {
+    findManySkills {
       updatedAt
       translations {
         updatedAt

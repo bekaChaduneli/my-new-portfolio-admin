@@ -295,15 +295,15 @@ export const UPDATE_SERVICES = gql`
 `;
 
 export const CREATE_SKILLS = gql`
-  mutation CreateSkills($input: SkillsInput!) {
-    createSkills(data: $input) {
+  mutation createOneSkills($input: SkillsCreateInput!) {
+    createOneSkills(data: $input) {
       id
     }
   }
 `;
 
 export const DELETE_SKILLS = gql`
-  mutation DeleteOneSkills($id: IdInput!) {
+  mutation deleteOneSkills($id: String!) {
     deleteOneSkills(where: { id: $id }) {
       id
     }
@@ -311,8 +311,8 @@ export const DELETE_SKILLS = gql`
 `;
 
 export const UPDATE_SKILLS = gql`
-  mutation UpdateOneSkills($data: SkillsInput!, $where: SkillsInput!) {
-    updateOneSkills(data: $data, where: $where) {
+  mutation updateOneSkills($data: SkillsUpdateInput!, $id: String!) {
+    updateOneSkills(data: $data, where: { id: $id }) {
       id
     }
   }
