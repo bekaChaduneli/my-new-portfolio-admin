@@ -1,6 +1,5 @@
 export interface IPostsTranslation {
   id: string;
-  linkedinName: string;
   languageCode: string;
   description: string;
   postsId: string;

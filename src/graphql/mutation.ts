@@ -319,15 +319,15 @@ export const UPDATE_SKILLS = gql`
 `;
 
 export const CREATE_TOPSKILL = gql`
-  mutation CreateTopSkill($input: TopSkillInput!) {
-    createTopSkill(data: $input) {
+  mutation createOneTopSkills($input: TopSkillsCreateInput!) {
+    createOneTopSkills(data: $input) {
       id
     }
   }
 `;
 
 export const DELETE_TOPSKILLS = gql`
-  mutation DeleteOneTopSkills($id: IdInput!) {
+  mutation deleteOneTopSkills($id: String!) {
     deleteOneTopSkills(where: { id: $id }) {
       id
     }
@@ -335,8 +335,8 @@ export const DELETE_TOPSKILLS = gql`
 `;
 
 export const UPDATE_TOPSKILLS = gql`
-  mutation UpdateOneTopSkills($data: TopSkillsInput!, $where: TopSkillsInput!) {
-    updateOneTopSkills(data: $data, where: $where) {
+  mutation updateOneTopSkills($data: TopSkillsUpdateInput!, $id: String!) {
+    updateOneTopSkills(data: $data, where: { id: $id }) {
       id
     }
   }

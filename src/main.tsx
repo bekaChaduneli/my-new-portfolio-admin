@@ -20,6 +20,7 @@ import Services from "@pages/Services";
 import Skills from "@pages/Skills";
 import { Books } from "@pages/Books";
 import Posts from "@pages/Posts";
+import TopSkills from "@pages/TopSkills";
 
 const client = new ApolloClient({
   uri: import.meta.env.backendUrl || "http://localhost:8080/graphql",
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: "/posts",
         element: <Posts />,
+      },
+      {
+        path: "/top-skills",
+        element: <TopSkills />,
       },
       {
         path: "/profile",

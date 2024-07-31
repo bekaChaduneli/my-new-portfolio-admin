@@ -398,7 +398,6 @@ export const GET_LINKEDIN = gql`
           description
           id
           languageCode
-          linkedinName
           postsId
           reatedAt
           updatedAt
@@ -413,7 +412,6 @@ export const GET_LINKEDIN = gql`
           id
           createdAt
           languageCode
-          linkedinName
           name
           topSkillsId
           updatedAt
@@ -442,7 +440,6 @@ export const GET_POSTS = gql`
         updatedAt
         reatedAt
         postsId
-        linkedinName
         languageCode
         id
         description
@@ -613,17 +610,16 @@ export const GET_SKILLS = gql`
 `;
 
 export const GET_TOPSKILLS = gql`
-  query FindManyTopSkills {
+  query findManyTopSkills {
     findManyTopSkills {
       updatedAt
+      linkedinId
       id
       createdAt
-      linkedinId
       translations {
         updatedAt
         topSkillsId
         name
-        linkedinName
         languageCode
         id
         createdAt

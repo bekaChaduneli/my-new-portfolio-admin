@@ -11,6 +11,7 @@ import {
   ToolOutlined,
   LinkedinOutlined,
   FileAddOutlined,
+  ToTopOutlined,
 } from "@ant-design/icons";
 
 export const menuItems = [
@@ -48,6 +49,11 @@ export const menuItems = [
     icon: <FileAddOutlined />,
     label: "Posts",
     href: "/posts",
+  },
+  {
+    icon: <ToTopOutlined />,
+    label: "Top Skills",
+    href: "/top-skills",
   },
   {
     icon: <ProjectOutlined />,

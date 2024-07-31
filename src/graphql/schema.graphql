@@ -419,7 +419,6 @@ type Posts {
 
 type PostsTranslations {
   id: ID!
-  linkedinName: String!
   languageCode: String!
   description: String!
   postsId: String!
@@ -439,7 +438,6 @@ type TopSkills {
 
 type TopSkillsTranslations {
   id: ID!
-  linkedinName: String!
   languageCode: String!
   name: String!
   topSkillsId: String!
@@ -539,7 +537,6 @@ input PostsTranslationsCreateManyInput {
 }
 
 input PostsTranslationsCreateInput {
-  linkedinName: String!
   languageCode: String!
   description: String!
 }
@@ -549,7 +546,6 @@ input PostsTranslationsUpdateManyInput {
 }
 
 input PostsTranslationsUpdateInput {
-  linkedinName: String
   languageCode: String
   description: String
 }
@@ -575,7 +571,6 @@ input TopSkillsTranslationsCreateManyInput {
 }
 
 input TopSkillsTranslationsCreateInput {
-  linkedinName: String!
   languageCode: String!
   name: String!
 }
@@ -585,7 +580,6 @@ input TopSkillsTranslationsUpdateManyInput {
 }
 
 input TopSkillsTranslationsUpdateInput {
-  linkedinName: String
   languageCode: String
   name: String
 }
