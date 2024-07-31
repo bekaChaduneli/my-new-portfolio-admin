@@ -21,6 +21,10 @@ const NewSideBar = ({
     <CustomSider trigger={null} collapsible collapsed={collapsed}>
       <CustomMenu
         mode="inline"
+        style={{
+          maxHeight: "88vh",
+          overflowY: "scroll",
+        }}
         selectedKeys={[location.pathname]}
         items={menuItems.map((item) => ({
           key: item.href,
