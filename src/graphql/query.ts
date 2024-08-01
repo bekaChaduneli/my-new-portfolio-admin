@@ -101,6 +101,32 @@ export const GET_WORKS = gql`
   }
 `;
 
+export const GET_EDUCATIONS = gql`
+  query findManyEducations {
+    findManyEducations {
+      updatedAt
+      translations {
+        name
+        updatedAt
+        languageCode
+        id
+        gpa
+        fieldOfStudy
+        educationsId
+        description
+        degree
+        createdAt
+      }
+      toDate
+      link
+      id
+      fromDate
+      createdAt
+      aboutMeId
+    }
+  }
+`;
+
 export const GET_ABOUTME = gql`
   query findFirstAboutMe {
     findFirstAboutMe {
