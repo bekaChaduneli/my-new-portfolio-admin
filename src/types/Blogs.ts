@@ -16,3 +16,14 @@ export interface IBlogTranslation {
 export interface IBlogsResponse {
   findManyBlogs: IBlog[];
 }
+
+export interface BlogsInitialValues {
+  link: string | undefined;
+  background: string | null;
+  enHeadline: string | undefined;
+  enAbout: string | undefined;
+  enMarkdown: string | undefined;
+  kaHeadline: string | undefined;
+  kaAbout: string | undefined;
+  kaMarkdown: string | undefined;
+}

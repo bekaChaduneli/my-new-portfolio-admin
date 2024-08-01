@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { IProfile } from "../types/Profile";
+import { IProfile, ProfileInitialValues } from "../types/Profile";
 import {
   CREATE_PROFILE,
   DELETE_PROFILE,
@@ -60,8 +60,6 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    console.log(data);
-    console.log(currentProfile);
     if (currentProfile) {
       currentProfile && setImage(currentProfile.image);
       currentProfile && setResume(currentProfile.resume);
@@ -94,8 +92,7 @@ const Profile = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
-    console.log(values);
+  const handleCreate = async (values: ProfileInitialValues) => {
     createOneProfile({
       variables: {
         input: {
@@ -137,8 +134,7 @@ const Profile = () => {
     });
   };
 
-  const handleUpdate = async (values: any) => {
-    console.log(values);
+  const handleUpdate = async (values: ProfileInitialValues) => {
     updateOneProfile({
       variables: {
         id: "1",
@@ -201,7 +197,7 @@ const Profile = () => {
       (translation) => translation.languageCode === "ka"
     );
 
-    const initialValues = {
+    const initialValues: ProfileInitialValues = {
       image: image,
       resume: resume,
       age: profile.age,
@@ -226,8 +222,6 @@ const Profile = () => {
     form.setFieldsValue(initialValues);
   };
 
-  console.log(data?.findFirstProfile);
-
   return (
     <div>
       {!data?.findFirstProfile && (
@@ -235,13 +229,16 @@ const Profile = () => {
           type="primary"
           icon={<PlusOutlined />}
           onClick={() => setIsModalVisible(true)}
+          style={{
+            maxWidth: "208px",
+          }}
         >
           Add New Profile
         </Button>
       )}
       <List
         dataSource={data?.findFirstProfile ? [data?.findFirstProfile] : []}
-        renderItem={(profile: any) => (
+        renderItem={(profile: IProfile) => (
           <List.Item
             actions={[
               <Button type="link" onClick={() => handleEdit(profile)}>
@@ -251,7 +248,6 @@ const Profile = () => {
                 type="link"
                 danger
                 onClick={() => {
-                  console.log(profile.id);
                   handleDelete(profile.id);
                 }}
               >
@@ -261,8 +257,7 @@ const Profile = () => {
           >
             <List.Item.Meta
               title={
-                profile.translations.find((t: any) => t.languageCode === "en")
-                  ?.name
+                profile.translations.find((t) => t.languageCode === "en")?.name
               }
             />
           </List.Item>

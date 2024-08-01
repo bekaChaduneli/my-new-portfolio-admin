@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { IWorks } from "../types/Works";
+import { IWorks, WorksInitialValues } from "../types/Works";
 import { GET_WORKS } from "@graphql/query";
 import { CREATE_WORK, DELETE_WORKS, UPDATE_WORKS } from "@graphql/mutation";
 
@@ -41,7 +41,7 @@ const Works = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
+  const handleCreate = async (values: WorksInitialValues) => {
     try {
       await createOneWorks({
         variables: {
@@ -84,7 +84,7 @@ const Works = () => {
     }
   };
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: WorksInitialValues) => {
     try {
       await updateOneWorks({
         variables: {
@@ -142,7 +142,7 @@ const Works = () => {
     const en = works.translations.find((t) => t.languageCode === "en");
     const ka = works.translations.find((t) => t.languageCode === "ka");
 
-    const initialValues = {
+    const initialValues: WorksInitialValues = {
       link: works.link,
       fromDate: works.fromDate,
       toDate: works.toDate,
@@ -168,6 +168,9 @@ const Works = () => {
         type="primary"
         icon={<PlusOutlined />}
         onClick={() => setIsModalVisible(true)}
+        style={{
+          maxWidth: "208px",
+        }}
       >
         Add New Work
       </Button>
@@ -187,8 +190,7 @@ const Works = () => {
           >
             <List.Item.Meta
               title={
-                works.translations.find((t: any) => t.languageCode === "en")
-                  ?.company
+                works.translations.find((t) => t.languageCode === "en")?.company
               }
             />
           </List.Item>

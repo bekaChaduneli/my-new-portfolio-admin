@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { ILinkedin } from "../types/Linkedin";
+import { ILinkedin, LinkedinInitialValues } from "../types/Linkedin";
 import {
   CREATE_LINKEDIN,
   DELETE_LINKEDIN,
@@ -61,6 +61,15 @@ const Linkedin = () => {
     }
   };
 
+  useEffect(() => {
+    if (currentLinkedin) {
+      currentLinkedin && setImage(currentLinkedin.image);
+      currentLinkedin && setBanner(currentLinkedin.banner);
+    } else {
+      setImage(null);
+    }
+  }, [currentLinkedin]);
+
   const [createOneLinkedin] = useMutation(CREATE_LINKEDIN, {
     refetchQueries: [{ query: GET_LINKEDIN }],
     onCompleted: () => {
@@ -84,8 +93,7 @@ const Linkedin = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
-    console.log(values);
+  const handleCreate = async (values: LinkedinInitialValues) => {
     createOneLinkedin({
       variables: {
         input: {
@@ -118,8 +126,7 @@ const Linkedin = () => {
     });
   };
 
-  const handleUpdate = async (values: any) => {
-    console.log(values);
+  const handleUpdate = async (values: LinkedinInitialValues) => {
     updateOneLinkedin({
       variables: {
         id: "1",
@@ -173,7 +180,7 @@ const Linkedin = () => {
       (translation) => translation.languageCode === "ka"
     );
 
-    const initialValues = {
+    const initialValues: LinkedinInitialValues = {
       image: image,
       banner: banner,
       link: linkedin.link,
@@ -189,8 +196,6 @@ const Linkedin = () => {
     form.setFieldsValue(initialValues);
   };
 
-  console.log(data?.findFirstLinkedin);
-
   return (
     <div>
       {!data?.findFirstLinkedin && (
@@ -198,13 +203,16 @@ const Linkedin = () => {
           type="primary"
           icon={<PlusOutlined />}
           onClick={() => setIsModalVisible(true)}
+          style={{
+            maxWidth: "208px",
+          }}
         >
           Add New Linkedin
         </Button>
       )}
       <List
         dataSource={data?.findFirstLinkedin ? [data?.findFirstLinkedin] : []}
-        renderItem={(linkedin: any) => (
+        renderItem={(linkedin: ILinkedin) => (
           <List.Item
             actions={[
               <Button type="link" onClick={() => handleEdit(linkedin)}>
@@ -214,7 +222,6 @@ const Linkedin = () => {
                 type="link"
                 danger
                 onClick={() => {
-                  console.log(linkedin.id);
                   handleDelete(linkedin.id);
                 }}
               >
@@ -223,17 +230,8 @@ const Linkedin = () => {
             ]}
           >
             <List.Item.Meta
-              title={linkedin.link}
-              description={
-                <>
-                  <div>
-                    {
-                      linkedin.translations.find(
-                        (t: any) => t.languageCode === "en"
-                      )?.name
-                    }
-                  </div>
-                </>
+              title={
+                linkedin.translations.find((t) => t.languageCode === "en")?.name
               }
             />
           </List.Item>
@@ -261,9 +259,6 @@ const Linkedin = () => {
           layout="vertical"
           onFinish={currentLinkedin ? handleUpdate : handleCreate}
         >
-          <Form.Item label="Link" name="link" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
           <Form.Item label="Image">
             <Dragger
               name="file"
@@ -288,6 +283,7 @@ const Linkedin = () => {
               </div>
             )}
           </Form.Item>
+
           <Form.Item label="Banner">
             <Dragger
               name="file"
@@ -311,6 +307,9 @@ const Linkedin = () => {
                 />
               </div>
             )}
+          </Form.Item>
+          <Form.Item label="Link" name="link" rules={[{ required: true }]}>
+            <Input />
           </Form.Item>
           <Row gutter={16}>
             <Col span={12}>

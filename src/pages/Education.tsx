@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { IEducations } from "../types/Educations";
+import { EducationsInitialValues, IEducations } from "../types/Educations";
 import { GET_EDUCATIONS } from "@graphql/query";
 import {
   CREATE_EDUCATION,
@@ -46,7 +46,7 @@ const Educations = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
+  const handleCreate = async (values: EducationsInitialValues) => {
     try {
       await createOneEducations({
         variables: {
@@ -87,7 +87,7 @@ const Educations = () => {
     }
   };
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: EducationsInitialValues) => {
     try {
       await updateOneEducations({
         variables: {
@@ -143,7 +143,7 @@ const Educations = () => {
     const en = educations.translations.find((t) => t.languageCode === "en");
     const ka = educations.translations.find((t) => t.languageCode === "ka");
 
-    const initialValues = {
+    const initialValues: EducationsInitialValues = {
       link: educations.link,
       fromDate: educations.fromDate,
       toDate: educations.toDate,
@@ -167,6 +167,9 @@ const Educations = () => {
         type="primary"
         icon={<PlusOutlined />}
         onClick={() => setIsModalVisible(true)}
+        style={{
+          maxWidth: "208px",
+        }}
       >
         Add New Education
       </Button>
@@ -190,9 +193,8 @@ const Educations = () => {
           >
             <List.Item.Meta
               title={
-                educations.translations.find(
-                  (t: any) => t.languageCode === "en"
-                )?.name
+                educations.translations.find((t) => t.languageCode === "en")
+                  ?.name
               }
             />
           </List.Item>

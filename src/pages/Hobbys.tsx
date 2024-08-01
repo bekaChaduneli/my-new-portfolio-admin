@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { Button, List, Form, message, Modal, Input } from "antd";
+import { Button, List, Form, message, Modal, Input, Col, Row } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { IHobbys } from "../types/Hobbys";
+import { HobbysInitialValues, IHobbys } from "../types/Hobbys";
 import { GET_HOBBYS } from "@graphql/query";
 import { CREATE_HOBBY, DELETE_HOBBYS, UPDATE_HOBBYS } from "@graphql/mutation";
 import { uploadToCloudinary } from "../services/cloudinaryService";
@@ -42,6 +42,14 @@ const Hobbys = () => {
     }
   };
 
+  useEffect(() => {
+    if (currentHobbys) {
+      currentHobbys && setImage(currentHobbys.image);
+    } else {
+      setImage(null);
+    }
+  }, [currentHobbys]);
+
   const [createOneHobbys] = useMutation(CREATE_HOBBY, {
     refetchQueries: [{ query: GET_HOBBYS }],
     onCompleted: () => message.success("Hobby created successfully!"),
@@ -57,7 +65,7 @@ const Hobbys = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
+  const handleCreate = async (values: HobbysInitialValues) => {
     try {
       await createOneHobbys({
         variables: {
@@ -90,7 +98,7 @@ const Hobbys = () => {
     }
   };
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: HobbysInitialValues) => {
     try {
       await updateOneHobbys({
         variables: {
@@ -154,6 +162,9 @@ const Hobbys = () => {
         type="primary"
         icon={<PlusOutlined />}
         onClick={() => setIsModalVisible(true)}
+        style={{
+          maxWidth: "208px",
+        }}
       >
         Add New Hobby
       </Button>
@@ -177,8 +188,7 @@ const Hobbys = () => {
           >
             <List.Item.Meta
               title={
-                hobbys.translations.find((t: any) => t.languageCode === "en")
-                  ?.hobby
+                hobbys.translations.find((t) => t.languageCode === "en")?.hobby
               }
             />
           </List.Item>
@@ -227,35 +237,41 @@ const Hobbys = () => {
               />
             )}
           </Form.Item>
-          <Form.Item
-            label="English Hobby"
-            name="enHobby"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Georgian Hobby"
-            name="kaHobby"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="English Hobby"
+                name="enHobby"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="English Hobby About"
+                name="enAboutHobby"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label="Georgian Hobby"
+                name="kaHobby"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
 
-          <Form.Item
-            label="English Hobby About"
-            name="enAboutHobby"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Georgian Hobby About"
-            name="kaAboutHobby"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
+              <Form.Item
+                label="Georgian Hobby About"
+                name="kaAboutHobby"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     </div>

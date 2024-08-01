@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_BOOKS } from "@graphql/query";
-import { Button, List, Form, message, Modal, Input } from "antd";
-import { IBook, IBooksResponse, IBookTranslation } from "../types/Books";
+import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
+import {
+  BooksInitialValues,
+  IBook,
+  IBooksResponse,
+  IBookTranslation,
+} from "../types/Books";
 import { CREATE_BOOK, DELETE_BOOKS, UPDATE_BOOK } from "@graphql/mutation";
-import { FileUpload } from "@components/FileUpload";
+import { PlusOutlined } from "@ant-design/icons";
 import { uploadToCloudinary } from "../services/cloudinaryService";
+import Dragger from "antd/es/upload/Dragger";
 
 export const Books = () => {
   const { data, loading, error } = useQuery<IBooksResponse>(GET_BOOKS);
@@ -24,7 +30,28 @@ export const Books = () => {
   const [value, setValue] = useState<string>("");
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [loadingImage, setLoadingImage] = useState<boolean>(false);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [image, setImage] = useState<string | null>(null);
+
+  const handleFileUpload = async (file: File) => {
+    try {
+      setLoadingImage(true);
+      const result = await uploadToCloudinary(file);
+      const url = result.secure_url;
+      setImage(url);
+    } catch (error) {
+      message.error("Error uploading file.");
+    } finally {
+      setLoadingImage(false);
+    }
+  };
+
+  useEffect(() => {
+    if (currentBook) {
+      currentBook && setImage(currentBook.image);
+    } else {
+      setImage(null);
+    }
+  }, [currentBook]);
 
   const [createOneBooks] = useMutation(CREATE_BOOK, {
     refetchQueries: [{ query: GET_BOOKS }],
@@ -55,21 +82,7 @@ export const Books = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const handleImageUpload = async (file: File) => {
-    try {
-      setLoadingImage(true);
-      const result = await uploadToCloudinary(file);
-      setImageUrl(result.secure_url);
-      form.setFieldsValue({ image: result.secure_url });
-    } catch (error) {
-      message.error("Error uploading image.");
-    } finally {
-      setLoadingImage(false);
-    }
-  };
-
-  const handleCreate = (values: any) => {
-    console.log(values);
+  const handleCreate = (values: BooksInitialValues) => {
     createOneBooks({
       variables: {
         data: {
@@ -77,7 +90,7 @@ export const Books = () => {
           pages: values.pages,
           readedPages: values.readedPages,
           type: values.type,
-          image: values.image,
+          image: image,
           link: values.link,
           finished: values.finished,
           translations: {
@@ -101,9 +114,12 @@ export const Books = () => {
         },
       },
     });
+    form.resetFields();
+    setCurrentBook(null);
+    setIsModalVisible(false);
   };
 
-  const handleUpdate = (values: any) => {
+  const handleUpdate = (values: BooksInitialValues) => {
     updateOneBooks({
       variables: {
         id: currentBook?.id,
@@ -112,7 +128,7 @@ export const Books = () => {
           pages: { set: values.pages },
           readedPages: { set: values.readedPages },
           type: { set: values.type },
-          image: { set: values.image },
+          image: { set: image },
           link: { set: values.link },
           finished: { set: values.finished },
           translations: {
@@ -138,13 +154,16 @@ export const Books = () => {
         },
       },
     });
+    form.resetFields();
+    setCurrentBook(null);
+    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
     setCurrentBook(null);
     form.resetFields();
     setValue("");
-    setImageUrl(null);
+    setImage(null);
     setIsModalVisible(false);
   };
 
@@ -159,9 +178,9 @@ export const Books = () => {
       (translation: IBookTranslation) => translation.languageCode === "ka"
     );
 
-    const initialValues = {
+    const initialValues: BooksInitialValues = {
       id: book.id,
-      image: book.image,
+      image: image,
       link: book.link,
       pages: book.pages,
       readedPages: book.readedPages,
@@ -176,7 +195,6 @@ export const Books = () => {
     };
 
     form.setFieldsValue(initialValues);
-    setValue(en?.description || "");
   };
 
   const handleDelete = (id: string) => {
@@ -187,15 +205,13 @@ export const Books = () => {
     <div>
       <Button
         type="primary"
-        onClick={() => {
-          setCurrentBook(null);
-          form.resetFields();
-          setValue("");
-          setImageUrl(null);
-          setIsModalVisible(true);
+        icon={<PlusOutlined />}
+        onClick={() => setIsModalVisible(true)}
+        style={{
+          maxWidth: "208px",
         }}
       >
-        Add Book
+        Add New Book
       </Button>
       <List
         dataSource={data?.findManyBooks}
@@ -214,21 +230,50 @@ export const Books = () => {
           </List.Item>
         )}
       />
-      <Modal visible={isModalVisible} onCancel={handleCancel} footer={null}>
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={(values) => {
+      <Modal
+        title={currentBook ? "Edit Book" : "Create Book"}
+        onOk={() => {
+          form.validateFields().then((values) => {
             if (currentBook) {
               handleUpdate(values);
             } else {
               handleCreate(values);
             }
-            handleCancel();
-          }}
+            setIsModalVisible(false);
+          });
+        }}
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        width={1200}
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={currentBook ? handleUpdate : handleCreate}
         >
-          <Form.Item label="Image" name="image">
-            <FileUpload onUpload={handleImageUpload} />
+          <Form.Item label="Image">
+            <Dragger
+              name="file"
+              customRequest={({ file, onSuccess }) => {
+                handleFileUpload(file as File);
+                onSuccess?.({});
+              }}
+              showUploadList={false}
+            >
+              <p className="ant-upload-drag-icon">
+                <PlusOutlined />
+              </p>
+              <p className="ant-upload-text">Click or drag to upload image</p>
+            </Dragger>
+            {image && (
+              <div style={{ marginTop: 10 }}>
+                <img
+                  src={image}
+                  alt={`image`}
+                  style={{ width: 100, height: 100, marginRight: 10 }}
+                />
+              </div>
+            )}
           </Form.Item>
           <Form.Item label="Link" name="link">
             <Input />
@@ -248,29 +293,30 @@ export const Books = () => {
           <Form.Item label="Finished" name="finished" valuePropName="checked">
             <Input type="checkbox" />
           </Form.Item>
-          <Form.Item label="English Title" name="enTitle">
-            <Input />
-          </Form.Item>
-          <Form.Item label="English Description" name="enDescription">
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item label="English Author" name="enAuthor">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Georgian Title" name="kaTitle">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Georgian Description" name="kaDescription">
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item label="Georgian Author" name="kaAuthor">
-            <Input />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="English Title" name="enTitle">
+                <Input />
+              </Form.Item>
+              <Form.Item label="English Description" name="enDescription">
+                <Input.TextArea />
+              </Form.Item>
+              <Form.Item label="English Author" name="enAuthor">
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Georgian Title" name="kaTitle">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Georgian Description" name="kaDescription">
+                <Input.TextArea />
+              </Form.Item>
+              <Form.Item label="Georgian Author" name="kaAuthor">
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     </div>

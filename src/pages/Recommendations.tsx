@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { Button, List, Form, message, Modal, Input } from "antd";
+import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { IRecommendations } from "../types/Recommednations";
+import {
+  IRecommendations,
+  RecommendationsInitialValues,
+} from "../types/Recommednations";
 import { GET_RECOMMENDATIONS } from "@graphql/query";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import Dragger from "antd/es/upload/Dragger";
@@ -49,8 +52,6 @@ const Recommendations = () => {
 
   const { data, loading, error } = useQuery(GET_RECOMMENDATIONS);
   useEffect(() => {
-    console.log(data);
-    console.log(currentRecommendations);
     if (currentRecommendations) {
       currentRecommendations && setImage(currentRecommendations.image);
     } else {
@@ -72,7 +73,7 @@ const Recommendations = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
+  const handleCreate = async (values: RecommendationsInitialValues) => {
     try {
       await createOneRecommendations({
         variables: {
@@ -109,7 +110,7 @@ const Recommendations = () => {
     }
   };
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: RecommendationsInitialValues) => {
     try {
       await updateOneRecommendations({
         variables: {
@@ -167,7 +168,7 @@ const Recommendations = () => {
       (t) => t.languageCode === "ka"
     );
 
-    const initialValues = {
+    const initialValues: RecommendationsInitialValues = {
       date: recommendations?.date,
       enDescription: en?.description,
       enName: en?.name,
@@ -187,6 +188,9 @@ const Recommendations = () => {
         type="primary"
         icon={<PlusOutlined />}
         onClick={() => setIsModalVisible(true)}
+        style={{
+          maxWidth: "208px",
+        }}
       >
         Add New Recommendation
       </Button>
@@ -211,7 +215,7 @@ const Recommendations = () => {
             <List.Item.Meta
               title={
                 recommendations.translations.find(
-                  (t: any) => t.languageCode === "en"
+                  (t) => t.languageCode === "en"
                 )?.name
               }
             />
@@ -268,62 +272,71 @@ const Recommendations = () => {
           <Form.Item label="Date" name="date" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item
-            label="English Name"
-            name="enName"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Georgian Name"
-            name="kaName"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="English Bio"
-            name="enBio"
-            rules={[{ required: true }]}
-          >
-            <Input type="text" />
-          </Form.Item>
-          <Form.Item
-            label="Georgian Bio"
-            name="kaBio"
-            rules={[{ required: true }]}
-          >
-            <Input type="text" />
-          </Form.Item>
-          <Form.Item
-            label="English Role"
-            name="enRole"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Georgian Role"
-            name="kaRole"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="English Description"
-            name="enDescription"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Georgian Description"
-            name="kaDescription"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="English Name"
+                name="enName"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="English Bio"
+                name="enBio"
+                rules={[{ required: true }]}
+              >
+                <Input type="text" />
+              </Form.Item>
+              <Form.Item
+                label="English Role"
+                name="enRole"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="English Description"
+                name="enDescription"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label="Georgian Name"
+                name="kaName"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Georgian Bio"
+                name="kaBio"
+                rules={[{ required: true }]}
+              >
+                <Input type="text" />
+              </Form.Item>
+
+              <Form.Item
+                label="Georgian Role"
+                name="kaRole"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Georgian Description"
+                name="kaDescription"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     </div>

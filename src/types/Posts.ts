@@ -22,3 +22,11 @@ export interface IPosts {
 export interface IPostsResponse {
   findManyPosts: IPosts;
 }
+
+export interface PostsInitialValues {
+  link: string | undefined;
+  likes: string;
+  commentsSum: string;
+  enDescription: string | undefined;
+  kaDescription: string | undefined;
+}

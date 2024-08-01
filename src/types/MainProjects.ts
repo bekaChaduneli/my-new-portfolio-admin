@@ -24,3 +24,23 @@ export interface IMainProjects {
 export interface IMainProjectsResponse {
   findManyMainProjects: IMainProjects[];
 }
+
+export interface MainProjectsInitialValues {
+  link: string | undefined;
+  github: string | undefined;
+  background: string | null;
+  isReal: boolean;
+  images: string[] | null;
+  video: string[] | null;
+  mobileBackgrounds: string[] | null;
+  enName: string | undefined;
+  enDescription: string | undefined;
+  enMarkdown: string | undefined;
+  enAbout: string | undefined;
+  enLocation: string | undefined;
+  kaName: string | undefined;
+  kaDescription: string | undefined;
+  kaMarkdown: string | undefined;
+  kaAbout: string | undefined;
+  kaLocation: string | undefined;
+}

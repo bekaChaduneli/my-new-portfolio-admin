@@ -20,3 +20,10 @@ export interface IHobbys {
 export interface IHobbysResponse {
   findManyHobbys: IHobbys;
 }
+
+export interface HobbysInitialValues {
+  enHobby: string | undefined;
+  kaHobby: string | undefined;
+  enAboutHobby: string | undefined;
+  kaAboutHobby: string | undefined;
+}

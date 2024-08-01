@@ -1,11 +1,26 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
-import { Button, List, Form, message, Modal, Input, Tag, Upload } from "antd";
+import {
+  Button,
+  List,
+  Form,
+  message,
+  Modal,
+  Input,
+  Tag,
+  Upload,
+  Row,
+  Col,
+} from "antd";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { PlusOutlined } from "@ant-design/icons";
 
-import { IMainProjects, IMainProjectsResponse } from "../types/MainProjects";
+import {
+  IMainProjects,
+  IMainProjectsResponse,
+  MainProjectsInitialValues,
+} from "../types/MainProjects";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import { GET_MAINPROJECTS } from "@graphql/query";
 import {
@@ -98,8 +113,7 @@ const MainProjectsPage: React.FC = () => {
       setLoadingImage(false);
     }
   };
-  const handleCreate = (values: any) => {
-    console.log("Form Values:", values);
+  const handleCreate = (values: MainProjectsInitialValues) => {
     createOneMainProjects({
       variables: {
         input: {
@@ -136,7 +150,7 @@ const MainProjectsPage: React.FC = () => {
     });
   };
 
-  const handleUpdate = (values: any) => {
+  const handleUpdate = (values: MainProjectsInitialValues) => {
     updateOneMainProjects({
       variables: {
         id: currentProject?.id,
@@ -204,7 +218,7 @@ const MainProjectsPage: React.FC = () => {
       (translation) => translation.languageCode === "ka"
     );
 
-    const initialValues = {
+    const initialValues: MainProjectsInitialValues = {
       link: project.link,
       github: project.github,
       background: project.background || "",
@@ -273,7 +287,7 @@ const MainProjectsPage: React.FC = () => {
               </Button>,
             ]}
           >
-            <List.Item.Meta title={project.link} description={project.github} />
+            <List.Item.Meta title={project.link} />
           </List.Item>
         )}
       />
@@ -413,38 +427,42 @@ const MainProjectsPage: React.FC = () => {
               </Tag>
             ))}
           </Form.Item>
-
-          <Form.Item label="English Name" name="enName">
-            <Input />
-          </Form.Item>
-          <Form.Item label="English Description" name="enDescription">
-            <Input />
-          </Form.Item>
-          <Form.Item label="English Markdown" name="enMarkdown">
-            <StyledReactQuill />
-          </Form.Item>
-          <Form.Item label="English About" name="enAbout">
-            <Input />
-          </Form.Item>
-          <Form.Item label="English Location" name="enLocation">
-            <Input />
-          </Form.Item>
-
-          <Form.Item label="Georgian Name" name="kaName">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Georgian Description" name="kaDescription">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Georgian Markdown" name="kaMarkdown">
-            <StyledReactQuill />
-          </Form.Item>
-          <Form.Item label="Georgian About" name="kaAbout">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Georgian Location" name="kaLocation">
-            <Input />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="English Name" name="enName">
+                <Input />
+              </Form.Item>
+              <Form.Item label="English Description" name="enDescription">
+                <Input />
+              </Form.Item>
+              <Form.Item label="English Markdown" name="enMarkdown">
+                <StyledReactQuill />
+              </Form.Item>
+              <Form.Item label="English About" name="enAbout">
+                <Input />
+              </Form.Item>
+              <Form.Item label="English Location" name="enLocation">
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Georgian Name" name="kaName">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Georgian Description" name="kaDescription">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Georgian Markdown" name="kaMarkdown">
+                <StyledReactQuill />
+              </Form.Item>
+              <Form.Item label="Georgian About" name="kaAbout">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Georgian Location" name="kaLocation">
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     </div>

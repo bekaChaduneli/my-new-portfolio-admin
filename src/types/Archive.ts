@@ -20,3 +20,16 @@ export interface IArchive {
 export interface IArchivesResponse {
   archives: IArchive[];
 }
+
+export interface ArchiveInitialValues {
+  link: string | undefined;
+  github: string | undefined;
+  background: string | null;
+  isReal: boolean;
+  enName: string | undefined;
+  enDescription: string | undefined;
+  enLocation: string | undefined;
+  kaName: string | undefined;
+  kaDescription: string | undefined;
+  kaLocation: string | undefined;
+}

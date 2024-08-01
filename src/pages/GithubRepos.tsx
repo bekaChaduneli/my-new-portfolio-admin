@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { Button, List, Form, message, Modal, Input } from "antd";
-import { IGithubRepo, IGithubRepoTranslation } from "../types/GithubRepos";
+import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
+import {
+  GithubReposInitialValues,
+  IGithubRepo,
+  IGithubRepoTranslation,
+} from "../types/GithubRepos";
 import {
   CREATE_GITHUBREPO,
   DELETE_GITHUBREPOS,
@@ -54,8 +58,7 @@ const GithubRepos = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const handleCreate = (values: any) => {
-    console.log(values);
+  const handleCreate = (values: GithubReposInitialValues) => {
     createGithubRepo({
       variables: {
         input: {
@@ -83,7 +86,7 @@ const GithubRepos = () => {
     });
   };
 
-  const handleUpdate = (values: any) => {
+  const handleUpdate = (values: GithubReposInitialValues) => {
     updateGithubRepo({
       variables: {
         id: currentRepo?.id,
@@ -131,7 +134,7 @@ const GithubRepos = () => {
       (translation: IGithubRepoTranslation) => translation.languageCode === "ka"
     );
 
-    const initialValues = {
+    const initialValues: GithubReposInitialValues = {
       link: repo.link,
       stars: repo.stars,
       language: repo.language,
@@ -177,7 +180,12 @@ const GithubRepos = () => {
           </List.Item>
         )}
       />
-      <Modal visible={isModalVisible} onCancel={handleCancel} footer={null}>
+      <Modal
+        width={1200}
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+      >
         <Form
           form={form}
           layout="vertical"
@@ -199,23 +207,32 @@ const GithubRepos = () => {
           <Form.Item label="Language" name="language">
             <Input />
           </Form.Item>
-          <Form.Item label="English Title" name="enTitle">
-            <Input />
-          </Form.Item>
-          <Form.Item label="English Description" name="enDescription">
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item label="Georgian Language Title" name="kaTitle">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Georgian Language Description" name="kaDescription">
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="English Title" name="enTitle">
+                <Input />
+              </Form.Item>
+              <Form.Item label="English Description" name="enDescription">
+                <Input.TextArea />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Georgian Language Title" name="kaTitle">
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Georgian Language Description"
+                name="kaDescription"
+              >
+                <Input.TextArea />
+              </Form.Item>
+            </Col>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Row>
         </Form>
       </Modal>
     </div>

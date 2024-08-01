@@ -25,3 +25,19 @@ export interface IEducations {
 export interface IEducationsResponse {
   findManyEducations: IEducations;
 }
+
+export interface EducationsInitialValues {
+  link: string | undefined;
+  fromDate: string | undefined;
+  toDate: string | undefined;
+  enName: string | undefined;
+  kaName: string | undefined;
+  enDegree: string | undefined;
+  kaDegree: string | undefined;
+  enFieldOfStudy: string | undefined;
+  kaFieldOfStudy: string | undefined;
+  enGpa: string | undefined;
+  kaGpa: string | undefined;
+  enDescription: string | undefined;
+  kaDescription: string | undefined;
+}

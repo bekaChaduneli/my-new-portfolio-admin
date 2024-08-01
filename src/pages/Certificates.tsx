@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { ICertificates } from "../types/Certificates";
+import {
+  CertificatesInitialValues,
+  ICertificates,
+} from "../types/Certificates";
 import { GET_CERTIFICATES } from "@graphql/query";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import Dragger from "antd/es/upload/Dragger";
@@ -71,7 +74,7 @@ const Certificates = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
+  const handleCreate = async (values: CertificatesInitialValues) => {
     try {
       await createOneCertificates({
         variables: {
@@ -110,7 +113,7 @@ const Certificates = () => {
     }
   };
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: CertificatesInitialValues) => {
     try {
       await updateOneCertificates({
         variables: {
@@ -165,14 +168,14 @@ const Certificates = () => {
     const en = certificates.translations.find((t) => t.languageCode === "en");
     const ka = certificates.translations.find((t) => t.languageCode === "ka");
 
-    const initialValues = {
+    const initialValues: CertificatesInitialValues = {
       link: certificates.link,
       issueDate: certificates.issueDate,
       expirationDate: certificates.expirationDate,
       enName: en?.name,
       kaName: ka?.name,
-      enOrganization: en?.organization,
-      kaOrganization: ka?.organization,
+      enOrganization: en?.organiation,
+      kaOrganization: ka?.organiation,
       enDescription: en?.description,
       kaDescription: ka?.description,
     };
@@ -185,6 +188,9 @@ const Certificates = () => {
         type="primary"
         icon={<PlusOutlined />}
         onClick={() => setIsModalVisible(true)}
+        style={{
+          maxWidth: "208px",
+        }}
       >
         Add New Certificate
       </Button>
@@ -208,9 +214,8 @@ const Certificates = () => {
           >
             <List.Item.Meta
               title={
-                certificates.translations.find(
-                  (t: any) => t.languageCode === "en"
-                )?.name
+                certificates.translations.find((t) => t.languageCode === "en")
+                  ?.name
               }
             />
           </List.Item>

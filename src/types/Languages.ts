@@ -20,3 +20,12 @@ export interface ILanguages {
 export interface ILanguagesResponse {
   findManyLanguages: ILanguages;
 }
+
+export interface LanguagesInitialValues {
+  enName: string | undefined;
+  kaName: string | undefined;
+  enLevel: string | undefined;
+  kaLevel: string | undefined;
+  enDescription: string | undefined;
+  kaDescription: string | undefined;
+}

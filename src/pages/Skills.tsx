@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { Button, List, Form, message, Modal, Input } from "antd";
+import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { ISkills } from "../types/Skills";
+import { ISkills, SkillsInitialValues } from "../types/Skills";
 import { GET_SKILLS } from "@graphql/query";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import Dragger from "antd/es/upload/Dragger";
@@ -65,7 +65,7 @@ const Skills = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
+  const handleCreate = async (values: SkillsInitialValues) => {
     try {
       await createOneSkills({
         variables: {
@@ -99,7 +99,7 @@ const Skills = () => {
     }
   };
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: SkillsInitialValues) => {
     try {
       await updateOneSkills({
         variables: {
@@ -150,7 +150,7 @@ const Skills = () => {
     const en = skills.translations.find((t) => t.languageCode === "en");
     const ka = skills.translations.find((t) => t.languageCode === "ka");
 
-    const initialValues = {
+    const initialValues: SkillsInitialValues = {
       link: skills?.link,
       color: skills?.color,
       enName: en?.name,
@@ -167,6 +167,9 @@ const Skills = () => {
         type="primary"
         icon={<PlusOutlined />}
         onClick={() => setIsModalVisible(true)}
+        style={{
+          maxWidth: "208px",
+        }}
       >
         Add New Skill
       </Button>
@@ -190,8 +193,7 @@ const Skills = () => {
           >
             <List.Item.Meta
               title={
-                skills.translations.find((t: any) => t.languageCode === "en")
-                  ?.name
+                skills.translations.find((t) => t.languageCode === "en")?.name
               }
             />
           </List.Item>
@@ -246,34 +248,41 @@ const Skills = () => {
           <Form.Item label="Color" name="color" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item
-            label="English Name"
-            name="enName"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Georgian Name"
-            name="kaName"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="English about"
-            name="enAbout"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Georgian about"
-            name="kaAbout"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="English Name"
+                name="enName"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="English about"
+                name="enAbout"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label="Georgian Name"
+                name="kaName"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Georgian about"
+                name="kaAbout"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     </div>

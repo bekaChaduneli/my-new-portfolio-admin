@@ -2,7 +2,7 @@ export interface ICertificatesTranslation {
   id: string;
   languageCode: string;
   name: string;
-  organization: string;
+  organiation: string;
   description: string;
   certificatesId: string;
   createdAt: string;
@@ -23,4 +23,16 @@ export interface ICertificates {
 
 export interface ICertificatesResponse {
   findManyCertificates: ICertificates;
+}
+
+export interface CertificatesInitialValues {
+  link: string | undefined;
+  issueDate: string | undefined;
+  expirationDate: string | undefined;
+  enName: string | undefined;
+  kaName: string | undefined;
+  enOrganization: string | undefined;
+  kaOrganization: string | undefined;
+  enDescription: string | undefined;
+  kaDescription: string | undefined;
 }
