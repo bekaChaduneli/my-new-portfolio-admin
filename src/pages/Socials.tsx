@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { ISocials } from "../types/Socials";
+import { ISocials, SocialsInitialValues } from "../types/Socials";
 import { GET_SOCIALS } from "@graphql/query";
 import {
   CREATE_SOCIAL,
@@ -45,8 +45,7 @@ const Socials = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
-    console.log(values);
+  const handleCreate = async (values: SocialsInitialValues) => {
     try {
       await createOneSocials({
         variables: {
@@ -64,7 +63,7 @@ const Socials = () => {
     }
   };
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: SocialsInitialValues) => {
     try {
       await updateOneSocials({
         variables: {
@@ -78,7 +77,6 @@ const Socials = () => {
       form.resetFields();
       setIsModalVisible(false);
       setCurrentSocials(null);
-      console.log(currentSocials);
     } catch (error) {
       console.error("Error updating social:", error);
     }
@@ -87,7 +85,6 @@ const Socials = () => {
   const handleCancel = () => {
     setCurrentSocials(null);
     setIsModalVisible(false);
-    console.log(currentSocials);
 
     form.resetFields();
   };
@@ -142,7 +139,6 @@ const Socials = () => {
         width={1200}
         onOk={() => {
           form.validateFields().then((values) => {
-            console.log(currentSocials);
             if (currentSocials) {
               handleUpdate(values);
             } else {

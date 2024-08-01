@@ -10,3 +10,8 @@ export interface ISocials {
 export interface ISocialsResponse {
   findManySocials: ISocials;
 }
+
+export interface SocialsInitialValues {
+  name: string | undefined;
+  link: string | undefined;
+}
