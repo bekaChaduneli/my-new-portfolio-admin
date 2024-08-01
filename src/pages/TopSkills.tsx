@@ -170,6 +170,7 @@ const TopSkills = () => {
         title={currentTopSkills ? "Edit TopSkill" : "Create TopSkill"}
         visible={isModalVisible}
         onCancel={handleCancel}
+        width={1200}
         onOk={() => {
           form.validateFields().then((values) => {
             if (currentTopSkills) {
