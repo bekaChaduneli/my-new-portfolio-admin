@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -61,6 +61,15 @@ const Linkedin = () => {
     }
   };
 
+  useEffect(() => {
+    if (currentLinkedin) {
+      currentLinkedin && setImage(currentLinkedin.image);
+      currentLinkedin && setBanner(currentLinkedin.banner);
+    } else {
+      setImage(null);
+    }
+  }, [currentLinkedin]);
+
   const [createOneLinkedin] = useMutation(CREATE_LINKEDIN, {
     refetchQueries: [{ query: GET_LINKEDIN }],
     onCompleted: () => {
@@ -85,7 +94,6 @@ const Linkedin = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   const handleCreate = async (values: any) => {
-    console.log(values);
     createOneLinkedin({
       variables: {
         input: {
@@ -119,7 +127,6 @@ const Linkedin = () => {
   };
 
   const handleUpdate = async (values: any) => {
-    console.log(values);
     updateOneLinkedin({
       variables: {
         id: "1",
@@ -189,8 +196,6 @@ const Linkedin = () => {
     form.setFieldsValue(initialValues);
   };
 
-  console.log(data?.findFirstLinkedin);
-
   return (
     <div>
       {!data?.findFirstLinkedin && (
@@ -204,7 +209,7 @@ const Linkedin = () => {
       )}
       <List
         dataSource={data?.findFirstLinkedin ? [data?.findFirstLinkedin] : []}
-        renderItem={(linkedin: any) => (
+        renderItem={(linkedin: ILinkedin) => (
           <List.Item
             actions={[
               <Button type="link" onClick={() => handleEdit(linkedin)}>
@@ -214,7 +219,6 @@ const Linkedin = () => {
                 type="link"
                 danger
                 onClick={() => {
-                  console.log(linkedin.id);
                   handleDelete(linkedin.id);
                 }}
               >
@@ -223,17 +227,9 @@ const Linkedin = () => {
             ]}
           >
             <List.Item.Meta
-              title={linkedin.link}
-              description={
-                <>
-                  <div>
-                    {
-                      linkedin.translations.find(
-                        (t: any) => t.languageCode === "en"
-                      )?.name
-                    }
-                  </div>
-                </>
+              title={
+                linkedin.translations.find((t: any) => t.languageCode === "en")
+                  ?.name
               }
             />
           </List.Item>
@@ -261,9 +257,6 @@ const Linkedin = () => {
           layout="vertical"
           onFinish={currentLinkedin ? handleUpdate : handleCreate}
         >
-          <Form.Item label="Link" name="link" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
           <Form.Item label="Image">
             <Dragger
               name="file"
@@ -288,6 +281,7 @@ const Linkedin = () => {
               </div>
             )}
           </Form.Item>
+
           <Form.Item label="Banner">
             <Dragger
               name="file"
@@ -311,6 +305,9 @@ const Linkedin = () => {
                 />
               </div>
             )}
+          </Form.Item>
+          <Form.Item label="Link" name="link" rules={[{ required: true }]}>
+            <Input />
           </Form.Item>
           <Row gutter={16}>
             <Col span={12}>
