@@ -1,19 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   CREATE_ARCHIVE,
   DELETE_ARCHIVE,
   UPDATE_ARCHIVE,
 } from "@graphql/mutation";
-import { Button, List, Form, message, Modal, Input, Tag } from "antd";
+import { Button, List, Form, message, Modal, Input, Tag, Row, Col } from "antd";
 import {
   IArchive,
   IArchivesResponse,
   IArchiveTranslation,
 } from "../types/Archive";
-import { FileUpload } from "@components/FileUpload";
+import { PlusOutlined } from "@ant-design/icons";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import { GET_ARCHIVES } from "@graphql/query";
+import Dragger from "antd/es/upload/Dragger";
 
 const Archives = () => {
   const { data, loading, error } = useQuery<IArchivesResponse>(GET_ARCHIVES);
@@ -31,10 +32,32 @@ const Archives = () => {
   const [currentArchive, setCurrentArchive] = useState<IArchive | null>(null);
   const [skills, setSkills] = useState<string[]>([]);
   const [skillInput, setSkillInput] = useState<string>("");
+  const [value, setValue] = useState<string>("");
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [loadingImage, setLoadingImage] = useState<boolean>(false);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [image, setImage] = useState<string | null>(null);
+
+  const handleFileUpload = async (file: File) => {
+    try {
+      setLoadingImage(true);
+      const result = await uploadToCloudinary(file);
+      const url = result.secure_url;
+      setImage(url);
+    } catch (error) {
+      message.error("Error uploading file.");
+    } finally {
+      setLoadingImage(false);
+    }
+  };
+
+  useEffect(() => {
+    if (currentArchive) {
+      currentArchive && setImage(currentArchive.background);
+    } else {
+      setImage(null);
+    }
+  }, [currentArchive]);
 
   const [createOneArchive] = useMutation(CREATE_ARCHIVE, {
     refetchQueries: [{ query: GET_ARCHIVES }],
@@ -65,26 +88,13 @@ const Archives = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const handleImageUpload = async (file: File) => {
-    try {
-      setLoadingImage(true);
-      const result = await uploadToCloudinary(file);
-      setImageUrl(result.secure_url);
-      form.setFieldsValue({ background: result.secure_url });
-    } catch (error) {
-      message.error("Error uploading image.");
-    } finally {
-      setLoadingImage(false);
-    }
-  };
-
   const handleCreate = (values: any) => {
     createOneArchive({
       variables: {
         input: {
           link: values.link,
           github: values.github,
-          background: values.background,
+          background: image,
           isReal: values.isReal,
           skills: { set: skills },
           translations: {
@@ -106,6 +116,12 @@ const Archives = () => {
         },
       },
     });
+    form.resetFields();
+    setCurrentArchive(null);
+    setIsModalVisible(false);
+    setSkills([]);
+    setSkillInput("");
+    setImage(null);
   };
 
   const handleUpdate = (values: any) => {
@@ -115,7 +131,7 @@ const Archives = () => {
         data: {
           link: { set: values.link },
           github: { set: values.github },
-          background: { set: values.background },
+          background: { set: image },
           isReal: { set: values.isReal },
           skills: { set: skills },
           translations: {
@@ -141,6 +157,12 @@ const Archives = () => {
         },
       },
     });
+    form.resetFields();
+    setCurrentArchive(null);
+    setIsModalVisible(false);
+    setSkills([]);
+    setSkillInput("");
+    setImage(null);
   };
 
   const handleCancel = () => {
@@ -148,7 +170,7 @@ const Archives = () => {
     form.resetFields();
     setSkills([]);
     setSkillInput("");
-    setImageUrl(null);
+    setImage(null);
     setIsModalVisible(false);
   };
 
@@ -166,7 +188,7 @@ const Archives = () => {
     const initialValues = {
       link: archive.link,
       github: archive.github,
-      background: archive.background,
+      background: image,
       isReal: archive.isReal,
       enName: en?.name,
       enDescription: en?.description,
@@ -193,22 +215,12 @@ const Archives = () => {
 
   return (
     <div>
-      <Button
-        type="primary"
-        onClick={() => {
-          setCurrentArchive(null);
-          form.resetFields();
-          setSkills([]);
-          setSkillInput("");
-          setImageUrl(null);
-          setIsModalVisible(true);
-        }}
-      >
-        Add Archive
+      <Button type="primary" onClick={() => setIsModalVisible(true)}>
+        Add New Archive
       </Button>
       <List
         dataSource={data?.archives}
-        renderItem={(archive) => (
+        renderItem={(archive: IArchive) => (
           <List.Item
             actions={[
               <Button type="link" onClick={() => handleEdit(archive)}>
@@ -223,7 +235,11 @@ const Archives = () => {
               </Button>,
             ]}
           >
-            <List.Item.Meta title={archive.link} description={archive.github} />
+            <List.Item.Meta
+              title={
+                archive.translations.find((t) => t.languageCode === "en")?.name
+              }
+            />
           </List.Item>
         )}
       />
@@ -244,16 +260,42 @@ const Archives = () => {
           });
         }}
       >
-        <Form form={form} layout="vertical">
+        <Form
+          form={form}
+          layout="vertical"
+          onFinish={currentArchive ? handleUpdate : handleCreate}
+        >
+          <Form.Item label="Image">
+            <Dragger
+              name="file"
+              customRequest={({ file, onSuccess }) => {
+                handleFileUpload(file as File);
+                onSuccess?.({});
+              }}
+              showUploadList={false}
+            >
+              <p className="ant-upload-drag-icon">
+                <PlusOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag to upload background
+              </p>
+            </Dragger>
+            {image && (
+              <div style={{ marginTop: 10 }}>
+                <img
+                  src={image}
+                  alt={`background`}
+                  style={{ width: 100, height: 100, marginRight: 10 }}
+                />
+              </div>
+            )}
+          </Form.Item>
           <Form.Item label="Link" name="link">
             <Input />
           </Form.Item>
           <Form.Item label="GitHub" name="github">
             <Input />
-          </Form.Item>
-          <Form.Item label="Background" name="background">
-            <FileUpload onUpload={handleImageUpload} />
-            {loadingImage && <p>Loading...</p>}
           </Form.Item>
           <Form.Item label="Is Real" name="isReal" valuePropName="checked">
             <Input type="checkbox" />
@@ -265,7 +307,12 @@ const Archives = () => {
               onChange={(e) => setSkillInput(e.target.value)}
               onPressEnter={addSkill}
             />
-            <Button onClick={addSkill}>Add Skill</Button>
+            <Button
+              style={{ marginRight: "14px", marginBottom: "14px" }}
+              onClick={addSkill}
+            >
+              Add Skill
+            </Button>
             {skills.map((skill) => (
               <Tag
                 key={skill}
@@ -276,24 +323,30 @@ const Archives = () => {
               </Tag>
             ))}
           </Form.Item>
-          <Form.Item label="English Name" name="enName">
-            <Input />
-          </Form.Item>
-          <Form.Item label="English Description" name="enDescription">
-            <Input />
-          </Form.Item>
-          <Form.Item label="English Location" name="enLocation">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Georgian Name" name="kaName">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Georgian Description" name="kaDescription">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Georgian Location" name="kaLocation">
-            <Input />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label="English Name" name="enName">
+                <Input />
+              </Form.Item>
+              <Form.Item label="English Description" name="enDescription">
+                <Input />
+              </Form.Item>
+              <Form.Item label="English Location" name="enLocation">
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Georgian Name" name="kaName">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Georgian Description" name="kaDescription">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Georgian Location" name="kaLocation">
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     </div>

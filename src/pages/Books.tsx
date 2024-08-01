@@ -27,6 +27,27 @@ export const Books = () => {
   const [loadingImage, setLoadingImage] = useState<boolean>(false);
   const [image, setImage] = useState<string | null>(null);
 
+  const handleFileUpload = async (file: File) => {
+    try {
+      setLoadingImage(true);
+      const result = await uploadToCloudinary(file);
+      const url = result.secure_url;
+      setImage(url);
+    } catch (error) {
+      message.error("Error uploading file.");
+    } finally {
+      setLoadingImage(false);
+    }
+  };
+
+  useEffect(() => {
+    if (currentBook) {
+      currentBook && setImage(currentBook.image);
+    } else {
+      setImage(null);
+    }
+  }, [currentBook]);
+
   const [createOneBooks] = useMutation(CREATE_BOOK, {
     refetchQueries: [{ query: GET_BOOKS }],
     onCompleted: () => {
@@ -55,27 +76,6 @@ export const Books = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-
-  const handleFileUpload = async (file: File) => {
-    try {
-      setLoadingImage(true);
-      const result = await uploadToCloudinary(file);
-      const url = result.secure_url;
-      setImage(url);
-    } catch (error) {
-      message.error("Error uploading file.");
-    } finally {
-      setLoadingImage(false);
-    }
-  };
-
-  useEffect(() => {
-    if (currentBook) {
-      currentBook && setImage(currentBook.image);
-    } else {
-      setImage(null);
-    }
-  }, [currentBook]);
 
   const handleCreate = (values: any) => {
     createOneBooks({
