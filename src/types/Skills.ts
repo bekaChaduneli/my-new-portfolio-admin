@@ -21,3 +21,12 @@ export interface ISkills {
 export interface ISkillsResponse {
   findManySkills: ISkills;
 }
+
+export interface SkillsInitialValues {
+  link: string | undefined;
+  color: string | undefined;
+  enName: string | undefined;
+  kaName: string | undefined;
+  enAbout: string | undefined;
+  kaAbout: string | undefined;
+}
