@@ -1,0 +1,27 @@
+export interface IAboutMeTranslation {
+  id: string;
+  name: string;
+  about: string;
+  role: string;
+  country: string;
+  city: string;
+  languageCode: string;
+  aboutMeId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IAboutMe {
+  id: string;
+  image: string;
+  experience: string;
+  age: string;
+  projectNum: string;
+  translations: IAboutMeTranslation[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IAboutMeResponse {
+  findFirstAboutMe: IAboutMe;
+}

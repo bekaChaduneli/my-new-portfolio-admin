@@ -124,15 +124,15 @@ export const UPDATE_MAINPROJECT = gql`
 `;
 
 export const CREATE_ABOUTME = gql`
-  mutation CreateAboutMe($input: AboutMeInput!) {
-    createAboutMe(data: $input) {
+  mutation CreateOneAboutMe($input: AboutMeCreateInput!) {
+    createOneAboutMe(data: $input) {
       id
     }
   }
 `;
 
 export const DELETE_ABOUTME = gql`
-  mutation DeleteOneAboutMe($id: IdInput!) {
+  mutation DeleteOneAboutMe($id: String!) {
     deleteOneAboutMe(where: { id: $id }) {
       id
     }
@@ -140,8 +140,8 @@ export const DELETE_ABOUTME = gql`
 `;
 
 export const UPDATE_ABOUTME = gql`
-  mutation UpdateOneAboutMe($data: AboutMeInput!, $where: AboutMeInput!) {
-    updateOneAboutMe(data: $data, where: $where) {
+  mutation updateOneAboutMe($data: AboutMeUpdateInput!, $id: String!) {
+    updateOneAboutMe(data: $data, where: { id: $id }) {
       id
     }
   }
