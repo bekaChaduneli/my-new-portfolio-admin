@@ -203,6 +203,9 @@ const Linkedin = () => {
           type="primary"
           icon={<PlusOutlined />}
           onClick={() => setIsModalVisible(true)}
+          style={{
+            maxWidth: "208px",
+          }}
         >
           Add New Linkedin
         </Button>

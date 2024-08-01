@@ -198,7 +198,13 @@ const Blogs = () => {
 
   return (
     <div>
-      <Button type="primary" onClick={() => setIsModalVisible(true)}>
+      <Button
+        style={{
+          maxWidth: "208px",
+        }}
+        type="primary"
+        onClick={() => setIsModalVisible(true)}
+      >
         Add New Blog
       </Button>
       <List

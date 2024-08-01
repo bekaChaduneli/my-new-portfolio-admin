@@ -167,6 +167,9 @@ const Skills = () => {
         type="primary"
         icon={<PlusOutlined />}
         onClick={() => setIsModalVisible(true)}
+        style={{
+          maxWidth: "208px",
+        }}
       >
         Add New Skill
       </Button>

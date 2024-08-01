@@ -229,6 +229,9 @@ const Profile = () => {
           type="primary"
           icon={<PlusOutlined />}
           onClick={() => setIsModalVisible(true)}
+          style={{
+            maxWidth: "208px",
+          }}
         >
           Add New Profile
         </Button>
