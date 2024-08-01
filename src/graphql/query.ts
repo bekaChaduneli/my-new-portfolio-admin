@@ -75,114 +75,8 @@ export const GET_BOOK_BY_TYPE = gql`
 `;
 
 export const GET_ABOUTME = gql`
-  query aboutMe($id: AboutMeInput) {
-    aboutMe(where: { id: $id }) {
-      works {
-        updatedAt
-        translations {
-          worksId
-          updatedAt
-          role
-          locationType
-          location
-          languageCode
-          id
-          employmentType
-          description
-          createdAt
-          company
-        }
-        toDate
-        link
-        id
-        fromDate
-        createdAt
-        aboutMeId
-        aboutMe {
-          updatedAt
-          translations {
-            updatedAt
-            role
-            name
-            languageCode
-            createdAt
-            id
-            country
-            city
-            aboutMeId
-            about
-          }
-          age
-          createdAt
-          experience
-          id
-          image
-          projectNum
-        }
-      }
-      age
-      certificates {
-        aboutMeId
-        createdAt
-        expirationDate
-        image
-        id
-        issueDate
-        link
-        translations {
-          certificatesId
-          createdAt
-          description
-          id
-          languageCode
-          name
-          organiation
-          updatedAt
-        }
-        updatedAt
-      }
-      createdAt
-      education {
-        createdAt
-        fromDate
-        id
-        link
-        toDate
-        updatedAt
-        translations {
-          createdAt
-          degree
-          description
-          educationsId
-          fieldOfStudy
-          gpa
-          id
-          languageCode
-          name
-          updatedAt
-        }
-      }
-      experience
-      id
-      image
-      projectNum
-      updatedAt
-      languages {
-        id
-        createdAt
-        aboutMeId
-        updatedAt
-        translations {
-          updatedAt
-          name
-          level
-          languagesId
-          languageCode
-          id
-          description
-          createdAt
-        }
-      }
+  query findFirstAboutMe {
+    findFirstAboutMe {
       translations {
         updatedAt
         role
@@ -192,8 +86,16 @@ export const GET_ABOUTME = gql`
         createdAt
         country
         city
+        aboutMeId
         about
       }
+      updatedAt
+      projectNum
+      image
+      id
+      experience
+      createdAt
+      age
     }
   }
 `;
