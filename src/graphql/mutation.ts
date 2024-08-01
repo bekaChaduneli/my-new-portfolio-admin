@@ -219,6 +219,30 @@ export const UPDATE_QUESTIONS = gql`
   }
 `;
 
+export const CREATE_HOBBY = gql`
+  mutation createOneHobbys($input: HobbysCreateInput!) {
+    createOneHobbys(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_HOBBYS = gql`
+  mutation DeleteOneHobbys($id: String!) {
+    deleteOneHobbys(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_HOBBYS = gql`
+  mutation UpdateOneHobbys($data: HobbysUpdateInput!, $id: String!) {
+    updateOneHobbys(data: $data, where: { id: $id }) {
+      id
+    }
+  }
+`;
+
 export const CREATE_SOCIAL = gql`
   mutation createOneSocials($input: SocialsCreateInput!) {
     createOneSocials(data: $input) {
