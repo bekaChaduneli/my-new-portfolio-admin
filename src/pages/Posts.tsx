@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -43,6 +43,14 @@ const Posts = () => {
     }
   };
 
+  useEffect(() => {
+    if (currentPosts) {
+      currentPosts.image && setImage(currentPosts.image);
+    } else {
+      setImage(null);
+    }
+  }, [currentPosts]);
+
   const [createOnePosts] = useMutation(CREATE_POST, {
     refetchQueries: [{ query: GET_POSTS }],
     onCompleted: () => message.success("Post created successfully!"),
@@ -86,6 +94,7 @@ const Posts = () => {
         },
       });
       form.resetFields();
+      setCurrentPosts(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error creating post:", error);
@@ -122,6 +131,7 @@ const Posts = () => {
         },
       });
       form.resetFields();
+      setCurrentPosts(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error updating post:", error);
