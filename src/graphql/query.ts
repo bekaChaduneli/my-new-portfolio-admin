@@ -127,6 +127,27 @@ export const GET_EDUCATIONS = gql`
   }
 `;
 
+export const GET_LANGUAGES = gql`
+  query findManyLanguages {
+    findManyLanguages {
+      updatedAt
+      translations {
+        updatedAt
+        name
+        level
+        languagesId
+        languageCode
+        id
+        description
+        createdAt
+      }
+      id
+      createdAt
+      aboutMeId
+    }
+  }
+`;
+
 export const GET_ABOUTME = gql`
   query findFirstAboutMe {
     findFirstAboutMe {

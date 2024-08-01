@@ -195,6 +195,30 @@ export const UPDATE_EDUCATIONS = gql`
   }
 `;
 
+export const CREATE_LANGUAGE = gql`
+  mutation createOneLanguages($input: LanguagesCreateInput!) {
+    createOneLanguages(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_LANGUAGES = gql`
+  mutation deleteOneLanguages($id: String!) {
+    deleteOneLanguages(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_LANGUAGES = gql`
+  mutation updateOneLanguages($data: LanguagesUpdateInput!, $id: String!) {
+    updateOneLanguages(data: $data, where: { id: $id }) {
+      id
+    }
+  }
+`;
+
 export const CREATE_GITHUBREPO = gql`
   mutation createOneGithubRepos($input: GithubReposCreateInput!) {
     createOneGithubRepos(data: $input) {
