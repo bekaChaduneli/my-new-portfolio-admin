@@ -517,6 +517,27 @@ export const GET_SOCIALS = gql`
   }
 `;
 
+export const GET_HOBBYS = gql`
+  query findManyHobbys {
+    findManyHobbys {
+      updatedAt
+      profileId
+      image
+      id
+      createdAt
+      translations {
+        updatedAt
+        languageCode
+        id
+        hobbysId
+        hobby
+        createdAt
+        aboutHobby
+      }
+    }
+  }
+`;
+
 export const GET_RECOMMENDATIONS = gql`
   query findManyRecommendations {
     findManyRecommendations {
