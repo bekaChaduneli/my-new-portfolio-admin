@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -20,7 +20,6 @@ const AboutMe = () => {
       message.success("AboutMe deleted successfully!");
     },
     onError: (error) => {
-      console.log(error.message);
       message.error(error.message);
     },
   });
@@ -49,6 +48,14 @@ const AboutMe = () => {
     }
   };
 
+  useEffect(() => {
+    if (currentAboutMe) {
+      currentAboutMe && setImage(currentAboutMe.image);
+    } else {
+      setImage(null);
+    }
+  }, [currentAboutMe]);
+
   const [createOneAboutMe] = useMutation(CREATE_ABOUTME, {
     refetchQueries: [{ query: GET_ABOUTME }],
     onCompleted: () => {
@@ -73,79 +80,91 @@ const AboutMe = () => {
   if (error) return <div>Error: {error.message}</div>;
 
   const handleCreate = async (values: any) => {
-    console.log(values);
-    createOneAboutMe({
-      variables: {
-        input: {
+    try {
+      await createOneAboutMe({
+        variables: {
+          input: {
+            id: "1",
+            image: image,
+            experience: parseInt(values.experience),
+            age: parseInt(values.age),
+            projectNum: parseInt(values.projectNum),
+            translations: {
+              createMany: {
+                data: [
+                  {
+                    name: values.enName,
+                    about: values.enAbout,
+                    role: values.enRole,
+                    country: values.enCountry,
+                    city: values.enCity,
+                    languageCode: "en",
+                  },
+                  {
+                    name: values.kaName,
+                    about: values.kaAbout,
+                    role: values.kaRole,
+                    country: values.kaCountry,
+                    city: values.kaCity,
+                    languageCode: "ka",
+                  },
+                ],
+              },
+            },
+          },
+        },
+      });
+      form.resetFields();
+      setCurrentAboutMe(null);
+      setIsModalVisible(false);
+    } catch (error) {
+      console.error("Error creating AboutMe:", error);
+    }
+  };
+
+  const handleUpdate = async (values: any) => {
+    try {
+      await updateOneAboutMe({
+        variables: {
           id: "1",
-          image: image,
-          experience: parseInt(values.experience),
-          age: parseInt(values.age),
-          projectNum: parseInt(values.projectNum),
-          translations: {
-            createMany: {
-              data: [
+          data: {
+            image: { set: image },
+            experience: { set: parseInt(values.experience) },
+            age: { set: parseInt(values.age) },
+            projectNum: { set: parseInt(values.projectNum) },
+            translations: {
+              updateMany: [
                 {
-                  name: values.enName,
-                  about: values.enAbout,
-                  role: values.enRole,
-                  country: values.enCountry,
-                  city: values.enCity,
-                  languageCode: "en",
+                  where: { languageCode: { equals: "en" } },
+                  data: {
+                    name: { set: values.enName },
+                    about: { set: values.enAbout },
+                    role: { set: values.enRole },
+                    country: { set: values.enCountry },
+                    city: { set: values.enCity },
+                  },
                 },
                 {
-                  name: values.kaName,
-                  about: values.kaAbout,
-                  role: values.kaRole,
-                  country: values.kaCountry,
-                  city: values.kaCity,
-                  languageCode: "ka",
+                  where: { languageCode: { equals: "ka" } },
+                  data: {
+                    name: { set: values.kaName },
+                    about: { set: values.kaAbout },
+                    role: { set: values.kaRole },
+                    country: { set: values.kaCountry },
+                    city: { set: values.kaCity },
+                  },
                 },
               ],
             },
           },
         },
-      },
-    });
-  };
-
-  const handleUpdate = async (values: any) => {
-    console.log(values);
-    updateOneAboutMe({
-      variables: {
-        id: "1",
-        data: {
-          image: { set: image },
-          experience: { set: parseInt(values.experience) },
-          age: { set: parseInt(values.age) },
-          projectNum: { set: parseInt(values.projectNum) },
-          translations: {
-            updateMany: [
-              {
-                where: { languageCode: { equals: "en" } },
-                data: {
-                  name: { set: values.enName },
-                  about: { set: values.enAbout },
-                  role: { set: values.enRole },
-                  country: { set: values.enCountry },
-                  city: { set: values.enCity },
-                },
-              },
-              {
-                where: { languageCode: { equals: "ka" } },
-                data: {
-                  name: { set: values.kaName },
-                  about: { set: values.kaAbout },
-                  role: { set: values.kaRole },
-                  country: { set: values.kaCountry },
-                  city: { set: values.kaCity },
-                },
-              },
-            ],
-          },
-        },
-      },
-    });
+      });
+      form.resetFields();
+      setCurrentAboutMe(null);
+      setIsModalVisible(false);
+    } catch (error) {
+      console.error("Error updating AboutMe:", error);
+    }
   };
 
   const handleCancel = () => {
@@ -185,8 +204,6 @@ const AboutMe = () => {
     form.setFieldsValue(initialValues);
   };
 
-  console.log(data?.findFirstAboutMe);
-
   return (
     <div>
       {!data?.findFirstAboutMe && (
@@ -200,7 +217,7 @@ const AboutMe = () => {
       )}
       <List
         dataSource={data?.findFirstAboutMe ? [data?.findFirstAboutMe] : []}
-        renderItem={(aboutMe: any) => (
+        renderItem={(aboutMe: IAboutMe) => (
           <List.Item
             actions={[
               <Button type="link" onClick={() => handleEdit(aboutMe)}>
@@ -210,7 +227,6 @@ const AboutMe = () => {
                 type="link"
                 danger
                 onClick={() => {
-                  console.log(aboutMe.id);
                   handleDelete(aboutMe.id);
                 }}
               >
@@ -219,17 +235,9 @@ const AboutMe = () => {
             ]}
           >
             <List.Item.Meta
-              title={aboutMe.link}
-              description={
-                <>
-                  <div>
-                    {
-                      aboutMe.translations.find(
-                        (t: any) => t.languageCode === "en"
-                      )?.name
-                    }
-                  </div>
-                </>
+              title={
+                aboutMe.translations.find((t: any) => t.languageCode === "en")
+                  ?.name
               }
             />
           </List.Item>
@@ -238,6 +246,9 @@ const AboutMe = () => {
 
       <Modal
         title={currentAboutMe ? "Edit AboutMe" : "Create AboutMe"}
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        width={1200}
         onOk={() => {
           form.validateFields().then((values) => {
             if (currentAboutMe) {
@@ -245,21 +256,14 @@ const AboutMe = () => {
             } else {
               handleCreate(values);
             }
-            setIsModalVisible(false);
           });
         }}
-        visible={isModalVisible}
-        onCancel={handleCancel}
-        width={1200}
       >
         <Form
           form={form}
           layout="vertical"
           onFinish={currentAboutMe ? handleUpdate : handleCreate}
         >
-          <Form.Item label="Link" name="link" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
           <Form.Item label="Image">
             <Dragger
               name="file"
