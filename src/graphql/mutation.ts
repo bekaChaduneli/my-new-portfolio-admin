@@ -219,6 +219,30 @@ export const UPDATE_QUESTIONS = gql`
   }
 `;
 
+export const CREATE_SOCIAL = gql`
+  mutation createOneSocials($input: SocialsCreateInput!) {
+    createOneSocials(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_SOCIALS = gql`
+  mutation DeleteOneSocials($id: String!) {
+    deleteOneSocials(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_SOCIALS = gql`
+  mutation UpdateOneSocials($data: SocialsUpdateInput!, $id: String!) {
+    updateOneSocials(data: $data, where: { id: $id }) {
+      id
+    }
+  }
+`;
+
 export const CREATE_POST = gql`
   mutation createOnePosts($input: PostsCreateInput!) {
     createOnePosts(data: $input) {

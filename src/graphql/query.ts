@@ -505,6 +505,18 @@ export const GET_QUESTIONS = gql`
   }
 `;
 
+export const GET_SOCIALS = gql`
+  query findManySocials {
+    findManySocials {
+      updatedAt
+      profileId
+      name
+      link
+      id
+    }
+  }
+`;
+
 export const GET_RECOMMENDATIONS = gql`
   query findManyRecommendations {
     findManyRecommendations {
