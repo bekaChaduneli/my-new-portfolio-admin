@@ -4,7 +4,6 @@ import { Button, List, Form, message, Modal, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { IQuestions } from "../types/Questions";
 import { GET_QUESTIONS } from "@graphql/query";
-import Dragger from "antd/es/upload/Dragger";
 import {
   CREATE_QUESTION,
   DELETE_QUESTIONS,
