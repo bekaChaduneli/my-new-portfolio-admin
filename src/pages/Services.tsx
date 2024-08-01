@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
-import { Button, List, Form, message, Modal, Input } from "antd";
+import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { IServices } from "../types/Services";
+import { IServices, ServicesInitialValues } from "../types/Services";
 import { GET_SERVICES } from "@graphql/query";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import Dragger from "antd/es/upload/Dragger";
@@ -71,7 +71,7 @@ const Services = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
+  const handleCreate = async (values: ServicesInitialValues) => {
     try {
       await createOneServices({
         variables: {
@@ -104,7 +104,7 @@ const Services = () => {
     }
   };
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: ServicesInitialValues) => {
     try {
       await updateOneServices({
         variables: {
@@ -154,7 +154,7 @@ const Services = () => {
     const en = services.translations.find((t) => t.languageCode === "en");
     const ka = services.translations.find((t) => t.languageCode === "ka");
 
-    const initialValues = {
+    const initialValues: ServicesInitialValues = {
       order: services?.order,
       enDescription: en?.description,
       enName: en?.name,
@@ -193,8 +193,7 @@ const Services = () => {
           >
             <List.Item.Meta
               title={
-                services.translations.find((t: any) => t.languageCode === "en")
-                  ?.name
+                services.translations.find((t) => t.languageCode === "en")?.name
               }
             />
           </List.Item>
@@ -248,34 +247,41 @@ const Services = () => {
           <Form.Item label="Order" name="order" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item
-            label="English Name"
-            name="enName"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Georgian Name"
-            name="kaName"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="English Description"
-            name="enDescription"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Georgian Description"
-            name="kaDescription"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="English Name"
+                name="enName"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="English Description"
+                name="enDescription"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label="Georgian Name"
+                name="kaName"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Georgian Description"
+                name="kaDescription"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Modal>
     </div>

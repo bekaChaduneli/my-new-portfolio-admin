@@ -20,3 +20,11 @@ export interface IServices {
 export interface IServicesResponse {
   findManyServices: IServices;
 }
+
+export interface ServicesInitialValues {
+  order: string | undefined;
+  enDescription: string | undefined;
+  enName: string | undefined;
+  kaDescription: string | undefined;
+  kaName: string | undefined;
+}
