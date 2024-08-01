@@ -219,6 +219,33 @@ export const UPDATE_LANGUAGES = gql`
   }
 `;
 
+export const CREATE_CERTIFICATE = gql`
+  mutation createOneCertificates($input: CertificatesCreateInput!) {
+    createOneCertificates(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_CERTIFICATES = gql`
+  mutation deleteOneCertificates($id: String!) {
+    deleteOneCertificates(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_CERTIFICATES = gql`
+  mutation updateOneCertificates(
+    $data: CertificatesUpdateInput!
+    $id: String!
+  ) {
+    updateOneCertificates(data: $data, where: { id: $id }) {
+      id
+    }
+  }
+`;
+
 export const CREATE_GITHUBREPO = gql`
   mutation createOneGithubRepos($input: GithubReposCreateInput!) {
     createOneGithubRepos(data: $input) {
