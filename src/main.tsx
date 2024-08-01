@@ -21,6 +21,13 @@ import Skills from "@pages/Skills";
 import { Books } from "@pages/Books";
 import Posts from "@pages/Posts";
 import TopSkills from "@pages/TopSkills";
+import Hobbys from "@pages/Hobbys";
+import Socials from "@pages/Socials";
+import Questions from "@pages/Questions";
+import Works from "@pages/Works";
+import Education from "@pages/Education";
+import Languages from "@pages/Languages";
+import Certificates from "@pages/Certificates";
 
 const client = new ApolloClient({
   uri: import.meta.env.backendUrl || "http://localhost:8080/graphql",
@@ -66,6 +73,22 @@ const router = createBrowserRouter([
         element: <MainProjects />,
       },
       {
+        path: "/works",
+        element: <Works />,
+      },
+      {
+        path: "/educations",
+        element: <Education />,
+      },
+      {
+        path: "/languages",
+        element: <Languages />,
+      },
+      {
+        path: "/certificates",
+        element: <Certificates />,
+      },
+      {
         path: "/linkedin",
         element: <Linkedin />,
       },
@@ -80,6 +103,19 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/hobbys",
+        element: <Hobbys />,
+      },
+
+      {
+        path: "/socials",
+        element: <Socials />,
+      },
+      {
+        path: "/questions",
+        element: <Questions />,
       },
       {
         path: "/recommendations",

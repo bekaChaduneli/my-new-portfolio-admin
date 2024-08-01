@@ -195,6 +195,30 @@ export const UPDATE_LINKEDIN = gql`
   }
 `;
 
+export const CREATE_QUESTION = gql`
+  mutation createOneQuestions($input: QuestionsCreateInput!) {
+    createOneQuestions(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_QUESTIONS = gql`
+  mutation DeleteOneQuestions($id: String!) {
+    deleteOneQuestions(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_QUESTIONS = gql`
+  mutation UpdateOneQuestions($data: QuestionsUpdateInput!, $id: String!) {
+    updateOneQuestions(data: $data, where: { id: $id }) {
+      id
+    }
+  }
+`;
+
 export const CREATE_POST = gql`
   mutation createOnePosts($input: PostsCreateInput!) {
     createOnePosts(data: $input) {

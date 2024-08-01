@@ -11,7 +11,14 @@ import {
   ToolOutlined,
   LinkedinOutlined,
   FileAddOutlined,
+  QuestionCircleOutlined,
   ToTopOutlined,
+  FacebookOutlined,
+  PlayCircleOutlined,
+  SafetyCertificateOutlined,
+  CommentOutlined,
+  EnvironmentOutlined,
+  AuditOutlined,
 } from "@ant-design/icons";
 
 export const menuItems = [
@@ -66,6 +73,21 @@ export const menuItems = [
     href: "/profile",
   },
   {
+    icon: <QuestionCircleOutlined />,
+    label: "Questions",
+    href: "/questions",
+  },
+  {
+    icon: <FacebookOutlined />,
+    label: "Socials",
+    href: "/socials",
+  },
+  {
+    icon: <PlayCircleOutlined />,
+    label: "Hobbys",
+    href: "/hobbys",
+  },
+  {
     icon: <ReconciliationOutlined />,
     label: "Recommendations",
     href: "/recommendations",
@@ -79,5 +101,25 @@ export const menuItems = [
     icon: <ToolOutlined />,
     label: "Skills",
     href: "/skills",
+  },
+  {
+    icon: <EnvironmentOutlined />,
+    label: "Works",
+    href: "/works",
+  },
+  {
+    icon: <AuditOutlined />,
+    label: "Educations",
+    href: "/educations",
+  },
+  {
+    icon: <CommentOutlined />,
+    label: "Languages",
+    href: "/languages",
+  },
+  {
+    icon: <SafetyCertificateOutlined />,
+    label: "Certificates",
+    href: "/certificates",
   },
 ];
