@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { ITopSkills } from "../types/TopSkills";
+import { ITopSkills, TopSkillsInitialValues } from "../types/TopSkills";
 import { GET_TOPSKILLS } from "@graphql/query";
 import {
   CREATE_TOPSKILL,
@@ -47,7 +47,7 @@ const TopSkills = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
+  const handleCreate = async (values: TopSkillsInitialValues) => {
     try {
       await createOneTopSkills({
         variables: {
@@ -77,7 +77,7 @@ const TopSkills = () => {
     }
   };
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: TopSkillsInitialValues) => {
     try {
       await updateOneTopSkills({
         variables: {
@@ -122,7 +122,7 @@ const TopSkills = () => {
     const en = topSkills.translations.find((t) => t.languageCode === "en");
     const ka = topSkills.translations.find((t) => t.languageCode === "ka");
 
-    const initialValues = {
+    const initialValues: TopSkillsInitialValues = {
       enName: en?.name,
       kaName: ka?.name,
     };
@@ -158,7 +158,7 @@ const TopSkills = () => {
           >
             <List.Item.Meta
               title={
-                topSkills.translations.find((t: any) => t.languageCode === "en")
+                topSkills.translations.find((t) => t.languageCode === "en")
                   ?.name
               }
             />

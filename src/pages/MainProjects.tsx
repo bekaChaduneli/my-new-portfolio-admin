@@ -16,7 +16,11 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { PlusOutlined } from "@ant-design/icons";
 
-import { IMainProjects, IMainProjectsResponse } from "../types/MainProjects";
+import {
+  IMainProjects,
+  IMainProjectsResponse,
+  MainProjectsInitialValues,
+} from "../types/MainProjects";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import { GET_MAINPROJECTS } from "@graphql/query";
 import {
@@ -109,7 +113,7 @@ const MainProjectsPage: React.FC = () => {
       setLoadingImage(false);
     }
   };
-  const handleCreate = (values: any) => {
+  const handleCreate = (values: MainProjectsInitialValues) => {
     createOneMainProjects({
       variables: {
         input: {
@@ -146,7 +150,7 @@ const MainProjectsPage: React.FC = () => {
     });
   };
 
-  const handleUpdate = (values: any) => {
+  const handleUpdate = (values: MainProjectsInitialValues) => {
     updateOneMainProjects({
       variables: {
         id: currentProject?.id,
@@ -214,7 +218,7 @@ const MainProjectsPage: React.FC = () => {
       (translation) => translation.languageCode === "ka"
     );
 
-    const initialValues = {
+    const initialValues: MainProjectsInitialValues = {
       link: project.link,
       github: project.github,
       background: project.background || "",

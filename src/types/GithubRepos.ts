@@ -43,3 +43,13 @@ export interface IUpdateGithubRepoTranslationInput {
   title?: string;
   description?: string;
 }
+
+export interface GithubReposInitialValues {
+  link: string | undefined;
+  stars: string | undefined;
+  language: string | undefined;
+  enTitle: string | undefined;
+  enDescription: string | undefined;
+  kaTitle: string | undefined;
+  kaDescription: string | undefined;
+}

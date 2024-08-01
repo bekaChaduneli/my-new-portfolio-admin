@@ -7,6 +7,7 @@ import {
 } from "@graphql/mutation";
 import { Button, List, Form, message, Modal, Input, Tag, Row, Col } from "antd";
 import {
+  ArchiveInitialValues,
   IArchive,
   IArchivesResponse,
   IArchiveTranslation,
@@ -88,7 +89,7 @@ const Archives = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const handleCreate = (values: any) => {
+  const handleCreate = (values: ArchiveInitialValues) => {
     createOneArchive({
       variables: {
         input: {
@@ -124,7 +125,7 @@ const Archives = () => {
     setImage(null);
   };
 
-  const handleUpdate = (values: any) => {
+  const handleUpdate = (values: ArchiveInitialValues) => {
     updateOneArchive({
       variables: {
         id: currentArchive?.id,
@@ -185,7 +186,7 @@ const Archives = () => {
       (translation: IArchiveTranslation) => translation.languageCode === "ka"
     );
 
-    const initialValues = {
+    const initialValues: ArchiveInitialValues = {
       link: archive.link,
       github: archive.github,
       background: image,

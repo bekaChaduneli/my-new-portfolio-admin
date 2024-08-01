@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { IPosts } from "../types/Posts";
+import { IPosts, PostsInitialValues } from "../types/Posts";
 import { GET_POSTS } from "@graphql/query";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import Dragger from "antd/es/upload/Dragger";
@@ -66,7 +66,7 @@ const Posts = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
+  const handleCreate = async (values: PostsInitialValues) => {
     try {
       await createOnePosts({
         variables: {
@@ -101,7 +101,7 @@ const Posts = () => {
     }
   };
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: PostsInitialValues) => {
     try {
       await updateOnePosts({
         variables: {
@@ -152,7 +152,7 @@ const Posts = () => {
     const en = posts.translations.find((t) => t.languageCode === "en");
     const ka = posts.translations.find((t) => t.languageCode === "ka");
 
-    const initialValues = {
+    const initialValues: PostsInitialValues = {
       link: posts.link,
       likes: posts.likes.toString(),
       commentsSum: posts.commentsSum.toString(),

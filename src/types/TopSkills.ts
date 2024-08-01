@@ -18,3 +18,8 @@ export interface ITopSkills {
 export interface ITopSkillsResponse {
   findManyTopSkills: ITopSkills;
 }
+
+export interface TopSkillsInitialValues {
+  enName: string | undefined;
+  kaName: string | undefined;
+}

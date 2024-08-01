@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_BOOKS } from "@graphql/query";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
-import { IBook, IBooksResponse, IBookTranslation } from "../types/Books";
+import {
+  BooksInitialValues,
+  IBook,
+  IBooksResponse,
+  IBookTranslation,
+} from "../types/Books";
 import { CREATE_BOOK, DELETE_BOOKS, UPDATE_BOOK } from "@graphql/mutation";
 import { PlusOutlined } from "@ant-design/icons";
 import { uploadToCloudinary } from "../services/cloudinaryService";
@@ -77,7 +82,7 @@ export const Books = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const handleCreate = (values: any) => {
+  const handleCreate = (values: BooksInitialValues) => {
     createOneBooks({
       variables: {
         data: {
@@ -114,7 +119,7 @@ export const Books = () => {
     setIsModalVisible(false);
   };
 
-  const handleUpdate = (values: any) => {
+  const handleUpdate = (values: BooksInitialValues) => {
     updateOneBooks({
       variables: {
         id: currentBook?.id,
@@ -173,7 +178,7 @@ export const Books = () => {
       (translation: IBookTranslation) => translation.languageCode === "ka"
     );
 
-    const initialValues = {
+    const initialValues: BooksInitialValues = {
       id: book.id,
       image: image,
       link: book.link,

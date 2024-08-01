@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { CREATE_BLOG, DELETE_BLOGS, UPDATE_BLOGS } from "@graphql/mutation";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
-import { IBlog, IBlogsResponse, IBlogTranslation } from "../types/Blogs";
+import {
+  BlogsInitialValues,
+  IBlog,
+  IBlogsResponse,
+  IBlogTranslation,
+} from "../types/Blogs";
 import { PlusOutlined } from "@ant-design/icons";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import { GET_BLOGS } from "@graphql/query";
@@ -87,7 +92,7 @@ const Blogs = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const handleCreate = (values: any) => {
+  const handleCreate = (values: BlogsInitialValues) => {
     createOneBlogs({
       variables: {
         data: {
@@ -119,7 +124,7 @@ const Blogs = () => {
     setIsModalVisible(false);
   };
 
-  const handleUpdate = (values: any) => {
+  const handleUpdate = (values: BlogsInitialValues) => {
     updateOneBlog({
       variables: {
         id: currentBlog?.id,
@@ -173,7 +178,7 @@ const Blogs = () => {
       (translation: IBlogTranslation) => translation.languageCode === "ka"
     );
 
-    const initialValues = {
+    const initialValues: BlogsInitialValues = {
       link: blog.link,
       background: image,
       enHeadline: en?.headline,

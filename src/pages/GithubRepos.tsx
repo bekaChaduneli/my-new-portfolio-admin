@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
-import { IGithubRepo, IGithubRepoTranslation } from "../types/GithubRepos";
+import {
+  GithubReposInitialValues,
+  IGithubRepo,
+  IGithubRepoTranslation,
+} from "../types/GithubRepos";
 import {
   CREATE_GITHUBREPO,
   DELETE_GITHUBREPOS,
@@ -54,7 +58,7 @@ const GithubRepos = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const handleCreate = (values: any) => {
+  const handleCreate = (values: GithubReposInitialValues) => {
     createGithubRepo({
       variables: {
         input: {
@@ -82,7 +86,7 @@ const GithubRepos = () => {
     });
   };
 
-  const handleUpdate = (values: any) => {
+  const handleUpdate = (values: GithubReposInitialValues) => {
     updateGithubRepo({
       variables: {
         id: currentRepo?.id,
@@ -130,7 +134,7 @@ const GithubRepos = () => {
       (translation: IGithubRepoTranslation) => translation.languageCode === "ka"
     );
 
-    const initialValues = {
+    const initialValues: GithubReposInitialValues = {
       link: repo.link,
       stars: repo.stars,
       language: repo.language,

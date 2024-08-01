@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { IAboutMe } from "../types/AboutMe";
+import { AboutMeInitialValues, IAboutMe } from "../types/AboutMe";
 import {
   CREATE_ABOUTME,
   DELETE_ABOUTME,
@@ -79,7 +79,7 @@ const AboutMe = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
+  const handleCreate = async (values: AboutMeInitialValues) => {
     try {
       await createOneAboutMe({
         variables: {
@@ -122,7 +122,7 @@ const AboutMe = () => {
     }
   };
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: AboutMeInitialValues) => {
     try {
       await updateOneAboutMe({
         variables: {
@@ -185,7 +185,7 @@ const AboutMe = () => {
       (translation) => translation.languageCode === "ka"
     );
 
-    const initialValues = {
+    const initialValues: AboutMeInitialValues = {
       image: image,
       experience: aboutMe.experience.toString(),
       age: aboutMe.age.toString(),
@@ -236,8 +236,7 @@ const AboutMe = () => {
           >
             <List.Item.Meta
               title={
-                aboutMe.translations.find((t: any) => t.languageCode === "en")
-                  ?.name
+                aboutMe.translations.find((t) => t.languageCode === "en")?.name
               }
             />
           </List.Item>

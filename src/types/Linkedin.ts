@@ -23,3 +23,17 @@ export interface ILinkedin {
 export interface ILinkedinResponse {
   findFirstLinkedin: ILinkedin;
 }
+
+export interface LinkedinInitialValues {
+  image: string | null;
+  banner: string | null;
+  link: string | undefined;
+  enName: string | undefined;
+  enBio: string | undefined;
+  enCompany: string | undefined;
+  enUniversity: string | undefined;
+  kaName: string | undefined;
+  kaBio: string | undefined;
+  kaCompany: string | undefined;
+  kaUniversity: string | undefined;
+}

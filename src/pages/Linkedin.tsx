@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { ILinkedin } from "../types/Linkedin";
+import { ILinkedin, LinkedinInitialValues } from "../types/Linkedin";
 import {
   CREATE_LINKEDIN,
   DELETE_LINKEDIN,
@@ -93,7 +93,7 @@ const Linkedin = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
+  const handleCreate = async (values: LinkedinInitialValues) => {
     createOneLinkedin({
       variables: {
         input: {
@@ -126,7 +126,7 @@ const Linkedin = () => {
     });
   };
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: LinkedinInitialValues) => {
     updateOneLinkedin({
       variables: {
         id: "1",
@@ -180,7 +180,7 @@ const Linkedin = () => {
       (translation) => translation.languageCode === "ka"
     );
 
-    const initialValues = {
+    const initialValues: LinkedinInitialValues = {
       image: image,
       banner: banner,
       link: linkedin.link,
@@ -228,8 +228,7 @@ const Linkedin = () => {
           >
             <List.Item.Meta
               title={
-                linkedin.translations.find((t: any) => t.languageCode === "en")
-                  ?.name
+                linkedin.translations.find((t) => t.languageCode === "en")?.name
               }
             />
           </List.Item>
