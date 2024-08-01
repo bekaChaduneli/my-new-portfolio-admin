@@ -127,6 +127,31 @@ export const GET_EDUCATIONS = gql`
   }
 `;
 
+export const GET_CERTIFICATES = gql`
+  query findManyCertificates {
+    findManyCertificates {
+      updatedAt
+      translations {
+        updatedAt
+        organiation
+        name
+        languageCode
+        id
+        description
+        createdAt
+        certificatesId
+      }
+      link
+      issueDate
+      image
+      expirationDate
+      id
+      createdAt
+      aboutMeId
+    }
+  }
+`;
+
 export const GET_LANGUAGES = gql`
   query findManyLanguages {
     findManyLanguages {
