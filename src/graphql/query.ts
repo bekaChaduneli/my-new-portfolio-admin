@@ -485,6 +485,26 @@ export const GET_PROFILE = gql`
   }
 `;
 
+export const GET_QUESTIONS = gql`
+  query findManyQuestions {
+    findManyQuestions {
+      updatedAt
+      profileId
+      id
+      createdAt
+      translations {
+        updatedAt
+        questionsId
+        question
+        languageCode
+        id
+        createdAt
+        answer
+      }
+    }
+  }
+`;
+
 export const GET_RECOMMENDATIONS = gql`
   query findManyRecommendations {
     findManyRecommendations {

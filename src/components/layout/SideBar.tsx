@@ -18,11 +18,16 @@ const NewSideBar = ({
   const { logout } = adminStore();
 
   return (
-    <CustomSider trigger={null} collapsible collapsed={collapsed}>
+    <CustomSider
+      style={{ marginLeft: "10px", paddingTop: "20px" }}
+      trigger={null}
+      collapsible
+      collapsed={collapsed}
+    >
       <CustomMenu
         mode="inline"
         style={{
-          maxHeight: "88vh",
+          maxHeight: "83vh",
           overflowY: "scroll",
         }}
         selectedKeys={[location.pathname]}

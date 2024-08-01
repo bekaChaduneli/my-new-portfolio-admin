@@ -98,7 +98,7 @@ const StyledContent = styled(Content)<{ $collapsed: boolean }>`
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transition: margin-left 0.2s ease;
-  margin-left: ${(props) => (props.$collapsed ? "80px" : "250px")};
+margin-left: ${(props) => (props.$collapsed ? "100px" : "250px")};
 `;
 
 const LoginWrapper = styled.div`

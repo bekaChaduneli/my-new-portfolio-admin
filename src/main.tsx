@@ -22,7 +22,6 @@ import { Books } from "@pages/Books";
 import Posts from "@pages/Posts";
 import TopSkills from "@pages/TopSkills";
 import Hobbys from "@pages/Hobbys";
-import ProfileWorks from "@pages/ProfileWorks";
 import Socials from "@pages/Socials";
 import Questions from "@pages/Questions";
 import Works from "@pages/Works";
@@ -109,14 +108,7 @@ const router = createBrowserRouter([
         path: "/hobbys",
         element: <Hobbys />,
       },
-      {
-        path: "/profile-works",
-        element: <ProfileWorks />,
-      },
-      {
-        path: "/profile-works",
-        element: <ProfileWorks />,
-      },
+
       {
         path: "/socials",
         element: <Socials />,

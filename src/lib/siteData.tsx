@@ -14,7 +14,6 @@ import {
   QuestionCircleOutlined,
   ToTopOutlined,
   FacebookOutlined,
-  WechatWorkOutlined,
   PlayCircleOutlined,
   SafetyCertificateOutlined,
   CommentOutlined,
@@ -82,11 +81,6 @@ export const menuItems = [
     icon: <FacebookOutlined />,
     label: "Socials",
     href: "/socials",
-  },
-  {
-    icon: <WechatWorkOutlined />,
-    label: "Profile Works",
-    href: "/profile-works",
   },
   {
     icon: <PlayCircleOutlined />,
