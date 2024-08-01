@@ -74,6 +74,33 @@ export const GET_BOOK_BY_TYPE = gql`
   }
 `;
 
+export const GET_WORKS = gql`
+  query findManyWorks {
+    findManyWorks {
+      updatedAt
+      translations {
+        worksId
+        updatedAt
+        role
+        locationType
+        location
+        languageCode
+        id
+        employmentType
+        description
+        createdAt
+        company
+      }
+      toDate
+      link
+      id
+      fromDate
+      createdAt
+      aboutMeId
+    }
+  }
+`;
+
 export const GET_ABOUTME = gql`
   query findFirstAboutMe {
     findFirstAboutMe {

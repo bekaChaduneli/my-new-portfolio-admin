@@ -147,6 +147,30 @@ export const UPDATE_ABOUTME = gql`
   }
 `;
 
+export const CREATE_WORK = gql`
+  mutation createOneWorks($input: WorksCreateInput!) {
+    createOneWorks(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_WORKS = gql`
+  mutation deleteOneWorks($id: String!) {
+    deleteOneWorks(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_WORKS = gql`
+  mutation updateOneWorks($data: WorksUpdateInput!, $id: String!) {
+    updateOneWorks(data: $data, where: { id: $id }) {
+      id
+    }
+  }
+`;
+
 export const CREATE_GITHUBREPO = gql`
   mutation createOneGithubRepos($input: GithubReposCreateInput!) {
     createOneGithubRepos(data: $input) {
