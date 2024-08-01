@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_BOOKS } from "@graphql/query";
 import { Button, List, Form, message, Modal, Input, Row, Col } from "antd";
@@ -68,6 +68,14 @@ export const Books = () => {
       setLoadingImage(false);
     }
   };
+
+  useEffect(() => {
+    if (currentBook) {
+      currentBook && setImage(currentBook.image);
+    } else {
+      setImage(null);
+    }
+  }, [currentBook]);
 
   const handleCreate = (values: any) => {
     createOneBooks({
