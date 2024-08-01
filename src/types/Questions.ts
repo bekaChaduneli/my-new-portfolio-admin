@@ -19,3 +19,10 @@ export interface IQuestions {
 export interface IQuestionsResponse {
   findManyQuestions: IQuestions;
 }
+
+export interface QuestionInitialValues {
+  enQuestion: string | undefined;
+  kaQuestion: string | undefined;
+  enAnswer: string | undefined;
+  kaAnswer: string | undefined;
+}

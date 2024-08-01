@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import { Button, List, Form, message, Modal, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { IQuestions } from "../types/Questions";
+import { IQuestions, QuestionInitialValues } from "../types/Questions";
 import { GET_QUESTIONS } from "@graphql/query";
 import {
   CREATE_QUESTION,
@@ -47,7 +47,7 @@ const Questions = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const handleCreate = async (values: any) => {
+  const handleCreate = async (values: QuestionInitialValues) => {
     try {
       await createOneQuestions({
         variables: {
@@ -79,7 +79,7 @@ const Questions = () => {
     }
   };
 
-  const handleUpdate = async (values: any) => {
+  const handleUpdate = async (values: QuestionInitialValues) => {
     try {
       await updateOneQuestions({
         variables: {
@@ -126,7 +126,7 @@ const Questions = () => {
     const en = questions.translations.find((t) => t.languageCode === "en");
     const ka = questions.translations.find((t) => t.languageCode === "ka");
 
-    const initialValues = {
+    const initialValues: QuestionInitialValues = {
       enQuestion: en?.question,
       kaQuestion: ka?.question,
       enAnswer: en?.answer,
@@ -164,7 +164,7 @@ const Questions = () => {
           >
             <List.Item.Meta
               title={
-                questions.translations.find((t: any) => t.languageCode === "en")
+                questions.translations.find((t) => t.languageCode === "en")
                   ?.question
               }
             />
