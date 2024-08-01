@@ -26,3 +26,21 @@ export interface IWorks {
 export interface IWorksResponse {
   findManyWorks: IWorks;
 }
+
+export interface WorksInitialValues {
+  link: string | undefined;
+  fromDate: string | undefined;
+  toDate: string | undefined;
+  enCompany: string | undefined;
+  kaCompany: string | undefined;
+  enRole: string | undefined;
+  kaRole: string | undefined;
+  enDescription: string | undefined;
+  kaDescription: string | undefined;
+  enLocation: string | undefined;
+  kaLocation: string | undefined;
+  enLocationType: string | undefined;
+  kaLocationType: string | undefined;
+  enEmploymentType: string | undefined;
+  kaEmploymentType: string | undefined;
+}
