@@ -171,6 +171,30 @@ export const UPDATE_WORKS = gql`
   }
 `;
 
+export const CREATE_EDUCATION = gql`
+  mutation createOneEducations($input: EducationsCreateInput!) {
+    createOneEducations(data: $input) {
+      id
+    }
+  }
+`;
+
+export const DELETE_EDUCATIONS = gql`
+  mutation deleteOneEducations($id: String!) {
+    deleteOneEducations(where: { id: $id }) {
+      id
+    }
+  }
+`;
+
+export const UPDATE_EDUCATIONS = gql`
+  mutation updateOneEducations($data: EducationsUpdateInput!, $id: String!) {
+    updateOneEducations(data: $data, where: { id: $id }) {
+      id
+    }
+  }
+`;
+
 export const CREATE_GITHUBREPO = gql`
   mutation createOneGithubRepos($input: GithubReposCreateInput!) {
     createOneGithubRepos(data: $input) {
