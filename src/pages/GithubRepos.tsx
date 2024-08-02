@@ -176,7 +176,11 @@ const GithubRepos = () => {
               </Button>,
             ]}
           >
-            {item.link}
+            <List.Item.Meta
+              title={
+                item?.translations.find((t) => t.languageCode === "en")?.title
+              }
+            />{" "}
           </List.Item>
         )}
       />
