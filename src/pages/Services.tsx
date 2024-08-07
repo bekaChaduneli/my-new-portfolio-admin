@@ -99,6 +99,7 @@ const Services = () => {
         },
       });
       form.resetFields();
+      setBackground(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error creating service:", error);
@@ -135,6 +136,7 @@ const Services = () => {
         },
       });
       form.resetFields();
+      setBackground(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error updating service:", error);

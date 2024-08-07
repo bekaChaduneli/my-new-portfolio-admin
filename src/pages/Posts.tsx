@@ -94,6 +94,7 @@ const Posts = () => {
           },
         },
       });
+      setImage(null);
       form.resetFields();
       setCurrentPosts(null);
       setIsModalVisible(false);
@@ -133,6 +134,7 @@ const Posts = () => {
       });
       form.resetFields();
       setCurrentPosts(null);
+      setImage(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error updating post:", error);

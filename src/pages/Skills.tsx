@@ -94,6 +94,7 @@ const Skills = () => {
         },
       });
       form.resetFields();
+      setImage(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error creating skill:", error);
@@ -131,6 +132,7 @@ const Skills = () => {
         },
       });
       form.resetFields();
+      setImage(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error updating skill:", error);

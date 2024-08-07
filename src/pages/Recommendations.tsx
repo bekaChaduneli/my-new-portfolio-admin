@@ -105,6 +105,7 @@ const Recommendations = () => {
         },
       });
       form.resetFields();
+      setImage(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error creating recommendation:", error);
@@ -145,6 +146,7 @@ const Recommendations = () => {
         },
       });
       form.resetFields();
+      setImage(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error updating recommendation:", error);

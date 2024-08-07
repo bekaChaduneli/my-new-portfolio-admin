@@ -92,6 +92,7 @@ const Hobbys = () => {
           },
         },
       });
+      setImage(null);
       form.resetFields();
       setIsModalVisible(false);
     } catch (error) {
@@ -128,6 +129,7 @@ const Hobbys = () => {
         },
       });
       form.resetFields();
+      setImage(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error updating hobby:", error);
