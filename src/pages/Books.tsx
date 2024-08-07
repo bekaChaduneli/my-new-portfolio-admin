@@ -89,6 +89,7 @@ export const Books = () => {
           index: values.id,
           pages: values.pages,
           readedPages: values.readedPages,
+          stars: parseInt(values.stars),
           type: values.type,
           image: image,
           link: values.link,
@@ -115,6 +116,7 @@ export const Books = () => {
       },
     });
     form.resetFields();
+    setImage(null);
     setCurrentBook(null);
     setIsModalVisible(false);
   };
@@ -127,6 +129,7 @@ export const Books = () => {
           index: { set: values.id },
           pages: { set: values.pages },
           readedPages: { set: values.readedPages },
+          stars: { set: parseInt(values.stars) },
           type: { set: values.type },
           image: { set: image },
           link: { set: values.link },
@@ -156,6 +159,7 @@ export const Books = () => {
     });
     form.resetFields();
     setCurrentBook(null);
+    setImage(null);
     setIsModalVisible(false);
   };
 
@@ -184,6 +188,7 @@ export const Books = () => {
       link: book.link,
       pages: book.pages,
       readedPages: book.readedPages,
+      stars: book.stars,
       type: book.type,
       finished: book.finished,
       enTitle: en?.title,
@@ -284,6 +289,9 @@ export const Books = () => {
           <Form.Item label="Pages" name="pages">
             <Input />
           </Form.Item>
+          <Form.Item label="Stars" name="stars">
+            <Input type="number" />
+          </Form.Item>
           <Form.Item label="Readed Pages" name="readedPages">
             <Input />
           </Form.Item>
@@ -299,7 +307,7 @@ export const Books = () => {
                 <Input />
               </Form.Item>
               <Form.Item label="English Description" name="enDescription">
-                <Input.TextArea />
+                <Input.TextArea style={{ height: "120px" }} />
               </Form.Item>
               <Form.Item label="English Author" name="enAuthor">
                 <Input />
@@ -310,7 +318,7 @@ export const Books = () => {
                 <Input />
               </Form.Item>
               <Form.Item label="Georgian Description" name="kaDescription">
-                <Input.TextArea />
+                <Input.TextArea style={{ height: "120px" }} />
               </Form.Item>
               <Form.Item label="Georgian Author" name="kaAuthor">
                 <Input />

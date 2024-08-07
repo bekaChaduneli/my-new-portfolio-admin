@@ -6,6 +6,7 @@ export interface IBook {
   id: string;
   image: string;
   link: string;
+  stars: string;
   pages: string;
   readedPages: string;
   type: string;
@@ -31,6 +32,7 @@ export interface BooksInitialValues {
   image: string | null;
   link: string | undefined;
   pages: string | undefined;
+  stars: string;
   readedPages: string | undefined;
   type: string | undefined;
   finished: boolean;
