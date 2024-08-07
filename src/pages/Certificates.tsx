@@ -14,6 +14,7 @@ import {
   DELETE_CERTIFICATES,
   UPDATE_CERTIFICATES,
 } from "@graphql/mutation";
+import TextArea from "antd/es/input/TextArea";
 
 const Certificates = () => {
   const { data, loading, error } = useQuery(GET_CERTIFICATES);
@@ -302,7 +303,7 @@ const Certificates = () => {
                 name="enDescription"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -325,7 +326,7 @@ const Certificates = () => {
                 name="kaDescription"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
           </Row>

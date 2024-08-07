@@ -11,6 +11,7 @@ import {
   DELETE_SERVICES,
   UPDATE_SERVICES,
 } from "@graphql/mutation";
+import TextArea from "antd/es/input/TextArea";
 
 const Services = () => {
   const [deleteOneService] = useMutation(DELETE_SERVICES, {
@@ -264,7 +265,7 @@ const Services = () => {
                 name="enDescription"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -281,7 +282,7 @@ const Services = () => {
                 name="kaDescription"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
           </Row>

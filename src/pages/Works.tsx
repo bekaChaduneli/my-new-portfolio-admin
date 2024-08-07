@@ -5,6 +5,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { IWorks, WorksInitialValues } from "../types/Works";
 import { GET_WORKS } from "@graphql/query";
 import { CREATE_WORK, DELETE_WORKS, UPDATE_WORKS } from "@graphql/mutation";
+import TextArea from "antd/es/input/TextArea";
 
 const Works = () => {
   const { data, loading, error } = useQuery(GET_WORKS);
@@ -251,7 +252,7 @@ const Works = () => {
                 name="enDescription"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
               <Form.Item
                 label="English Location"
@@ -295,7 +296,7 @@ const Works = () => {
                 name="kaDescription"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
               <Form.Item
                 label="Georgian Location"

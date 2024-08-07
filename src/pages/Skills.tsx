@@ -7,6 +7,7 @@ import { GET_SKILLS } from "@graphql/query";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import Dragger from "antd/es/upload/Dragger";
 import { CREATE_SKILLS, DELETE_SKILLS, UPDATE_SKILLS } from "@graphql/mutation";
+import TextArea from "antd/es/input/TextArea";
 
 const Skills = () => {
   const [deleteOneSkill] = useMutation(DELETE_SKILLS, {
@@ -262,7 +263,7 @@ const Skills = () => {
                 name="enAbout"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -279,7 +280,7 @@ const Skills = () => {
                 name="kaAbout"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
           </Row>

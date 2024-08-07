@@ -7,6 +7,7 @@ import { GET_HOBBYS } from "@graphql/query";
 import { CREATE_HOBBY, DELETE_HOBBYS, UPDATE_HOBBYS } from "@graphql/mutation";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import Dragger from "antd/es/upload/Dragger";
+import TextArea from "antd/es/input/TextArea";
 
 const Hobbys = () => {
   const { data, loading, error } = useQuery(GET_HOBBYS);
@@ -251,7 +252,7 @@ const Hobbys = () => {
                 name="enAboutHobby"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -268,7 +269,7 @@ const Hobbys = () => {
                 name="kaAboutHobby"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
           </Row>
