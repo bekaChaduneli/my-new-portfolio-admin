@@ -7,6 +7,7 @@ import { GET_POSTS } from "@graphql/query";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import Dragger from "antd/es/upload/Dragger";
 import { CREATE_POST, DELETE_POSTS, UPDATE_POSTS } from "@graphql/mutation";
+import TextArea from "antd/es/input/TextArea";
 
 const Posts = () => {
   const { data, loading, error } = useQuery(GET_POSTS);
@@ -253,14 +254,14 @@ const Posts = () => {
             name="enDescription"
             rules={[{ required: true }]}
           >
-            <Input />
+            <TextArea />
           </Form.Item>
           <Form.Item
             label="Georgian Description"
             name="kaDescription"
             rules={[{ required: true }]}
           >
-            <Input />
+            <TextArea />
           </Form.Item>
         </Form>
       </Modal>

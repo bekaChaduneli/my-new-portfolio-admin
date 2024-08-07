@@ -36,6 +36,10 @@ ul::-webkit-scrollbar-track {
   display: flex !important;
 }
 
+textarea {
+  min-height: 120px !important;
+}
+
 @media screen and (min-width: 768px) {
   .arrow {
     display: block;
