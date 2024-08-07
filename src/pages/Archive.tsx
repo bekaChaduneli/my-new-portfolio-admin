@@ -16,6 +16,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import { GET_ARCHIVES } from "@graphql/query";
 import Dragger from "antd/es/upload/Dragger";
+import TextArea from "antd/es/input/TextArea";
 
 const Archives = () => {
   const { data, loading, error } = useQuery<IArchivesResponse>(GET_ARCHIVES);
@@ -336,7 +337,7 @@ const Archives = () => {
                 <Input />
               </Form.Item>
               <Form.Item label="English Description" name="enDescription">
-                <Input />
+                <TextArea style={{ height: "120px" }} />
               </Form.Item>
               <Form.Item label="English Location" name="enLocation">
                 <Input />
@@ -347,7 +348,7 @@ const Archives = () => {
                 <Input />
               </Form.Item>
               <Form.Item label="Georgian Description" name="kaDescription">
-                <Input />
+                <TextArea style={{ height: "120px" }} />
               </Form.Item>
               <Form.Item label="Georgian Location" name="kaLocation">
                 <Input />
