@@ -120,6 +120,7 @@ const Blogs = () => {
       },
     });
     form.resetFields();
+    setImage(null);
     setCurrentBlog(null);
     setIsModalVisible(false);
   };
@@ -157,6 +158,7 @@ const Blogs = () => {
     form.resetFields();
     setCurrentBlog(null);
     setIsModalVisible(false);
+    setImage(null);
   };
 
   const handleCancel = () => {
@@ -283,24 +285,25 @@ const Blogs = () => {
                 <Input />
               </Form.Item>
               <Form.Item label="English About" name="enAbout">
-                <Input.TextArea />
-              </Form.Item>
-              <Form.Item label="English Markdown" name="enMarkdown">
-                <StyledReactQuill theme="snow" />
+                <Input.TextArea style={{ height: "120px" }} />
               </Form.Item>
             </Col>
+
             <Col span={12}>
               <Form.Item label="Georgian Headline" name="kaHeadline">
                 <Input />
               </Form.Item>
               <Form.Item label="Georgian About" name="kaAbout">
-                <Input.TextArea />
-              </Form.Item>
-              <Form.Item label="Georgian Markdown" name="kaMarkdown">
-                <StyledReactQuill theme="snow" />
+                <Input.TextArea style={{ height: "120px" }} />
               </Form.Item>
             </Col>
           </Row>
+          <Form.Item label="English Markdown" name="enMarkdown">
+            <StyledReactQuill theme="snow" />
+          </Form.Item>
+          <Form.Item label="Georgian Markdown" name="kaMarkdown">
+            <StyledReactQuill theme="snow" />
+          </Form.Item>
         </Form>
       </Modal>
     </div>

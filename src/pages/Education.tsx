@@ -9,6 +9,7 @@ import {
   DELETE_EDUCATIONS,
   UPDATE_EDUCATIONS,
 } from "@graphql/mutation";
+import TextArea from "antd/es/input/TextArea";
 
 const Educations = () => {
   const { data, loading, error } = useQuery(GET_EDUCATIONS);
@@ -269,7 +270,7 @@ const Educations = () => {
                 name="enDescription"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -306,7 +307,7 @@ const Educations = () => {
                 name="kaDescription"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
           </Row>

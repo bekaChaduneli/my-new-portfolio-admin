@@ -9,6 +9,7 @@ import {
   DELETE_LANGUAGES,
   UPDATE_LANGUAGES,
 } from "@graphql/mutation";
+import TextArea from "antd/es/input/TextArea";
 
 const Languages = () => {
   const { data, loading, error } = useQuery(GET_LANGUAGES);
@@ -220,7 +221,7 @@ const Languages = () => {
             name="enDescription"
             rules={[{ required: true }]}
           >
-            <Input />
+            <TextArea />
           </Form.Item>
 
           <Form.Item
@@ -242,7 +243,7 @@ const Languages = () => {
             name="kaDescription"
             rules={[{ required: true }]}
           >
-            <Input />
+            <TextArea />
           </Form.Item>
         </Form>
       </Modal>

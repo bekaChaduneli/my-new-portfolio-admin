@@ -11,6 +11,7 @@ import {
   DELETE_SERVICES,
   UPDATE_SERVICES,
 } from "@graphql/mutation";
+import TextArea from "antd/es/input/TextArea";
 
 const Services = () => {
   const [deleteOneService] = useMutation(DELETE_SERVICES, {
@@ -98,6 +99,7 @@ const Services = () => {
         },
       });
       form.resetFields();
+      setBackground(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error creating service:", error);
@@ -134,6 +136,7 @@ const Services = () => {
         },
       });
       form.resetFields();
+      setBackground(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error updating service:", error);
@@ -264,7 +267,7 @@ const Services = () => {
                 name="enDescription"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -281,7 +284,7 @@ const Services = () => {
                 name="kaDescription"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
           </Row>

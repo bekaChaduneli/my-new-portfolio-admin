@@ -7,6 +7,7 @@ import { GET_HOBBYS } from "@graphql/query";
 import { CREATE_HOBBY, DELETE_HOBBYS, UPDATE_HOBBYS } from "@graphql/mutation";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import Dragger from "antd/es/upload/Dragger";
+import TextArea from "antd/es/input/TextArea";
 
 const Hobbys = () => {
   const { data, loading, error } = useQuery(GET_HOBBYS);
@@ -91,6 +92,7 @@ const Hobbys = () => {
           },
         },
       });
+      setImage(null);
       form.resetFields();
       setIsModalVisible(false);
     } catch (error) {
@@ -127,6 +129,7 @@ const Hobbys = () => {
         },
       });
       form.resetFields();
+      setImage(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error updating hobby:", error);
@@ -251,7 +254,7 @@ const Hobbys = () => {
                 name="enAboutHobby"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -268,7 +271,7 @@ const Hobbys = () => {
                 name="kaAboutHobby"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
           </Row>

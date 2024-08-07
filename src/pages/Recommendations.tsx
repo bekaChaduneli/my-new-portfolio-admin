@@ -14,6 +14,7 @@ import {
   DELETE_RECOMMENDATIONS,
   UPDATE_RECOMMENDATIONS,
 } from "@graphql/mutation";
+import TextArea from "antd/es/input/TextArea";
 
 const Recommendations = () => {
   const [deleteOneRecommendation] = useMutation(DELETE_RECOMMENDATIONS, {
@@ -104,6 +105,7 @@ const Recommendations = () => {
         },
       });
       form.resetFields();
+      setImage(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error creating recommendation:", error);
@@ -144,6 +146,7 @@ const Recommendations = () => {
         },
       });
       form.resetFields();
+      setImage(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error updating recommendation:", error);
@@ -300,7 +303,7 @@ const Recommendations = () => {
                 name="enDescription"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -333,7 +336,7 @@ const Recommendations = () => {
                 name="kaDescription"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
             </Col>
           </Row>

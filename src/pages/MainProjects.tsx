@@ -29,6 +29,7 @@ import {
   UPDATE_MAINPROJECT,
 } from "@graphql/mutation";
 import styled from "styled-components";
+import TextArea from "antd/es/input/TextArea";
 
 const { Dragger } = Upload;
 
@@ -148,6 +149,13 @@ const MainProjectsPage: React.FC = () => {
         },
       },
     });
+    setCurrentProject(null);
+    form.resetFields();
+    setSkills([]);
+    setSkillInput("");
+    setImages([]);
+    setVideos([]);
+    setMobileBackgrounds([]);
   };
 
   const handleUpdate = (values: MainProjectsInitialValues) => {
@@ -190,6 +198,13 @@ const MainProjectsPage: React.FC = () => {
         },
       },
     });
+    setCurrentProject(null);
+    form.resetFields();
+    setSkills([]);
+    setSkillInput("");
+    setImages([]);
+    setVideos([]);
+    setMobileBackgrounds([]);
   };
 
   const handleDelete = (id: string) => {
@@ -416,7 +431,12 @@ const MainProjectsPage: React.FC = () => {
               onChange={(e) => setSkillInput(e.target.value)}
               onPressEnter={addSkill}
             />
-            <Button onClick={addSkill}>Add Skill</Button>
+            <Button
+              style={{ marginRight: "14px", marginBottom: "14px" }}
+              onClick={addSkill}
+            >
+              Add Skill
+            </Button>
             {skills.map((skill) => (
               <Tag
                 key={skill}
@@ -433,11 +453,9 @@ const MainProjectsPage: React.FC = () => {
                 <Input />
               </Form.Item>
               <Form.Item label="English Description" name="enDescription">
-                <Input />
+                <TextArea />
               </Form.Item>
-              <Form.Item label="English Markdown" name="enMarkdown">
-                <StyledReactQuill />
-              </Form.Item>
+
               <Form.Item label="English About" name="enAbout">
                 <Input />
               </Form.Item>
@@ -450,11 +468,9 @@ const MainProjectsPage: React.FC = () => {
                 <Input />
               </Form.Item>
               <Form.Item label="Georgian Description" name="kaDescription">
-                <Input />
+                <TextArea />
               </Form.Item>
-              <Form.Item label="Georgian Markdown" name="kaMarkdown">
-                <StyledReactQuill />
-              </Form.Item>
+
               <Form.Item label="Georgian About" name="kaAbout">
                 <Input />
               </Form.Item>
@@ -463,6 +479,12 @@ const MainProjectsPage: React.FC = () => {
               </Form.Item>
             </Col>
           </Row>
+          <Form.Item label="English Markdown" name="enMarkdown">
+            <StyledReactQuill />
+          </Form.Item>
+          <Form.Item label="Georgian Markdown" name="kaMarkdown">
+            <StyledReactQuill />
+          </Form.Item>
         </Form>
       </Modal>
     </div>

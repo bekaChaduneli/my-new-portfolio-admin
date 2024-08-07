@@ -11,6 +11,7 @@ import {
 import { GET_ABOUTME } from "@graphql/query";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import Dragger from "antd/es/upload/Dragger";
+import TextArea from "antd/es/input/TextArea";
 
 const AboutMe = () => {
   const { data, loading, error } = useQuery(GET_ABOUTME);
@@ -115,6 +116,7 @@ const AboutMe = () => {
         },
       });
       form.resetFields();
+      setImage(null);
       setCurrentAboutMe(null);
       setIsModalVisible(false);
     } catch (error) {
@@ -161,6 +163,7 @@ const AboutMe = () => {
       });
       form.resetFields();
       setCurrentAboutMe(null);
+      setImage(null);
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error updating AboutMe:", error);
@@ -321,7 +324,7 @@ const AboutMe = () => {
                 name="enAbout"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea style={{ height: "120px" }} />
               </Form.Item>
               <Form.Item
                 label="English Role"
@@ -358,7 +361,7 @@ const AboutMe = () => {
                 name="kaAbout"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea style={{ height: "120px" }} />
               </Form.Item>
               <Form.Item
                 label="Georgian Role"

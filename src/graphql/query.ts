@@ -8,6 +8,7 @@ export const GET_BOOKS = gql`
       link
       pages
       readedPages
+      stars
       type
       finished
       releaseDate
@@ -36,6 +37,7 @@ export const GET_BOOK = gql`
       type
       image
       link
+      undefined
       finished
       translations {
         id
@@ -56,6 +58,7 @@ export const GET_BOOK_BY_TYPE = gql`
       image
       index
       link
+      undefined
       pages
       readedPages
       releaseDate
