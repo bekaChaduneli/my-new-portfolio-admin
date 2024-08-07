@@ -35,11 +35,18 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <Row justify="center" align="middle" style={{ minHeight: "100vh" }}>
-      <Col>
+    <Row
+      justify="center"
+      align="middle"
+      style={{
+        minHeight: "100vh",
+        maxWidth: "550px",
+        width: "90%",
+      }}
+    >
+      <Col style={{ width: "100%" }}>
         <Card
           style={{
-            width: 400,
             padding: 20,
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
           }}
