@@ -11,6 +11,7 @@ import {
 import { GET_PROFILE } from "@graphql/query";
 import { uploadToCloudinary } from "../services/cloudinaryService";
 import Dragger from "antd/es/upload/Dragger";
+import TextArea from "antd/es/input/TextArea";
 
 const Profile = () => {
   const { data, loading, error } = useQuery(GET_PROFILE);
@@ -370,7 +371,7 @@ const Profile = () => {
                 name="enExperience"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
               <Form.Item label="English University" name="enUniversity">
                 <Input />
@@ -424,7 +425,7 @@ const Profile = () => {
                 name="kaExperience"
                 rules={[{ required: true }]}
               >
-                <Input />
+                <TextArea />
               </Form.Item>
               <Form.Item label="Georgian University" name="kaUniversity">
                 <Input />
