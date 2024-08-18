@@ -12,6 +12,8 @@ import {
   UPDATE_SERVICES,
 } from "@graphql/mutation";
 import TextArea from "antd/es/input/TextArea";
+import styled from "styled-components";
+import ReactQuill from "react-quill";
 
 const Services = () => {
   const [deleteOneService] = useMutation(DELETE_SERVICES, {
@@ -68,6 +70,12 @@ const Services = () => {
     onCompleted: () => message.success("Service updated successfully!"),
     onError: (error) => message.error(error.message),
   });
+
+  const StyledReactQuill = styled(ReactQuill)`
+    height: 300px;
+    margin-bottom: 30px;
+    width: 100%;
+  `;
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -267,7 +275,7 @@ const Services = () => {
                 name="enDescription"
                 rules={[{ required: true }]}
               >
-                <TextArea />
+                <StyledReactQuill theme="snow" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -284,7 +292,7 @@ const Services = () => {
                 name="kaDescription"
                 rules={[{ required: true }]}
               >
-                <TextArea />
+                <StyledReactQuill theme="snow" />
               </Form.Item>
             </Col>
           </Row>
